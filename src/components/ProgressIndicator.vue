@@ -1,5 +1,5 @@
 <template>
-  <img src="../assets/wheel.png" alt="" id="wheel" />
+  <img src="../assets/img/wheel.png" alt="" id="wheel" />
 </template>
 
 <style scoped>

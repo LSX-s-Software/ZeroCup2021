@@ -10,7 +10,7 @@
 .container {
   width: 100%;
   height: 100%;
-  border-image: url(../assets/Layer1.png);
+  border-image: url(../assets/img/Layer1.png);
   border-width: 0 60px 0 60px;
   border-image-repeat: repeat;
   border-image-slice: 75;
@@ -23,8 +23,11 @@
 .container >>> .slot div {
   width: 100%;
   height: 500px;
-  box-sizing: border-box;
+  box-sizing: content-box;
   border-bottom: 50px solid rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 </style>
 
