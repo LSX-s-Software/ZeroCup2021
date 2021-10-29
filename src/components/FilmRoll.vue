@@ -20,14 +20,47 @@
   height: auto;
 }
 
-.container >>> .slot div {
-  width: 100%;
-  height: 500px;
+.container .slot:deep(section) {
+  width: auto;
+  height: 500px; /*no*/
   box-sizing: content-box;
-  border-bottom: 50px solid rgba(0, 0, 0, 0.95);
+  border-bottom: 40px solid rgba(0, 0, 0, 0.95);
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.container .slot:deep(section):nth-child(2n-1) {
+  height: calc(100vh - 540px); /*no*/
+  background-color: rgba(0, 0, 0, 0.4);
+}
+
+.container .slot:deep(div.flipable) {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform ease-in-out 0.8s;
+  display: inherit;
+  align-items: inherit;
+  justify-content: inherit;
+}
+
+.container .slot:deep(div.flipable.flip) {
+  transform: rotateY(180deg);
+}
+
+.container .slot:deep(div.flipable .front),
+.container .slot:deep(div.flipable .back) {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.container .slot:deep(div.flipable .back) {
+  transform: rotateY(180deg);
+  background-color: rgba(255, 255, 255, 0.8);
 }
 </style>
 
