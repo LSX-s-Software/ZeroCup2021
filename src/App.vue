@@ -1,6 +1,6 @@
 <template>
   <div class="main-container" ref="main" @resize="handleResize">
-    <ProgressIndicator id="wheel" :class="{ hidden: scrolled < 1 }"></ProgressIndicator>
+    <ProgressIndicator id="wheel" :class="{ hidden: scrolled < 1 }" :current="scrolled"></ProgressIndicator>
     <FilmRoll
       id="roll1"
       :style="{
@@ -216,7 +216,7 @@ export default {
     left: -185px;
     top: -185px;
     z-index: 1000;
-    transition: all ease-out 0.7s;
+    transition: left ease-out 0.7s, top ease-out 0.7s;
 
     &.hidden {
       left: -700px;
