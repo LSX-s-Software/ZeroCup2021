@@ -10,8 +10,9 @@
 .container {
   width: 100%;
   height: 100%;
-  border-image: url(../assets/img/Layer1.png);
   border-width: 0 60px 0 60px;
+  border-style: solid;
+  border-image: url(../assets/img/Layer1.png);
   border-image-repeat: repeat;
   border-image-slice: 75;
 }
