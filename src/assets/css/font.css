@@ -2,3 +2,8 @@
     font-family: AaMSXK;
     src: url(../font/Aa马上行楷.ttf);
 }
+
+@font-face {
+    font-family: HYZhuZiSuDaHeiW;
+    src: url(../font/HYZhuZiSuDaHeiW.ttf);
+}

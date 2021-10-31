@@ -1,6 +1,6 @@
 <template>
   <div class="main-container" ref="main" @resize="handleResize">
-    <ProgressIndicator id="wheel" :class="{ hidden: scrolled < 1 }" :current="scrolled"></ProgressIndicator>
+    <ProgressIndicator id="wheel" :class="{ hidden: scrolled < 1 }" :current="scrolled - 1"></ProgressIndicator>
     <FilmRoll
       id="roll1"
       :style="{
@@ -13,11 +13,16 @@
       <section
         :style="{
           height: videoStyle1.placeholderHeight + 'px',
-          borderBottomWidth: videoStyle1.borderWidth + 'rem',
+          borderBottomWidth: videoStyle1.borderWidth + 'px',
         }"
       ></section>
       <section id="roll-content-1" :style="{ height: videoStyle1.height + 'px' }">
-        <video src="./assets/video/1.mp4" muted autoplay></video>
+        <transition>
+          <video src="./assets/video/1.mp4" muted autoplay @pause="handleVideoPause" v-if="videoPlaying"></video>
+        </transition>
+        <transition>
+          <img src="./assets/img/title.jpg" alt="" v-if="!videoPlaying" />
+        </transition>
       </section>
       <section id="roll-content-2"></section>
       <section id="roll-content-3">
@@ -33,7 +38,19 @@
           eveniet praesentium.
         </span>
       </section>
-      <section id="roll-content-5"></section>
+      <section id="roll-content-5">
+        <div class="flipable" :class="{ flip: showDetail[1] }">
+          <div class="front"><video src="" muted></video></div>
+          <div class="back">背面小字 配图 讲解无声电影的代表作，无声电影的形式所带来艺术呈现手段。</div>
+        </div>
+      </section>
+      <section id="roll-content-6">
+        <span class="des">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Molestias eligendi laborum cum harum, facilis velit
+          debitis voluptatibus tenetur qui exercitationem voluptates eveniet. Incidunt a ea expedita ipsam accusamus,
+          eveniet praesentium.
+        </span>
+      </section>
     </FilmRoll>
     <div class="screen" ref="s1"></div>
     <div class="screen" ref="s2">
@@ -53,7 +70,7 @@
         </div>
       </transition>
       <transition name="fade">
-        <div class="right" style="width: 20%; justify-content: center" v-if="scrolled >= 1.8 && scrolled <= 2.7">
+        <div class="right" style="width: 20%" v-if="scrolled >= 1.9 && scrolled <= 2.7">
           <p>
             Lorem ipsum dolor sit amet consectetur, adipisicing elit. Minus cumque vitae eligendi excepturi repudiandae
             magni dolorum odit cupiditate? Quam, vel praesentium! Sed quam possimus dignissimos in cum vel quasi
@@ -67,11 +84,63 @@
       </transition>
     </div>
     <div class="screen" ref="s3">
-      <div class="left"></div>
-      <div class="right"></div>
+      <div class="left" style="width: 30%">
+        <transition name="fade">
+          <div v-if="scrolled >= 2.6 && scrolled <= 3.7">
+            <p>
+              无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验。 无声电影 即没有对白的电影
+              但是会有现场的乐队 讲解员 给观众带来更好的体验无声电影 即没有对白的电影 但是会有现场的乐队 讲解员
+              给观众带来更好的体验无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验无声电影
+              即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验
+            </p>
+            <ClassicButton
+              :title="showDetail[1] ? '返回视频' : '了解更多'"
+              @click="showDetail[1] = !showDetail[1]"
+            ></ClassicButton>
+          </div>
+        </transition>
+      </div>
+      <transition name="fade">
+        <div class="right" style="width: 18%; justify-content: flex-start" v-if="scrolled >= 2.3 && scrolled <= 3.7">
+          <h2 class="vertical">无声电影</h2>
+        </div>
+      </transition>
     </div>
+    <FilmRoll id="roll2" :style="{ transform: showGame[0] ? 'translate(-60px, -50px)' : 'rotate(10deg)' }">
+      <section id="roll-content-7"></section>
+      <section id="roll-content-8"></section>
+      <section id="roll-content-9"></section>
+      <section id="roll-content-10"></section>
+      <section id="roll-content-11"></section>
+      <section id="roll-content-12"></section>
+      <section id="roll-content-13"></section>
+    </FilmRoll>
     <div class="screen" ref="s4">
-      <div class="left"></div>
+      <transition name="fade">
+        <div v-if="scrolled >= 3.3" class="transition">
+          <img src="./assets/img/projector2.png" id="proj2" />
+        </div>
+      </transition>
+      <div class="left" style="justify-content: flex-end; width: 60%">
+        <h3>电影的第一次变革</h3>
+        <h2>有声电影</h2>
+        <p>
+          电影从无声到有声，经历了一个巨大的转变过程。
+          早期的有声电影是用放映机和留声机同时工作来发声的，1926年8月6日，世界第一部有声短片《唐璜》使用
+          “维他风”Vitaphone唱片重放影片音乐。
+          1927年华纳推出《爵士歌王》，不仅有音乐，还加入了一部分对白，被看作是电影史上第一部有声片。
+        </p>
+        <div class="dual-btn">
+          <ClassicButton
+            :title="showDetail[2] ? '返回视频' : '了解更多'"
+            @click="showDetail[2] = !showDetail[2]"
+          ></ClassicButton>
+          <ClassicButton
+            :title="showGame[0] ? '返回视频' : '体验一下'"
+            @click="showGame[0] = !showGame[0]"
+          ></ClassicButton>
+        </div>
+      </div>
       <div class="right"></div>
     </div>
     <div class="screen" ref="s5">
@@ -116,10 +185,13 @@ export default {
         borderWidth: 0,
         placeholderHeight: 0,
       },
+      deltaSum: 0,
       scrolled: 0,
       scrollLock: true,
+      videoPlaying: true,
       clientHeight: document.documentElement.clientHeight,
       showDetail: [false, false, false, false],
+      showGame: [false, false],
     };
   },
   mounted() {
@@ -134,16 +206,22 @@ export default {
     handleResize() {
       this.clientHeight = document.documentElement.clientHeight;
     },
+    handleVideoPause() {
+      //视频播放结束
+      this.videoPlaying = false;
+    },
     handleScroll(e) {
       if (e.deltaY <= 0 || this.scrolled > 1) {
         return;
       }
       let delta = e.deltaY / this.clientHeight;
-      if (this.scrolled + delta >= 1) {
+      this.deltaSum += delta;
+      if (this.deltaSum >= 1) {
         this.scrolled = 1;
+        this.deltaSum = 1;
         this.scrollLock = false;
       } else {
-        this.scrolled += delta;
+        this.scrolled = this.curve(this.deltaSum);
         e.preventDefault();
       }
       this.videoStyle1.left = -3.75 + 20 * this.scrolled;
@@ -151,8 +229,12 @@ export default {
       this.videoStyle1.width = clientWidth - (clientWidth - 675) * this.scrolled;
       this.videoStyle1.height = this.clientHeight - (this.clientHeight - 500) * this.scrolled;
       this.videoStyle1.rotate = -10 * this.scrolled;
-      this.videoStyle1.borderWidth = Math.min(this.scrolled * 5, 2.5);
+      this.videoStyle1.borderWidth = Math.min(this.scrolled * 64, 32);
       this.videoStyle1.placeholderHeight = (this.scrolled * (this.clientHeight - 530)) / 2;
+    },
+    curve(x) {
+      // return x < 0.5 ? 4 * Math.pow(x, 3) : 1 - Math.pow(-2 * x + 2, 3) / 2;
+      return x;
     },
   },
 };
@@ -177,6 +259,20 @@ export default {
   overflow-x: hidden;
 }
 
+*::-webkit-scrollbar {
+  width: 0 !important;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease-out;
+}
+
+.v-enter-from,
+.v-leave-to {
+  opacity: 0;
+}
+
 .fade-enter-active {
   transition: all 0.5s ease-out;
 }
@@ -193,6 +289,15 @@ export default {
 .fade-leave-to {
   opacity: 0;
   transform: translateY(-20px);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .main-container {
@@ -238,21 +343,58 @@ export default {
       font-size: 18px;
     }
 
-    video {
+    video,
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
       width: 100%;
       height: 100%;
       object-fit: cover;
-      background-color: #fff;
     }
 
     #roll-content-1 {
+      position: relative;
       font-family: AaMSXK;
       font-size: 100px;
+      background-color: #000;
+
+      video {
+        animation: fadeIn ease 1s;
+        animation-fill-mode: both;
+        animation-delay: 0.5s;
+      }
     }
 
-    #roll-content-4 {
+    #roll-content-4,
+    #roll-content-6 {
       align-items: flex-start;
       padding: 20px;
+    }
+
+    #roll-content-6 {
+      border-bottom: none;
+      height: 250px;
+    }
+  }
+
+  #roll2 {
+    position: absolute;
+    top: 320vh;
+    right: 72px;
+    width: 675px;
+    height: auto;
+    transform: rotate(10deg);
+    transform-origin: top right;
+    z-index: 100;
+    transition: transform ease 0.5s;
+
+    #roll-content-7 {
+      height: 150px;
+    }
+
+    #roll-content-13 {
+      border-bottom: none;
     }
   }
 
@@ -275,17 +417,39 @@ export default {
       display: flex;
       flex-wrap: wrap;
       flex-direction: column;
+      justify-content: center;
+
+      .dual-btn {
+        display: flex;
+        justify-content: space-around;
+      }
     }
 
     h2 {
-      font-size: 52px;
-      font-weight: 500;
-      margin: 0.8em 0;
+      font-family: HYZhuZiSuDaHeiW;
+      font-size: 80px;
+      font-weight: bold;
+      margin: 0 0 0.8em;
       color: var(--theme);
+      line-height: 1.2;
+
+      &.vertical {
+        width: 1em;
+        line-height: 1.2;
+        font-size: 100px;
+        transform: rotate(-10deg);
+      }
+    }
+
+    h3 {
+      font-family: HYZhuZiSuDaHeiW;
+      font-size: 30px;
+      color: rgb(32, 32, 32);
     }
 
     p {
       font-size: 30px;
+      margin-bottom: 1em;
       // &::first-letter {
       //   float: left;
       //   font-size: 2em;
@@ -305,6 +469,11 @@ export default {
     #proj1 {
       width: 187px;
       transform: translateY(-40%) rotate(-10deg);
+    }
+
+    #proj2 {
+      width: 289px;
+      transform: translateY(-40%) rotate(22deg);
     }
   }
 }

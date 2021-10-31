@@ -12,13 +12,14 @@
   cursor: pointer;
   width: 250px;
   height: 81px;
-  margin: 16px;
+  margin: 16px auto;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 30px;
   font-family: AaMSXK;
   user-select: none;
+  transition: filter ease 0.15s;
 
   &:hover {
     filter: brightness(1.1);

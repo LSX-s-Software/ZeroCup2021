@@ -11,7 +11,7 @@
   width: 100%;
   height: 100%;
   border-image: url(../assets/img/Layer1.png);
-  border-width: 0 60px 0 60px;
+  border-width: 0 50px 0 50px; /*no*/
   border-image-repeat: repeat;
   border-image-slice: 75;
 }
@@ -24,7 +24,7 @@
   width: auto;
   height: 500px; /*no*/
   box-sizing: content-box;
-  border-bottom: 40px solid rgba(0, 0, 0, 0.95);
+  border-bottom: 32px solid rgba(0, 0, 0, 0.85); /*no*/
   display: flex;
   align-items: center;
   justify-content: center;
