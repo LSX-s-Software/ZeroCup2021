@@ -7,6 +7,8 @@ const postcss = px2rem({
   remUnit: 16,
 });
 
+const path = require("path");
+
 // 使用等比适配插件
 module.exports = {
   lintOnSave: true,
@@ -14,6 +16,14 @@ module.exports = {
     loaderOptions: {
       postcss: {
         plugins: [postcss],
+      },
+    },
+  },
+  configureWebpack: {
+    resolve: {
+      alias: {
+        "@": path.resolve(__dirname, "./src"),
+        "@img": path.resolve(__dirname, "./src/assets/img"),
       },
     },
   },

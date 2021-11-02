@@ -10,8 +10,24 @@
       <div class="right"></div>
     </div>
     <div class="screen" ref="s1">
-      <div class="left"></div>
-      <div class="right"></div>
+      <div class="left" style="width:1280px;height:400px">
+        <FilmRoll>
+          <video class="video" src="./assets/video/s1_v1.mp4" loop controls></video>
+        </FilmRoll>
+      </div>
+      <div class="right">
+        <span class="title">电影的诞生</span>
+        <p class="text">
+          在美国，电影是一种文化，是一种艺术，是一种视觉享受。
+          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
+          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
+          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
+          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
+          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
+          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
+          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
+        </p>
+      </div>
     </div>
     <div class="screen" ref="s2">
       <div class="left"></div>
@@ -46,14 +62,14 @@
 
 <script>
 import ProgressIndicator from "./components/ProgressIndicator.vue";
-// import FilmRoll from "./components/FilmRoll.vue";
+import FilmRoll from "./components/FilmRoll.vue";
 // import ClassicButton from "./components/ClassicButton.vue";
 
 export default {
   name: "App",
   components: {
     ProgressIndicator,
-    // FilmRoll,
+    FilmRoll,
     // ClassicButton,
   },
   data() {
@@ -175,6 +191,22 @@ export default {
       .dual-btn {
         display: flex;
         justify-content: space-around;
+      }
+
+      .video {
+        background-color: #000000;
+        height: 100%;
+        width: 100%;
+        object-fit: contain;
+      }
+
+      .title {
+        font-size: 60px;
+        margin-bottom: 12px;
+      }
+
+      .text {
+        font-size: 32px;
       }
     }
 

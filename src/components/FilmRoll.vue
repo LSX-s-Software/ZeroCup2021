@@ -10,14 +10,21 @@
 .container {
   width: 100%;
   height: 100%;
-  border-image: url(../assets/img/Layer1.png);
-  border-width: 0 50px 0 50px; /*no*/
-  border-image-repeat: repeat;
-  border-image-slice: 75;
+  position: relative;
+  /* Webpack 会将以 ~ 符号作为前缀的路径视作依赖模块而去解析 */
+  background-image: url("~@img/layer-border.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
 }
 
 .container .slot {
-  height: auto;
+  width: calc(100% - 2 * 10.2%);
+  height: calc(100% - 2 * 10.2%);
+  /* height: auto; */
+  position: absolute;
+  left: 10.2%;
+  top: 10.2%;
+  border-radius: 14px;
 }
 
 .container .slot:deep(section) {
