@@ -4,7 +4,7 @@
 
 <style scoped>
 #wheel {
-  width: 450px;
+  width: 350px;
   transition: transform ease 0.1s;
 }
 </style>
