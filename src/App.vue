@@ -10,23 +10,25 @@
       <div class="right"></div>
     </div>
     <div class="screen" ref="s1">
-      <div class="left" style="width:1280px;height:400px">
-        <FilmRoll>
-          <video class="video" src="./assets/video/s1_v1.mp4" loop controls></video>
-        </FilmRoll>
+      <div class="left">
+        <FilmRoll :items="['./assets/video/s1_v1.mp4', '', '']"></FilmRoll>
+        <span class="des">
+          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptates eius incidunt mollitia, quo
+          provident totam dolore magnam corrupti, excepturi a sit praesentium. Reprehenderit, molestias numquam ad
+          dolores doloremque asperiores!
+        </span>
       </div>
       <div class="right">
-        <span class="title">电影的诞生</span>
-        <p class="text">
-          在美国，电影是一种文化，是一种艺术，是一种视觉享受。
-          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
-          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
-          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
-          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
-          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
-          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
-          在中国，电影是一种文化，是一种艺术，是一种视觉享受。
+        <h2>电影的诞生</h2>
+        <p>
+          在美国，电影是一种文化，是一种艺术，是一种视觉享受。 在中国，电影是一种文化，是一种艺术，是一种视觉享受。
+          在中国，电影是一种文化，是一种艺术，是一种视觉享受。 在中国，电影是一种文化，是一种艺术，是一种视觉享受。
+          在中国，电影是一种文化，是一种艺术，是一种视觉享受。 在中国，电影是一种文化，是一种艺术，是一种视觉享受。
+          在中国，电影是一种文化，是一种艺术，是一种视觉享受。 在中国，电影是一种文化，是一种艺术，是一种视觉享受。
         </p>
+        <ClassicButton @click="showDetail[0] = !showDetail[0]">{{
+          showDetail[0] ? "返回视频" : "查看更多"
+        }}</ClassicButton>
       </div>
     </div>
     <div class="screen" ref="s2">
@@ -63,14 +65,14 @@
 <script>
 import ProgressIndicator from "./components/ProgressIndicator.vue";
 import FilmRoll from "./components/FilmRoll.vue";
-// import ClassicButton from "./components/ClassicButton.vue";
+import ClassicButton from "./components/ClassicButton.vue";
 
 export default {
   name: "App",
   components: {
     ProgressIndicator,
     FilmRoll,
-    // ClassicButton,
+    ClassicButton,
   },
   data() {
     return {
@@ -121,6 +123,7 @@ export default {
   min-height: 100vh;
   position: relative;
   overflow-x: hidden;
+  color: var(--darkText);
 }
 
 *::-webkit-scrollbar {
@@ -132,6 +135,7 @@ export default {
   min-height: 500vh;
   box-sizing: border-box;
   position: relative;
+  padding: 0 60px;
 
   .bg-container {
     position: absolute;
@@ -177,16 +181,19 @@ export default {
     display: flex;
     align-items: stretch;
     justify-content: space-between;
-    padding: 75px 45px;
 
     .left,
     .right {
       max-width: 40%;
-      text-align: left;
+      padding: 0 60px;
       display: flex;
-      flex-wrap: wrap;
       flex-direction: column;
+      align-items: flex-start;
       justify-content: center;
+
+      &.compact {
+        padding: 0;
+      }
 
       .dual-btn {
         display: flex;
@@ -195,35 +202,16 @@ export default {
 
       .video {
         background-color: #000000;
-        height: 100%;
-        width: 100%;
+        height: 500px;
         object-fit: contain;
-      }
-
-      .title {
-        font-size: 60px;
-        margin-bottom: 12px;
-      }
-
-      .text {
-        font-size: 32px;
       }
     }
 
     h2 {
       font-family: HYZhuZiSuDaHeiW;
-      font-size: 80px;
-      font-weight: bold;
-      margin: 0 0 0.8em;
-      color: var(--theme);
-      line-height: 1.2;
-
-      &.vertical {
-        width: 1em;
-        line-height: 1.2;
-        font-size: 100px;
-        transform: rotate(-10deg);
-      }
+      font-size: 60px;
+      margin-bottom: 12px;
+      line-height: 1.5;
     }
 
     h3 {
@@ -233,8 +221,20 @@ export default {
     }
 
     p {
-      font-size: 30px;
-      margin-bottom: 1em;
+      font-family: AaMSXK;
+      font-size: 32px;
+      line-height: 42px;
+      text-align: left;
+    }
+
+    .des {
+      font-size: 20px;
+      font-family: AaMSXK;
+      line-height: 24px;
+      color: var(--lightGray);
+      opacity: 1;
+      margin-top: 20px;
+      max-width: 750px;
     }
 
     .transition {
