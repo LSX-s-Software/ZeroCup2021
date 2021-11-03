@@ -11,12 +11,8 @@
     </div>
     <div class="screen" ref="s1">
       <div class="left">
-        <FilmRoll
-          :items="['s1_v1', 's1_v2', 's1_v3']"
-          outer-translate="-15vw"
-          inner-translate="10vw"
-          outer-width="60vw"
-        ></FilmRoll>
+        <FilmRoll class="roll" :items="['s1_v1', 's1_v2', 's1_v3']" inner-translate="30vw" :width="600"></FilmRoll>
+        <div class="placeholder"></div>
         <span class="des">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptates eius incidunt mollitia, quo
           provident totam dolore magnam corrupti, excepturi a sit praesentium. Reprehenderit, molestias numquam ad
@@ -140,7 +136,6 @@ export default {
   min-height: 500vh;
   box-sizing: border-box;
   position: relative;
-  padding: 0 60px;
 
   .bg-container {
     position: absolute;
@@ -186,6 +181,7 @@ export default {
     display: flex;
     align-items: stretch;
     justify-content: space-between;
+    padding: 0 60px;
 
     .left,
     .right {
@@ -205,10 +201,16 @@ export default {
         justify-content: space-around;
       }
 
-      .video {
-        background-color: #000000;
-        height: 500px;
-        object-fit: contain;
+      .roll {
+        position: absolute;
+        left: 0;
+        top: 50%;
+        transform: translateY(-50%);
+      }
+
+      .placeholder {
+        width: 100%;
+        height: 600px; /*no*/
       }
     }
 

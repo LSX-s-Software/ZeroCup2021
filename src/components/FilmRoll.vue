@@ -1,19 +1,18 @@
 <template>
-  <div class="container">
-    <div class="placeholder" :style="{ height: height + 'px' }"></div>
+  <div class="container" :style="{ width: outerWidth + 'px', height: height + 'px' }">
+    <img src="@img/border.png" alt="" id="border1" :style="{ width: outerWidth + 25 + 'px' }" />
+    <img src="@img/border.png" alt="" id="border2" :style="{ width: outerWidth + 25 + 'px' }" />
     <swiper
-      :slides-per-view="3"
+      :slides-per-view="1"
       :space-between="24"
       @slideChange="onSlideChange"
       class="swiper"
       :centeredSlides="true"
-      :width="width"
+      :style="{ width: outerWidth + 'px' }"
       :loop="true"
-      :slidesPerView="1"
-      :style="{ width: outerWidth, left: outerTranslate }"
-      loop-additional-slides="1"
+      :loopAdditionalSlides="1"
     >
-      <swiper-slide v-for="(item, index) in items" :key="index" :style="{ left: innerTranslate }">
+      <swiper-slide v-for="(item, index) in items" :key="index" :style="{ maxWidth: width + 'px' }">
         <video
           muted
           controls
@@ -29,27 +28,37 @@
 .container {
   position: relative;
   width: 100%;
-  
-  background-color: rgba(0, 0, 0, 0.8);
   filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.16));
+  overflow-y: visible;
 
-  .placeholder {
-    width: 100%;
+  #border1,
+  #border2 {
+    left: 0;
+    position: absolute;
+    opacity: 0.8;
+    filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.16));
+  }
+
+  #border1 {
+    top: 0;
+    transform: translateY(-100%);
+  }
+
+  #border2 {
+    bottom: 0;
+    transform: translateY(100%) rotateX(180deg);
   }
 
   .swiper {
     position: absolute;
     top: 0;
-    // left: 50%;
-    // transform: translateX(-50%);
-    // width: 50vw;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+
     video {
       border-radius: 15px;
       overflow: hidden;
-      /* Webpack 会将以 ~ 符号作为前缀的路径视作依赖模块而去解析 */
-      // background-image: url("~@img/layer-border.png");
-      // background-size: 100% 100%;
-      // background-repeat: no-repeat;
+      object-fit: cover;
     }
   }
 }
@@ -76,12 +85,13 @@ export default {
       default: 800,
     },
     items: Array,
-    outerWidth: {
-      type: String,
-      default: '50vw',
-    },
     outerTranslate: String,
     innerTranslate: String,
+  },
+  computed: {
+    outerWidth() {
+      return this.width * 1.45;
+    },
   },
   methods: {
     onSlideChange(e) {
