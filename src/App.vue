@@ -5,15 +5,19 @@
       <img src="@img/bg.jpg" alt="" class="bg" />
       <img src="@img/bg.jpg" alt="" class="bg" />
     </div>
-    <div class="screen" ref="s0">
-      <div class="left"></div>
-      <div class="right"></div>
+    <div class="screen" id="s0">
+      <h1>电影技术革新</h1>
     </div>
-    <div class="screen" ref="s1">
-      <div class="left">
-        <FilmRoll class="roll" :items="['s1_v1', 's1_v2', 's1_v3']" inner-translate="30vw" :width="600"></FilmRoll>
-        <div class="placeholder"></div>
-        <span class="des">
+    <div class="screen" id="s1">
+      <div class="left hidable" :class="{ hidden: showDetail[0] }">
+        <FilmRoll
+          :sIndex="0"
+          :items="['s1_v1', 's1_v2', 's1_v3']"
+          :width="600"
+          style="transform: translateX(-120px)"
+          @slideChange="handleSlideChange($event)"
+        ></FilmRoll>
+        <span class="des" :class="{ hidden: showDetail[0] }">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptates eius incidunt mollitia, quo
           provident totam dolore magnam corrupti, excepturi a sit praesentium. Reprehenderit, molestias numquam ad
           dolores doloremque asperiores!
@@ -32,31 +36,31 @@
         }}</ClassicButton>
       </div>
     </div>
-    <div class="screen" ref="s2">
+    <div class="screen" id="s2">
       <div class="left"></div>
       <div class="right"></div>
     </div>
-    <div class="screen" ref="s3">
+    <div class="screen" id="s3">
       <div class="left"></div>
       <div class="right"></div>
     </div>
-    <div class="screen" ref="s4">
+    <div class="screen" id="s4">
       <div class="left"></div>
       <div class="right"></div>
     </div>
-    <div class="screen" ref="s5">
+    <div class="screen" id="s5">
       <div class="left"></div>
       <div class="right"></div>
     </div>
-    <div class="screen" ref="s6">
+    <div class="screen" id="s6">
       <div class="left"></div>
       <div class="right"></div>
     </div>
-    <div class="screen" ref="s7">
+    <div class="screen" id="s7">
       <div class="left"></div>
       <div class="right"></div>
     </div>
-    <div class="screen" ref="s8">
+    <div class="screen" id="s8">
       <div class="left"></div>
       <div class="right"></div>
     </div>
@@ -82,13 +86,14 @@ export default {
       videoPlaying: true,
       clientHeight: document.documentElement.clientHeight,
       showDetail: [false, false, false, false],
+      swiperIndex: [0, 0, 0, 0],
       showGame: [false, false],
     };
   },
   mounted() {
     window.addEventListener("scroll", () => {
       if (!this.scrollLock) {
-        this.scrolled = 1 + window.scrollY / this.clientHeight;
+        this.scrolled = window.scrollY / this.clientHeight;
         console.log(this.scrolled);
       }
     });
@@ -100,6 +105,10 @@ export default {
     handleVideoPause() {
       //视频播放结束
       this.videoPlaying = false;
+    },
+    handleSlideChange(e) {
+      console.log(e);
+      this.swiperIndex[e.sIndex] = e.activeIndex;
     },
   },
 };
@@ -139,7 +148,7 @@ export default {
 
   .bg-container {
     position: absolute;
-    top: 0;
+    top: 100vh;
     left: 0;
     width: 100%;
     height: auto;
@@ -183,10 +192,16 @@ export default {
     justify-content: space-between;
     padding: 0 60px;
 
+    .left {
+      padding-left: 60px;
+    }
+    .right {
+      padding-right: 60px;
+    }
+
     .left,
     .right {
       max-width: 40%;
-      padding: 0 60px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -196,22 +211,20 @@ export default {
         padding: 0;
       }
 
-      .dual-btn {
-        display: flex;
-        justify-content: space-around;
+      &.hidable {
+        transform-origin: bottom left;
+        transition: transform ease 0.5s, filter ease-out 0.4s;
       }
+    }
 
-      .roll {
-        position: absolute;
-        left: 0;
-        top: 50%;
-        transform: translateY(-50%);
-      }
+    .left.hidable.hidden {
+      transform: translate(-80%, 30%) rotate(-30deg);
+      filter: brightness(0.2);
+    }
 
-      .placeholder {
-        width: 100%;
-        height: 600px; /*no*/
-      }
+    h1 {
+      font-family: AaMSXK;
+      font-size: 200px;
     }
 
     h2 {
@@ -242,6 +255,11 @@ export default {
       opacity: 1;
       margin-top: 20px;
       max-width: 750px;
+      transition: opacity ease-out 0.3s;
+
+      &.hidden {
+        opacity: 0;
+      }
     }
 
     .transition {
@@ -261,6 +279,15 @@ export default {
     #proj2 {
       width: 289px;
       transform: translateY(-40%) rotate(22deg);
+    }
+
+    &#s0 {
+      height: 100vh;
+      max-height: unset;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--darkBG);
     }
   }
 }

@@ -1,26 +1,44 @@
 <template>
-  <div class="container" :style="{ width: outerWidth + 'px', height: height + 'px' }">
-    <img src="@img/border.png" alt="" id="border1" :style="{ width: outerWidth + 25 + 'px' }" />
-    <img src="@img/border.png" alt="" id="border2" :style="{ width: outerWidth + 25 + 'px' }" />
+  <div class="container" :style="{ width: outerWidth + 'px' }">
+    <img src="@img/border_top.png" alt="" id="border1" :style="{ width: outerWidth + 23 + 'px' }" />
     <swiper
-      :slides-per-view="1"
-      :space-between="24"
-      @slideChange="onSlideChange"
       class="swiper"
-      :centeredSlides="true"
-      :style="{ width: outerWidth + 'px' }"
       :loop="true"
-      :loopAdditionalSlides="1"
+      :slidesPerView="'auto'"
+      :centeredSlides="true"
+      :spaceBetween="24"
+      @slideChange="onSlideChange"
+      :observer="true"
+      :observeSlideChildren="true"
+      :width="outerWidth + innerTranslate * 2"
+      :navigation="{
+        nextEl: '.btn-right',
+        prevEl: '.btn-left',
+      }"
     >
-      <swiper-slide v-for="(item, index) in items" :key="index" :style="{ maxWidth: width + 'px' }">
+      <swiper-slide v-for="(item, index) in items" :key="index" :style="{ width: width + 'px' }">
         <video
           muted
           controls
           :src="require('@video/' + item + '.mp4')"
           :style="{ height: height + 'px', width: width + 'px' }"
+          :ref="setItemRef"
         ></video>
       </swiper-slide>
     </swiper>
+    <img
+      src="@img/navi.svg"
+      alt=""
+      class="btn-left"
+      :style="{ transform: 'translate(-' + (width / 2 + 24) + 'px,-50%)' }"
+    />
+    <img
+      src="@img/navi.svg"
+      alt=""
+      class="btn-right"
+      :style="{ transform: 'translate(' + (width / 2 + 88) + 'px,-50%)' }"
+    />
+    <img src="@img/border_bottom.png" alt="" id="border2" :style="{ width: outerWidth + 23 + 'px' }" />
   </div>
 </template>
 
@@ -29,30 +47,20 @@
   position: relative;
   width: 100%;
   filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.16));
-  overflow-y: visible;
 
   #border1,
   #border2 {
-    left: 0;
-    position: absolute;
     opacity: 0.8;
     filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.16));
-  }
-
-  #border1 {
-    top: 0;
-    transform: translateY(-100%);
+    display: block;
   }
 
   #border2 {
     bottom: 0;
-    transform: translateY(100%) rotateX(180deg);
+    transform: rotateX(180deg);
   }
 
   .swiper {
-    position: absolute;
-    top: 0;
-    left: 0;
     background-color: rgba(0, 0, 0, 0.8);
 
     video {
@@ -61,12 +69,25 @@
       object-fit: cover;
     }
   }
+
+  .btn-left,
+  .btn-right {
+    width: 32px;
+    position: absolute;
+    z-index: 100;
+    top: 50%;
+    left: 50%;
+    cursor: pointer;
+    filter: drop-shadow(0 0 6px rgba(0, 0, 0, 0.75));
+  }
 }
 </style>
 
 <script>
 import { Swiper, SwiperSlide } from "swiper/vue";
 import "swiper/swiper-bundle.min.css";
+import SwiperCore, { Navigation } from "swiper";
+SwiperCore.use([Navigation]);
 
 export default {
   name: "FilmRoll",
@@ -76,6 +97,7 @@ export default {
   },
   emits: ["slideChange"],
   props: {
+    sIndex: Number, //用于识别是哪一个组件实例
     height: {
       type: Number,
       default: 450,
@@ -85,19 +107,37 @@ export default {
       default: 800,
     },
     items: Array,
-    outerTranslate: String,
-    innerTranslate: String,
+    innerTranslate: {
+      type: Number,
+      default: 50,
+    },
   },
   computed: {
     outerWidth() {
-      return this.width * 1.45;
+      return this.width * 1.5;
     },
   },
+  data() {
+    return {
+      itemRefs: [],
+    };
+  },
   methods: {
-    onSlideChange(e) {
-      console.log(e);
-      this.$emit("slideChange", e);
+    setItemRef(el) {
+      if (el) {
+        this.itemRefs.push(el);
+      }
     },
+    onSlideChange(e) {
+      this.$emit("slideChange", {
+        sIndex: this.sIndex,
+        activeIndex: e.realIndex,
+      });
+      this.itemRefs[e.realIndex].play();
+    },
+  },
+  beforeUpdate() {
+    this.itemRefs = [];
   },
 };
 </script>
