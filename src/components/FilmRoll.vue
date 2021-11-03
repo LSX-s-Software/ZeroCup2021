@@ -10,9 +10,16 @@
       :width="width"
       :loop="true"
       :slidesPerView="1"
+      :style="{ width: outerWidth, left: outerTranslate }"
+      loop-additional-slides="1"
     >
-      <swiper-slide v-for="(item, index) in items" :key="index">
-        <video :src="item" muted controls :style="{ height: height + 'px', width: width + 'px' }"></video>
+      <swiper-slide v-for="(item, index) in items" :key="index" :style="{ left: innerTranslate }">
+        <video
+          muted
+          controls
+          :src="require('@video/' + item + '.mp4')"
+          :style="{ height: height + 'px', width: width + 'px' }"
+        ></video>
       </swiper-slide>
     </swiper>
   </div>
@@ -22,10 +29,7 @@
 .container {
   position: relative;
   width: 100%;
-  /* Webpack 会将以 ~ 符号作为前缀的路径视作依赖模块而去解析 */
-  /* background-image: url("~@img/layer-border.png");
-  background-size: 100% 100%;
-  background-repeat: no-repeat; */
+  
   background-color: rgba(0, 0, 0, 0.8);
   filter: drop-shadow(0 10px 8px rgba(0, 0, 0, 0.16));
 
@@ -36,12 +40,16 @@
   .swiper {
     position: absolute;
     top: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    width: 50vw;
+    // left: 50%;
+    // transform: translateX(-50%);
+    // width: 50vw;
     video {
       border-radius: 15px;
       overflow: hidden;
+      /* Webpack 会将以 ~ 符号作为前缀的路径视作依赖模块而去解析 */
+      // background-image: url("~@img/layer-border.png");
+      // background-size: 100% 100%;
+      // background-repeat: no-repeat;
     }
   }
 }
@@ -68,6 +76,12 @@ export default {
       default: 800,
     },
     items: Array,
+    outerWidth: {
+      type: String,
+      default: '50vw',
+    },
+    outerTranslate: String,
+    innerTranslate: String,
   },
   methods: {
     onSlideChange(e) {

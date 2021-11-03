@@ -2,8 +2,8 @@
   <div class="main-container" ref="main" @resize="handleResize">
     <ProgressIndicator id="wheel" :class="{ hidden: scrolled < 1 }" :current="scrolled - 1"></ProgressIndicator>
     <div class="bg-container">
-      <img src="./assets/img/bg.jpg" alt="" class="bg" />
-      <img src="./assets/img/bg.jpg" alt="" class="bg" />
+      <img src="@img/bg.jpg" alt="" class="bg" />
+      <img src="@img/bg.jpg" alt="" class="bg" />
     </div>
     <div class="screen" ref="s0">
       <div class="left"></div>
@@ -11,7 +11,12 @@
     </div>
     <div class="screen" ref="s1">
       <div class="left">
-        <FilmRoll :items="['./assets/video/s1_v1.mp4', '', '']"></FilmRoll>
+        <FilmRoll
+          :items="['s1_v1', 's1_v2', 's1_v3']"
+          outer-translate="-15vw"
+          inner-translate="10vw"
+          outer-width="60vw"
+        ></FilmRoll>
         <span class="des">
           Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptates eius incidunt mollitia, quo
           provident totam dolore magnam corrupti, excepturi a sit praesentium. Reprehenderit, molestias numquam ad
