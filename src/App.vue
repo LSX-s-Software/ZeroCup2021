@@ -16,6 +16,7 @@
           :sIndex="0"
           :items="['s1_v1', 's1_v2', 's1_v3']"
           :width="600"
+          :outer-width="900"
           style="transform: translateX(-120px)"
           @slideChange="handleSlideChange($event)"
         ></FilmRoll>
@@ -39,22 +40,83 @@
       </div>
     </div>
     <div class="screen" id="s2">
-      <div class="left"></div>
-      <div class="right"></div>
+      <div class="left">
+        <h2>无声电影</h2>
+        <p>
+          无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验
+          无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验
+          无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验
+          无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验
+        </p>
+        <ClassicButton @click="showDetail[1] = !showDetail[1]">{{
+          showDetail[1] ? "返回视频" : "查看更多"
+        }}</ClassicButton>
+      </div>
+      <div class="right hidable" :class="{ hidden: showDetail[1] }">
+        <div class="rotate">
+          <FilmRoll
+            :sIndex="1"
+            :items="['s2_v1', 's2_v2']"
+            :width="600"
+            :outer-width="900"
+            @slideChange="handleSlideChange($event)"
+          ></FilmRoll>
+          <span class="des" :class="{ hidden: showDetail[1] }">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptates eius incidunt mollitia, quo
+            provident totam dolore magnam corrupti, excepturi a sit praesentium. Reprehenderit, molestias numquam ad
+            dolores doloremque asperiores!
+          </span>
+        </div>
+      </div>
       <div class="transition" style="right: 60px">
         <img src="@img/projector1.png" alt="" id="proj1" />
       </div>
     </div>
     <div class="screen" id="s3">
-      <div class="left"></div>
-      <div class="right"></div>
+      <div class="left hidable" :class="{ hidden: showDetail[2] }">
+        <div class="rotate">
+          <FilmRoll
+            :sIndex="2"
+            :items="['s2_v1', 's2_v2']"
+            :width="600"
+            :outer-width="900"
+            @slideChange="handleSlideChange($event)"
+          ></FilmRoll>
+          <span class="des" :class="{ hidden: showDetail[2] }">
+            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptates eius incidunt mollitia, quo
+            provident totam dolore magnam corrupti, excepturi a sit praesentium. Reprehenderit, molestias numquam ad
+            dolores doloremque asperiores!
+          </span>
+        </div>
+      </div>
+      <div class="right">
+        <h2>有声电影</h2>
+        <p>
+          电影从无声到有声，经历了一个巨大的转变过程。
+          早期的有声电影是用放映机和留声机同时工作来发声的，1926年8月6日，世界第一部有声短片《唐璜》使用 “维他风”Vitaphone唱片重放影片音乐。
+          1927年华纳推出《爵士歌王》，不仅有音乐，还加入了一部分对白，被看作是电影史上第一部有声片。
+        </p>
+        <ClassicButton @click="showDetail[2] = !showDetail[2]">{{
+          showDetail[2] ? "返回视频" : "查看更多"
+        }}</ClassicButton>
+      </div>
       <div class="transition" style="left: 50px">
         <img src="@img/projector2.png" alt="" id="proj2" />
       </div>
     </div>
     <div class="screen" id="s4">
-      <div class="left"></div>
-      <div class="right"></div>
+      <div class="left">
+        <FilmRoll
+          :sIndex="3"
+          :items="['s2_v1', 's2_v2']"
+          :width="889"
+          :outer-width="1000"
+          :inner-translate="10"
+          :height="500"
+          @slideChange="handleSlideChange($event)"
+        ></FilmRoll>
+      </div>
+      <!-- <div class="right"></div> -->
     </div>
     <div class="screen" id="s5">
       <div class="left"></div>
@@ -101,13 +163,17 @@ export default {
       showGame: [false, false],
     };
   },
+  watch: {
+    scrolled(oldVal, newVal) {
+      console.log(`scrolled from ${oldVal} to ${newVal}`);
+      this.handleScroll();
+    }
+  },
   mounted() {
     this.screenHeight = this.$refs.screen.getBoundingClientRect().height;
     window.addEventListener("scroll", () => {
       if (!this.scrollLock) {
         this.scrolled = window.scrollY / this.screenHeight;
-        console.log(this.scrolled);
-        this.handleScroll();
       }
     });
   },
@@ -222,9 +288,18 @@ export default {
 
     .left {
       padding-left: 60px;
+
+      .rotate {
+        transform: translate(0%, 0%) rotateZ(-10deg);
+        transform-origin: right bottom;
+      }
     }
     .right {
       padding-right: 60px;
+
+      .rotate {
+        transform: translate(0%, 0%) rotateZ(10deg);
+      }
     }
 
     .left,
@@ -248,6 +323,11 @@ export default {
 
     .left.hidable.hidden {
       transform: translate(-75%, 30%) rotate(-30deg);
+      filter: brightness(0.2);
+    }
+
+    .right.hidable.hidden {
+      transform: translate(80%, 0%) rotate(30deg);
       filter: brightness(0.2);
     }
 

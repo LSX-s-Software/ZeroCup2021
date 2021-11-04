@@ -30,7 +30,7 @@
       src="@img/navi.svg"
       alt=""
       class="btn-left"
-      :style="{ transform: 'translate(-' + (width / 2 + 24) + 'px,-50%)' }"
+      :style="{ transform: 'translate(-' + (outerWidth / 2 + 24) + 'px,-50%)' }"
     />
     <img
       src="@img/navi.svg"
@@ -84,7 +84,7 @@
 </style>
 
 <script>
-import { Swiper, SwiperSlide } from "swiper/vue";
+import { Swiper, SwiperSlide } from "swiper/vue/swiper-vue";
 import "swiper/swiper-bundle.min.css";
 import SwiperCore, { Navigation } from "swiper";
 SwiperCore.use([Navigation]);
@@ -111,11 +111,10 @@ export default {
       type: Number,
       default: 50,
     },
-  },
-  computed: {
-    outerWidth() {
-      return this.width * 1.5;
-    },
+    outerWidth: {
+      type: Number,
+      default: 1200,
+    }
   },
   data() {
     return {
