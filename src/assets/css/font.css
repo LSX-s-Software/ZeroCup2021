@@ -7,3 +7,8 @@
     font-family: HYZhuZiSuDaHeiW;
     src: url(../font/HYZhuZiSuDaHeiW.ttf);
 }
+
+@font-face {
+    font-family: PangMenZhengDao;
+    src: url(../font/庞门正道标题体.ttf);
+}

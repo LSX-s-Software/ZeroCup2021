@@ -1,15 +1,16 @@
 <template>
-  <div class="main-container" ref="main" @resize="handleResize">
+  <div class="main-container" ref="main">
     <ProgressIndicator id="wheel" :class="{ hidden: scrolled < 1 }" :current="scrolled - 1"></ProgressIndicator>
     <div class="bg-container">
       <img src="@img/bg.jpg" alt="" class="bg" />
       <img src="@img/bg.jpg" alt="" class="bg" />
     </div>
+    <div class="blackbg" :class="{ show: scrolled >= 6.9 }"></div>
     <div class="screen" id="s0">
       <video src="@video/1.mp4" autoplay muted></video>
       <h1>电影技术革新</h1>
     </div>
-    <div class="screen" id="s1">
+    <div class="screen" id="s1" ref="screen" @resize="handleResize">
       <div class="left hidable" :class="{ hidden: showDetail[0] }">
         <FilmRoll
           :sIndex="0"
@@ -25,7 +26,7 @@
         </span>
       </div>
       <div class="right">
-        <h2>电影的诞生</h2>
+        <h2 class="gray">电影的诞生</h2>
         <p>
           在美国，电影是一种文化，是一种艺术，是一种视觉享受。 在中国，电影是一种文化，是一种艺术，是一种视觉享受。
           在中国，电影是一种文化，是一种艺术，是一种视觉享受。 在中国，电影是一种文化，是一种艺术，是一种视觉享受。
@@ -63,9 +64,12 @@
       <div class="left"></div>
       <div class="right"></div>
     </div>
-    <div class="screen" id="s7">
-      <div class="left"></div>
-      <div class="right"></div>
+    <!-- “数字化”部分 -->
+    <div class="screen modern" id="s7">
+      <div>
+        <h3>第三次变革</h3>
+        <h2>数字化</h2>
+      </div>
     </div>
     <div class="screen" id="s8">
       <div class="left"></div>
@@ -91,23 +95,25 @@ export default {
       scrolled: 0,
       scrollLock: false,
       videoPlaying: true,
-      clientHeight: document.documentElement.clientHeight,
+      screenHeight: 1000,
       showDetail: [false, false, false, false],
       swiperIndex: [0, 0, 0, 0],
       showGame: [false, false],
     };
   },
   mounted() {
+    this.screenHeight = this.$refs.screen.getBoundingClientRect().height;
     window.addEventListener("scroll", () => {
       if (!this.scrollLock) {
-        this.scrolled = window.scrollY / this.clientHeight;
+        this.scrolled = window.scrollY / this.screenHeight;
         console.log(this.scrolled);
+        this.handleScroll();
       }
     });
   },
   methods: {
     handleResize() {
-      this.clientHeight = document.documentElement.clientHeight;
+      this.screenHeight = this.$refs.screen.getBoundingClientRect().height;
     },
     handleVideoPause() {
       //视频播放结束
@@ -117,6 +123,7 @@ export default {
       console.log(e);
       this.swiperIndex[e.sIndex] = e.activeIndex;
     },
+    handleScroll() {},
   },
 };
 </script>
@@ -170,6 +177,20 @@ export default {
       &:nth-child(2n) {
         transform: rotateX(180deg);
       }
+    }
+  }
+
+  .blackbg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    transition: background-color ease-out 0.7s;
+
+    &.show {
+      background-color: var(--darkBG);
     }
   }
 
@@ -240,10 +261,14 @@ export default {
       font-size: 60px;
       margin-bottom: 12px;
       line-height: 1.5;
+      color: var(--theme);
+      &.gray {
+        color: var(--darkText);
+      }
     }
 
     h3 {
-      font-family: HYZhuZiSuDaHeiW;
+      font-family: AaMSXK;
       font-size: 30px;
       color: rgb(32, 32, 32);
     }
@@ -289,12 +314,21 @@ export default {
       transform: translateY(-40%) rotate(-18deg);
     }
 
-    &#s0 {
-      height: 100vh;
-      max-height: unset;
+    &.modern {
+      font-family: PangMenZhengDao;
+      color: var(--lightText);
+    }
+
+    &#s0,
+    &#s7 {
       display: flex;
       align-items: center;
       justify-content: center;
+    }
+
+    &#s0 {
+      height: 100vh;
+      max-height: unset;
       background-color: var(--darkBG);
       video {
         position: absolute;
@@ -307,6 +341,17 @@ export default {
       h1 {
         z-index: 10;
         color: #fff;
+      }
+    }
+
+    &#s7 {
+      h2 {
+        font-family: inherit;
+        font-size: 150px;
+        line-height: 150px;
+      }
+      h3 {
+        color: inherit;
       }
     }
   }
