@@ -164,7 +164,7 @@
         </p>
       </div>
     </div>
-    <div class="screen modern" id="s9">
+    <div class="screen modern" id="s9" @mousewheel="animations9($event)">
       <h2>What's Next?</h2>
       <h2 class="flip">电影技术的发展不断提高电影的观感</h2>
       <span ref="flowText" class="flow-text ft-1">杜比影院</span>
@@ -178,7 +178,7 @@
       <span ref="flowText" class="flow-text ft-9">巨幕</span>
       <span ref="flowText" class="flow-text ft-10">3D</span>
     </div>
-    <div id=""></div>
+    <div class="screen"></div>
   </div>
 </template>
 
@@ -199,7 +199,7 @@ export default {
       scrolled: 0,
       scrollLock: false,
       videoPlaying: true,
-      screenHeight: 1000,
+      screenHeight: document.documentElement.clientHeight,
       showDetail: [false, false, false, false, 0],
       swiperIndex: [0, 0, 0, 0],
       showGame: [false, false],
@@ -213,7 +213,6 @@ export default {
     },
   },
   mounted() {
-    this.screenHeight = this.$refs.screen.getBoundingClientRect().height;
     window.addEventListener("scroll", () => {
       if (!this.scrollLock) {
         this.scrolled = window.scrollY / this.screenHeight;
@@ -222,7 +221,7 @@ export default {
   },
   methods: {
     handleResize() {
-      this.screenHeight = this.$refs.screen.getBoundingClientRect().height;
+      this.screenHeight = document.documentElement.clientHeight;
     },
     handleSlideChange(e) {
       console.log(e);
@@ -233,8 +232,18 @@ export default {
       if (scrolled > 8) {
         let i = 1;
         for (let flowText of flowTexts) {
-          flowText.style.animation = `getin${i} 10s`;
+          flowText.style.animationName = `getin${i}`;
           i++;
+        }
+      }
+    },
+    animations9(e) {
+      if (this.scrollLock) {
+        e.preventDefault();
+      } else {
+        if (this.scrolled == 9) {
+          //使用这种方法来禁用滚动
+          // this.scrollLock = true;
         }
       }
     },
@@ -561,234 +570,182 @@ export default {
       }
       .flip {
         background: #fff;
+        background-clip: text;
         -webkit-background-clip: text;
         color: transparent;
       }
       .flow-text {
         position: absolute;
-        font-family: AaMSXK;
+        font-family: SourceHanSansCN;
+        font-weight: 200;
+        opacity: 0;
+        transform: scale(0);
+        animation-timing-function: ease-out;
+        animation-duration: 10s;
+        animation-fill-mode: both;
+        z-index: 0;
       }
       .ft-1 {
-        top: 7vh;
-        left: 6vw;
+        top: 50%;
+        left: 50%;
         color: #9f9f9f;
         line-height: 150px;
-        font-weight: 200;
         font-size: 88px;
         filter: blur(1px);
       }
       .ft-2 {
-        bottom: 12vh;
-        left: 17vw;
+        bottom: 50%;
+        left: 50%;
         font-size: 36px;
-        font-weight: 200;
         line-height: 61px;
-        color: #707070;
+        color: var(--lightGray);
         filter: blur(2px);
       }
       .ft-3 {
-        top: 25vh;
-        left: 30vw;
+        top: 50%;
+        left: 50%;
         font-size: 64px;
-        font-weight: 200;
         line-height: 109px;
-        color: #707070;
+        color: var(--lightGray);
         filter: blur(1.5px);
       }
       .ft-4 {
-        bottom: 25vh;
-        left: 28vw;
+        bottom: 50%;
+        left: 50%;
         font-size: 32px;
-        font-weight: 200;
         line-height: 109px;
-        color: #707070;
+        color: var(--lightGray);
         filter: blur(1.5px);
       }
       .ft-5 {
-        top: 2vh;
-        left: 45vw;
+        top: 50%;
+        left: 50%;
         font-size: 72px;
-        font-weight: 200;
         line-height: 109px;
-        color: #707070;
+        color: var(--lightGray);
         filter: blur(1.5px);
       }
       .ft-6 {
-        bottom: 8vh;
-        left: 45vw;
+        bottom: 50%;
+        left: 50%;
         font-size: 72px;
-        font-weight: 200;
         line-height: 109px;
-        color: #707070;
+        color: var(--lightGray);
         filter: blur(1.5px);
       }
       .ft-7 {
-        bottom: 30vh;
-        right: 35vw;
+        bottom: 50%;
+        right: 50%;
         font-size: 52px;
-        font-weight: 200;
         line-height: 109px;
-        color: #707070;
+        color: var(--lightGray);
         filter: blur(2px);
       }
       .ft-8 {
-        top: 15vh;
-        right: 30vw;
+        top: 50%;
+        right: 50%;
         font-size: 52px;
-        font-weight: 200;
         line-height: 109px;
-        color: #707070;
+        color: var(--lightGray);
         filter: blur(1px);
       }
       .ft-9 {
-        bottom: 15vh;
-        right: 20vw;
+        bottom: 50%;
+        right: 50%;
         font-size: 52px;
-        font-weight: 200;
         line-height: 109px;
-        color: #707070;
+        color: var(--lightGray);
         filter: blur(1px);
       }
       .ft-10 {
-        top: 10vh;
-        right: 10vw;
+        top: 50%;
+        right: 50%;
         font-size: 128px;
-        font-weight: 200;
         line-height: 109px;
-        color: #707070;
+        color: var(--lightGray);
         filter: blur(0.5px);
       }
     }
   }
 }
 @keyframes getin1 {
-  0% {
-    top: 50vh;
-    left: 50vw;
-    opacity: 0;
-  }
-
-  100% {
+  to {
     top: 7vh;
     left: 6vw;
     opacity: 1;
+    transform: scale(1);
   }
 }
 @keyframes getin2 {
-  0% {
-    bottom: 50vh;
-    left: 50vw;
-    opacity: 0;
-  }
-
-  100% {
+  to {
     bottom: 12vh;
     left: 17vw;
     opacity: 1;
+    transform: scale(1);
   }
 }
 @keyframes getin3 {
-  0% {
-    top: 50vh;
-    left: 50vw;
-    opacity: 0;
-  }
-
-  100% {
+  to {
     top: 25vh;
     left: 30vw;
     opacity: 1;
+    transform: scale(1);
   }
 }
 @keyframes getin4 {
-  0% {
-    bottom: 50vh;
-    left: 50vw;
-    opacity: 0;
-  }
-
-  100% {
+  to {
     bottom: 25vh;
     left: 28vw;
     opacity: 1;
+    transform: scale(1);
   }
 }
 @keyframes getin5 {
-  0% {
-    top: 50vh;
-    left: 50vw;
-    opacity: 0;
-  }
-
-  100% {
+  to {
     top: 2vh;
     left: 45vw;
     opacity: 1;
+    transform: scale(1);
   }
 }
 @keyframes getin6 {
-  0% {
-    bottom: 50vh;
-    left: 50vw;
-    opacity: 0;
-  }
-
-  100% {
+  to {
     bottom: 8vh;
     left: 45vw;
     opacity: 1;
+    transform: scale(1);
   }
 }
 @keyframes getin7 {
-  0% {
-    bottom: 50vh;
-    right: 50vw;
-    opacity: 0;
-  }
-
-  100% {
+  to {
     bottom: 30vh;
     right: 35vw;
     opacity: 1;
+    transform: scale(1);
   }
 }
 @keyframes getin8 {
-  0% {
-    top: 50vh;
-    right: 50vw;
-    opacity: 0;
-  }
-
-  100% {
+  to {
     top: 15vh;
     right: 30vw;
     opacity: 1;
+    transform: scale(1);
   }
 }
 @keyframes getin9 {
-  0% {
-    bottom: 50vh;
-    right: 50vw;
-    opacity: 0;
-  }
-
-  100% {
+  to {
     bottom: 15vh;
     right: 20vw;
     opacity: 1;
+    transform: scale(1);
   }
 }
 @keyframes getin10 {
-  0% {
-    top: 50vh;
-    right: 50vw;
-    opacity: 0;
-  }
-
-  100% {
+  to {
     top: 10vh;
     right: 10vw;
     opacity: 1;
+    transform: scale(1);
   }
 }
 </style>
