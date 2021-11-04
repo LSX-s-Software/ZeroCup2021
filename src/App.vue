@@ -18,16 +18,14 @@
       <div class="left hidable" :class="{ hidden: showDetail[0] }">
         <FilmRoll
           :sIndex="0"
-          :items="['s1_v1', 's1_v2', 's1_v3']"
+          :items="['s1_v0', 's1_v1', 's1_v2', 's1_v3']"
           :width="600"
           :outer-width="900"
           style="transform: translateX(-120px)"
           @slideChange="handleSlideChange($event)"
         ></FilmRoll>
         <span class="des" :class="{ hidden: showDetail[0] }">
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptates eius incidunt mollitia, quo
-          provident totam dolore magnam corrupti, excepturi a sit praesentium. Reprehenderit, molestias numquam ad
-          dolores doloremque asperiores!
+          {{ description[`s1_v${swiperIndex[0]}`] || "缺少介绍" }}
         </span>
       </div>
       <div class="right">
@@ -62,7 +60,7 @@
         <div class="rotate">
           <FilmRoll
             :sIndex="1"
-            :items="['s2_v1', 's2_v2']"
+            :items="['s2_v0']"
             :width="600"
             :outer-width="1000"
             :innerTranslate="-90"
@@ -70,9 +68,7 @@
             @slideChange="handleSlideChange($event)"
           ></FilmRoll>
           <span class="des" :class="{ hidden: showDetail[1] }">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptates eius incidunt mollitia, quo
-            provident totam dolore magnam corrupti, excepturi a sit praesentium. Reprehenderit, molestias numquam ad
-            dolores doloremque asperiores!
+            {{ description[`s2_v${swiperIndex[1]}`] || "缺少介绍" }}
           </span>
         </div>
       </div>
@@ -82,16 +78,14 @@
         <div class="rotate">
           <FilmRoll
             :sIndex="2"
-            :items="['s2_v1', 's2_v2']"
+            :items="['s3_v0', 's3_v1']"
             :width="600"
             :outer-width="1000"
             style="transform: translateX(-120px)"
             @slideChange="handleSlideChange($event)"
           ></FilmRoll>
           <span class="des" :class="{ hidden: showDetail[2] }">
-            Lorem ipsum dolor, sit amet consectetur adipisicing elit. Neque voluptates eius incidunt mollitia, quo
-            provident totam dolore magnam corrupti, excepturi a sit praesentium. Reprehenderit, molestias numquam ad
-            dolores doloremque asperiores!
+            {{ description[`s3_v${swiperIndex[2]}`] || "缺少介绍" }}
           </span>
         </div>
       </div>
@@ -116,7 +110,7 @@
       <div class="left">
         <FilmRoll
           :sIndex="3"
-          :items="['s2_v1', 's2_v2']"
+          :items="['s3_v0']"
           :width="889"
           :outer-width="1000"
           :inner-translate="10"
@@ -209,6 +203,7 @@ export default {
       showDetail: [false, false, false, false, 0],
       swiperIndex: [0, 0, 0, 0],
       showGame: [false, false],
+      description: require("./assets/description.json"),
     };
   },
   watch: {
@@ -287,6 +282,7 @@ export default {
     opacity: 0.3;
     display: flex;
     flex-direction: column;
+    z-index: -1;
 
     img {
       width: 100%;
@@ -304,7 +300,7 @@ export default {
     left: 0;
     width: 100%;
     height: 100vh;
-    z-index: 0;
+    z-index: -1;
     transition: background-color linear 1s;
 
     &.show {
