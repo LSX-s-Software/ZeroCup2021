@@ -15,6 +15,7 @@
         nextEl: '.btn-right',
         prevEl: '.btn-left',
       }"
+      :allowTouchMove="items.length > 1"
     >
       <swiper-slide
         v-for="(item, index) in items"
@@ -30,17 +31,31 @@
           :ref="setItemRef"
         ></video>
       </swiper-slide>
+      <swiper-slide
+        v-if="items.length == 1"
+        :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
+      >
+        <img :src="require('@video/' + items[0] + '.png')" :style="{ height: height + 'px', width: width + 'px' }" />
+      </swiper-slide>
+      <swiper-slide
+        v-if="items.length == 1"
+        :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
+      >
+        <img :src="require('@video/' + items[0] + '.png')" :style="{ height: height + 'px', width: width + 'px' }" />
+      </swiper-slide>
     </swiper>
     <img
       src="@img/navi.svg"
       alt=""
       class="btn-left"
+      v-if="items.length > 1"
       :style="{ transform: 'translate(' + btnLeftTranslate + 'px,-50%)' }"
     />
     <img
       src="@img/navi.svg"
       alt=""
       class="btn-right"
+      v-if="items.length > 1"
       :style="{ transform: 'translate(' + btnRightTranslate + 'px,-50%) rotate(180deg)' }"
     />
     <img src="@img/border_bottom.png" alt="" id="border2" :style="{ width: outerWidth + 23 + 'px' }" />
@@ -68,7 +83,8 @@
   .swiper {
     background-color: rgba(0, 0, 0, 0.8);
 
-    video {
+    video,
+    img {
       border-radius: 15px;
       overflow: hidden;
       object-fit: cover;
@@ -146,7 +162,7 @@ export default {
         sIndex: this.sIndex,
         activeIndex: e.realIndex,
       });
-      this.itemRefs[e.realIndex].play();
+      // this.itemRefs[e.realIndex].play();
     },
   },
   beforeUpdate() {
