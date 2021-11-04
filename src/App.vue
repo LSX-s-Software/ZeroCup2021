@@ -172,7 +172,19 @@
     </div>
     <div class="screen modern" id="s9">
       <h2>What's Next?</h2>
+      <h2 class="flip">电影技术的发展不断提高电影的观感</h2>
+      <span ref="flowText" class="flow-text ft-1">杜比影院</span>
+      <span ref="flowText" class="flow-text ft-2">8K</span>
+      <span ref="flowText" class="flow-text ft-3">4D</span>
+      <span ref="flowText" class="flow-text ft-4">杜比全景声</span>
+      <span ref="flowText" class="flow-text ft-5">120FPS</span>
+      <span ref="flowText" class="flow-text ft-6">IMAX</span>
+      <span ref="flowText" class="flow-text ft-7">球幕</span>
+      <span ref="flowText" class="flow-text ft-8">4K</span>
+      <span ref="flowText" class="flow-text ft-9">巨幕</span>
+      <span ref="flowText" class="flow-text ft-10">3D</span>
     </div>
+    <div id=""></div>
   </div>
 </template>
 
@@ -202,7 +214,7 @@ export default {
   watch: {
     scrolled(newVal) {
       console.log(newVal);
-      this.handleScroll();
+      this.handleScroll(newVal);
     },
   },
   mounted() {
@@ -221,7 +233,16 @@ export default {
       console.log(e);
       this.swiperIndex[e.sIndex] = e.activeIndex;
     },
-    handleScroll() {},
+    handleScroll(scrolled) {
+      let flowTexts = document.querySelectorAll(".flow-text");
+      if (scrolled > 8) {
+        let i = 1;
+        for (let flowText of flowTexts) {
+          flowText.style.animation = `getin${i} 10s`;
+          i++;
+        }
+      }
+    },
   },
 };
 </script>
@@ -307,7 +328,7 @@ export default {
   .screen {
     position: relative;
     width: 100%;
-    height: 92vh;
+    height: 100vh;
     max-height: 1000px;
     min-height: 768px;
     box-sizing: border-box;
@@ -534,6 +555,7 @@ export default {
     }
 
     &#s9 {
+      flex-direction: column;
       align-items: center;
       justify-content: center;
       h2 {
@@ -541,7 +563,236 @@ export default {
         line-height: 100px;
         color: var(--lightText);
       }
+      .flip {
+        background: #fff;
+        -webkit-background-clip: text;
+        color: transparent;
+      }
+      .flow-text {
+        position: absolute;
+        font-family: AaMSXK;
+      }
+      .ft-1 {
+        top: 7vh;
+        left: 6vw;
+        color: #9f9f9f;
+        line-height: 150px;
+        font-weight: 200;
+        font-size: 88px;
+        filter: blur(1px);
+      }
+      .ft-2 {
+        bottom: 12vh;
+        left: 17vw;
+        font-size: 36px;
+        font-weight: 200;
+        line-height: 61px;
+        color: #707070;
+        filter: blur(2px);
+      }
+      .ft-3 {
+        top: 25vh;
+        left: 30vw;
+        font-size: 64px;
+        font-weight: 200;
+        line-height: 109px;
+        color: #707070;
+        filter: blur(1.5px);
+      }
+      .ft-4 {
+        bottom: 25vh;
+        left: 28vw;
+        font-size: 32px;
+        font-weight: 200;
+        line-height: 109px;
+        color: #707070;
+        filter: blur(1.5px);
+      }
+      .ft-5 {
+        top: 2vh;
+        left: 45vw;
+        font-size: 72px;
+        font-weight: 200;
+        line-height: 109px;
+        color: #707070;
+        filter: blur(1.5px);
+      }
+      .ft-6 {
+        bottom: 8vh;
+        left: 45vw;
+        font-size: 72px;
+        font-weight: 200;
+        line-height: 109px;
+        color: #707070;
+        filter: blur(1.5px);
+      }
+      .ft-7 {
+        bottom: 30vh;
+        right: 35vw;
+        font-size: 52px;
+        font-weight: 200;
+        line-height: 109px;
+        color: #707070;
+        filter: blur(2px);
+      }
+      .ft-8 {
+        top: 15vh;
+        right: 30vw;
+        font-size: 52px;
+        font-weight: 200;
+        line-height: 109px;
+        color: #707070;
+        filter: blur(1px);
+      }
+      .ft-9 {
+        bottom: 15vh;
+        right: 20vw;
+        font-size: 52px;
+        font-weight: 200;
+        line-height: 109px;
+        color: #707070;
+        filter: blur(1px);
+      }
+      .ft-10 {
+        top: 10vh;
+        right: 10vw;
+        font-size: 128px;
+        font-weight: 200;
+        line-height: 109px;
+        color: #707070;
+        filter: blur(0.5px);
+      }
     }
+  }
+}
+@keyframes getin1 {
+  0% {
+    top: 50vh;
+    left: 50vw;
+    opacity: 0;
+  }
+
+  100% {
+    top: 7vh;
+    left: 6vw;
+    opacity: 1;
+  }
+}
+@keyframes getin2 {
+  0% {
+    bottom: 50vh;
+    left: 50vw;
+    opacity: 0;
+  }
+
+  100% {
+    bottom: 12vh;
+    left: 17vw;
+    opacity: 1;
+  }
+}
+@keyframes getin3 {
+  0% {
+    top: 50vh;
+    left: 50vw;
+    opacity: 0;
+  }
+
+  100% {
+    top: 25vh;
+    left: 30vw;
+    opacity: 1;
+  }
+}
+@keyframes getin4 {
+  0% {
+    bottom: 50vh;
+    left: 50vw;
+    opacity: 0;
+  }
+
+  100% {
+    bottom: 25vh;
+    left: 28vw;
+    opacity: 1;
+  }
+}
+@keyframes getin5 {
+  0% {
+    top: 50vh;
+    left: 50vw;
+    opacity: 0;
+  }
+
+  100% {
+    top: 2vh;
+    left: 45vw;
+    opacity: 1;
+  }
+}
+@keyframes getin6 {
+  0% {
+    bottom: 50vh;
+    left: 50vw;
+    opacity: 0;
+  }
+
+  100% {
+    bottom: 8vh;
+    left: 45vw;
+    opacity: 1;
+  }
+}
+@keyframes getin7 {
+  0% {
+    bottom: 50vh;
+    right: 50vw;
+    opacity: 0;
+  }
+
+  100% {
+    bottom: 30vh;
+    right: 35vw;
+    opacity: 1;
+  }
+}
+@keyframes getin8 {
+  0% {
+    top: 50vh;
+    right: 50vw;
+    opacity: 0;
+  }
+
+  100% {
+    top: 15vh;
+    right: 30vw;
+    opacity: 1;
+  }
+}
+@keyframes getin9 {
+  0% {
+    bottom: 50vh;
+    right: 50vw;
+    opacity: 0;
+  }
+
+  100% {
+    bottom: 15vh;
+    right: 20vw;
+    opacity: 1;
+  }
+}
+@keyframes getin10 {
+  0% {
+    top: 50vh;
+    right: 50vw;
+    opacity: 0;
+  }
+
+  100% {
+    top: 10vh;
+    right: 10vw;
+    opacity: 1;
   }
 }
 </style>
