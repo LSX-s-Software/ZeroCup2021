@@ -1,14 +1,18 @@
 <template>
   <div class="main-container" ref="main">
-    <ProgressIndicator id="wheel" :class="{ hidden: scrolled < 1 }" :current="scrolled - 1"></ProgressIndicator>
+    <ProgressIndicator
+      id="wheel"
+      :class="{ hidden: scrolled < 1 || scrolled > 7 }"
+      :current="scrolled - 1"
+    ></ProgressIndicator>
     <div class="bg-container">
       <img src="@img/bg.jpg" alt="" class="bg" />
       <img src="@img/bg.jpg" alt="" class="bg" />
     </div>
-    <div class="blackbg" :class="{ show: scrolled >= 6.9 }"></div>
+    <div class="blackbg" :class="{ show: scrolled >= 7 }"></div>
     <div class="screen" id="s0">
-      <video src="@video/1.mp4" autoplay muted playsinline></video>
-      <h1>电影技术革新</h1>
+      <video src="@video/1.mp4" autoplay muted playsinline @pause="videoPlaying = false"></video>
+      <img src="@img/title.jpg" alt="" v-if="!videoPlaying" />
     </div>
     <div class="screen" id="s1" ref="screen" @resize="handleResize">
       <div class="left hidable" :class="{ hidden: showDetail[0] }">
@@ -38,8 +42,11 @@
           showDetail[0] ? "返回视频" : "查看更多"
         }}</ClassicButton>
       </div>
+      <div class="transition" style="bottom: 0; right: 60px">
+        <img src="@img/projector1.png" alt="" id="proj1" />
+      </div>
     </div>
-    <div class="screen" id="s2">
+    <div class="screen" id="s2" style="overflow-x: hidden">
       <div class="left">
         <h2 class="gray">无声电影</h2>
         <p>
@@ -68,9 +75,6 @@
             dolores doloremque asperiores!
           </span>
         </div>
-      </div>
-      <div class="transition" style="right: 60px">
-        <img src="@img/projector1.png" alt="" id="proj1" />
       </div>
     </div>
     <div class="screen" id="s3">
@@ -104,7 +108,7 @@
           showDetail[2] ? "返回视频" : "查看更多"
         }}</ClassicButton>
       </div>
-      <div class="transition" style="left: 50px">
+      <div class="transition" style="top: 0; left: 50px">
         <img src="@img/projector2.png" alt="" id="proj2" />
       </div>
     </div>
@@ -131,15 +135,43 @@
       <div class="right"></div>
     </div>
     <!-- “数字化”部分 -->
-    <div class="screen modern" id="s7">
+    <div class="screen modern" id="s7" :style="{ position: scrolled >= 8 ? 'relative' : 'sticky' }">
       <div>
-        <h3>第三次变革</h3>
+        <h3 :style="{ color: scrolled >= 7 ? 'var(--lightText)' : 'var(--darkText)' }">第三次变革</h3>
         <h2>数字化</h2>
       </div>
     </div>
-    <div class="screen" id="s8">
-      <div class="left"></div>
-      <div class="right"></div>
+    <div class="screen modern" id="s8">
+      <div class="left compact">
+        <img src="@img/computer.png" alt="" />
+        <div class="content">这里可以加内容</div>
+      </div>
+      <div class="right compact">
+        <input type="radio" name="digitech" id="projection" value="0" v-model="showDetail[4]" checked />
+        <label for="projection">数字放映技术</label>
+        <p v-if="showDetail[4] == 0">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae animi voluptatem voluptate inventore quod harum
+          voluptatibus enim illo, saepe quaerat perferendis quas beatae delectus corporis in quae. Culpa, voluptatum
+          ipsum.
+        </p>
+        <input type="radio" name="digitech" id="cg" value="1" v-model="showDetail[4]" />
+        <label for="cg">计算机图形</label>
+        <p v-if="showDetail[4] == 1">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae animi voluptatem voluptate inventore quod harum
+          voluptatibus enim illo, saepe quaerat perferendis quas beatae delectus corporis in quae. Culpa, voluptatum
+          ipsum.
+        </p>
+        <input type="radio" name="digitech" id="processing" value="2" v-model="showDetail[4]" />
+        <label for="processing">数字图像处理</label>
+        <p v-if="showDetail[4] == 2">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae animi voluptatem voluptate inventore quod harum
+          voluptatibus enim illo, saepe quaerat perferendis quas beatae delectus corporis in quae. Culpa, voluptatum
+          ipsum.
+        </p>
+      </div>
+    </div>
+    <div class="screen modern" id="s9">
+      <h2>What's Next?</h2>
     </div>
   </div>
 </template>
@@ -162,7 +194,7 @@ export default {
       scrollLock: false,
       videoPlaying: true,
       screenHeight: 1000,
-      showDetail: [false, false, false, false],
+      showDetail: [false, false, false, false, 0],
       swiperIndex: [0, 0, 0, 0],
       showGame: [false, false],
     };
@@ -184,10 +216,6 @@ export default {
   methods: {
     handleResize() {
       this.screenHeight = this.$refs.screen.getBoundingClientRect().height;
-    },
-    handleVideoPause() {
-      //视频播放结束
-      this.videoPlaying = false;
     },
     handleSlideChange(e) {
       console.log(e);
@@ -216,7 +244,6 @@ export default {
   width: 100%;
   min-height: 100vh;
   position: relative;
-  overflow-x: hidden;
   color: var(--darkText);
 }
 
@@ -254,7 +281,7 @@ export default {
     position: fixed;
     top: 0;
     left: 0;
-    width: 100vw;
+    width: 100%;
     height: 100vh;
     z-index: 0;
     transition: background-color linear 1s;
@@ -289,6 +316,7 @@ export default {
     align-items: stretch;
     justify-content: space-between;
     padding: 0 60px;
+    font-family: AaMSXK;
 
     .left {
       padding-left: 60px;
@@ -362,7 +390,7 @@ export default {
     }
 
     p {
-      font-family: AaMSXK;
+      font-family: inherit;
       font-size: 32px;
       line-height: 42px;
       text-align: left;
@@ -386,7 +414,6 @@ export default {
 
     .transition {
       position: absolute;
-      top: 0;
       z-index: 0;
       img {
         transform: translateY(-50%);
@@ -394,7 +421,7 @@ export default {
 
       #proj1 {
         width: 9vw;
-        transform: translateY(-70%) rotate(10deg);
+        transform: translateY(30%) rotate(10deg);
       }
 
       #proj2 {
@@ -406,6 +433,9 @@ export default {
     &.modern {
       font-family: PangMenZhengDao;
       color: var(--lightText);
+      h2 {
+        font-family: inherit;
+      }
     }
 
     &#s0,
@@ -419,6 +449,7 @@ export default {
       height: 100vh;
       max-height: unset;
       background-color: var(--darkBG);
+      overflow: hidden;
       video {
         position: absolute;
         top: 0;
@@ -435,13 +466,80 @@ export default {
     }
 
     &#s7 {
+      position: sticky;
+      top: 0;
       h2 {
-        font-family: inherit;
         font-size: 150px;
         line-height: 150px;
       }
       h3 {
-        color: inherit;
+        transition: color linear 0.5s;
+      }
+    }
+
+    &#s8 {
+      padding: 0;
+      .left {
+        position: relative;
+        width: 126.27vh;
+        max-width: unset;
+        img {
+          position: absolute;
+          right: 0;
+          bottom: 0;
+          height: 90%;
+        }
+        .content {
+          position: absolute;
+          right: 0.9%;
+          top: 11.5%;
+          width: 86.5%;
+          height: 66.8%;
+          background-color: var(--darkBG);
+        }
+      }
+      .right {
+        flex: 1;
+        padding: 0 60px;
+        align-items: center;
+
+        p {
+          margin-top: 20px;
+          font-size: 24px;
+          line-height: 33px;
+        }
+      }
+
+      input[type="radio"] {
+        display: none;
+      }
+
+      label {
+        display: block;
+        width: 250px;
+        height: 70px;
+        background: var(--darkGray);
+        border-radius: 35px;
+        font-size: 30px;
+        line-height: 70px;
+        white-space: nowrap;
+        margin-top: 20px;
+        cursor: pointer;
+      }
+
+      input[type="radio"]:checked + label {
+        background: var(--mediumGray);
+        color: var(--theme);
+      }
+    }
+
+    &#s9 {
+      align-items: center;
+      justify-content: center;
+      h2 {
+        font-size: 80px;
+        line-height: 100px;
+        color: var(--lightText);
       }
     }
   }
