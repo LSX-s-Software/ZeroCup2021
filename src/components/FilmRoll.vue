@@ -36,7 +36,7 @@
       src="@img/navi.svg"
       alt=""
       class="btn-right"
-      :style="{ transform: 'translate(' + (width / 2 + 88) + 'px,-50%)' }"
+      :style="{ transform: 'translate(' + (width / 2 + 88) + 'px,-50%) rotate(180deg)' }"
     />
     <img src="@img/border_bottom.png" alt="" id="border2" :style="{ width: outerWidth + 23 + 'px' }" />
   </div>

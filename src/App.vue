@@ -6,6 +6,7 @@
       <img src="@img/bg.jpg" alt="" class="bg" />
     </div>
     <div class="screen" id="s0">
+      <video src="@video/1.mp4" autoplay muted></video>
       <h1>电影技术革新</h1>
     </div>
     <div class="screen" id="s1">
@@ -39,10 +40,16 @@
     <div class="screen" id="s2">
       <div class="left"></div>
       <div class="right"></div>
+      <div class="transition" style="right: 60px">
+        <img src="@img/projector1.png" alt="" id="proj1" />
+      </div>
     </div>
     <div class="screen" id="s3">
       <div class="left"></div>
       <div class="right"></div>
+      <div class="transition" style="left: 50px">
+        <img src="@img/projector2.png" alt="" id="proj2" />
+      </div>
     </div>
     <div class="screen" id="s4">
       <div class="left"></div>
@@ -201,7 +208,8 @@ export default {
 
     .left,
     .right {
-      max-width: 40%;
+      width: 40%;
+      max-width: 700px;
       display: flex;
       flex-direction: column;
       align-items: flex-start;
@@ -218,7 +226,7 @@ export default {
     }
 
     .left.hidable.hidden {
-      transform: translate(-80%, 30%) rotate(-30deg);
+      transform: translate(-75%, 30%) rotate(-30deg);
       filter: brightness(0.2);
     }
 
@@ -265,7 +273,7 @@ export default {
     .transition {
       position: absolute;
       top: 0;
-      left: 90px;
+      z-index: 0;
       img {
         transform: translateY(-50%);
       }
@@ -273,12 +281,12 @@ export default {
 
     #proj1 {
       width: 187px;
-      transform: translateY(-40%) rotate(-10deg);
+      transform: translateY(-70%) rotate(10deg);
     }
 
     #proj2 {
       width: 289px;
-      transform: translateY(-40%) rotate(22deg);
+      transform: translateY(-40%) rotate(-18deg);
     }
 
     &#s0 {
@@ -288,6 +296,18 @@ export default {
       align-items: center;
       justify-content: center;
       background-color: var(--darkBG);
+      video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 0;
+      }
+      h1 {
+        z-index: 10;
+        color: #fff;
+      }
     }
   }
 }
