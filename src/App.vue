@@ -7,7 +7,7 @@
     </div>
     <div class="blackbg" :class="{ show: scrolled >= 6.9 }"></div>
     <div class="screen" id="s0">
-      <video src="@video/1.mp4" autoplay muted></video>
+      <video src="@video/1.mp4" autoplay muted playsinline></video>
       <h1>电影技术革新</h1>
     </div>
     <div class="screen" id="s1" ref="screen" @resize="handleResize">
@@ -41,12 +41,11 @@
     </div>
     <div class="screen" id="s2">
       <div class="left">
-        <h2>无声电影</h2>
+        <h2 class="gray">无声电影</h2>
         <p>
-          无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验
-          无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验
-          无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验
-          无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验
+          无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验 无声电影 即没有对白的电影
+          但是会有现场的乐队 讲解员 给观众带来更好的体验 无声电影 即没有对白的电影 但是会有现场的乐队 讲解员
+          给观众带来更好的体验 无声电影 即没有对白的电影 但是会有现场的乐队 讲解员 给观众带来更好的体验
         </p>
         <ClassicButton @click="showDetail[1] = !showDetail[1]">{{
           showDetail[1] ? "返回视频" : "查看更多"
@@ -58,7 +57,9 @@
             :sIndex="1"
             :items="['s2_v1', 's2_v2']"
             :width="600"
-            :outer-width="900"
+            :outer-width="1000"
+            :innerTranslate="-90"
+            style="transform: translateX(-140px)"
             @slideChange="handleSlideChange($event)"
           ></FilmRoll>
           <span class="des" :class="{ hidden: showDetail[1] }">
@@ -79,7 +80,8 @@
             :sIndex="2"
             :items="['s2_v1', 's2_v2']"
             :width="600"
-            :outer-width="900"
+            :outer-width="1000"
+            style="transform: translateX(-120px)"
             @slideChange="handleSlideChange($event)"
           ></FilmRoll>
           <span class="des" :class="{ hidden: showDetail[2] }">
@@ -90,10 +92,12 @@
         </div>
       </div>
       <div class="right">
-        <h2>有声电影</h2>
+        <h3>第一次变革</h3>
+        <h2 class="gray">有声电影</h2>
         <p>
           电影从无声到有声，经历了一个巨大的转变过程。
-          早期的有声电影是用放映机和留声机同时工作来发声的，1926年8月6日，世界第一部有声短片《唐璜》使用 “维他风”Vitaphone唱片重放影片音乐。
+          早期的有声电影是用放映机和留声机同时工作来发声的，1926年8月6日，世界第一部有声短片《唐璜》使用
+          “维他风”Vitaphone唱片重放影片音乐。
           1927年华纳推出《爵士歌王》，不仅有音乐，还加入了一部分对白，被看作是电影史上第一部有声片。
         </p>
         <ClassicButton @click="showDetail[2] = !showDetail[2]">{{
@@ -164,10 +168,10 @@ export default {
     };
   },
   watch: {
-    scrolled(oldVal, newVal) {
-      console.log(`scrolled from ${oldVal} to ${newVal}`);
+    scrolled(newVal) {
+      console.log(newVal);
       this.handleScroll();
-    }
+    },
   },
   mounted() {
     this.screenHeight = this.$refs.screen.getBoundingClientRect().height;
@@ -253,7 +257,7 @@ export default {
     width: 100vw;
     height: 100vh;
     z-index: 0;
-    transition: background-color ease-out 0.7s;
+    transition: background-color linear 1s;
 
     &.show {
       background-color: var(--darkBG);
@@ -290,15 +294,18 @@ export default {
       padding-left: 60px;
 
       .rotate {
-        transform: translate(0%, 0%) rotateZ(-10deg);
-        transform-origin: right bottom;
+        width: 100%;
+        transform: translateY(10%) rotate(-10deg);
+        transform-origin: left bottom;
       }
     }
     .right {
       padding-right: 60px;
 
       .rotate {
-        transform: translate(0%, 0%) rotateZ(10deg);
+        width: 100%;
+        transform: translateY(10%) rotate(6deg);
+        transform-origin: right bottom;
       }
     }
 
@@ -339,6 +346,7 @@ export default {
     h2 {
       font-family: HYZhuZiSuDaHeiW;
       font-size: 60px;
+      margin-top: -14px;
       margin-bottom: 12px;
       line-height: 1.5;
       color: var(--theme);
@@ -349,8 +357,8 @@ export default {
 
     h3 {
       font-family: AaMSXK;
-      font-size: 30px;
-      color: rgb(32, 32, 32);
+      font-size: 24px;
+      color: var(--lightGray);
     }
 
     p {
@@ -361,6 +369,7 @@ export default {
     }
 
     .des {
+      display: block;
       font-size: 20px;
       font-family: AaMSXK;
       line-height: 24px;
@@ -382,16 +391,16 @@ export default {
       img {
         transform: translateY(-50%);
       }
-    }
 
-    #proj1 {
-      width: 187px;
-      transform: translateY(-70%) rotate(10deg);
-    }
+      #proj1 {
+        width: 9vw;
+        transform: translateY(-70%) rotate(10deg);
+      }
 
-    #proj2 {
-      width: 289px;
-      transform: translateY(-40%) rotate(-18deg);
+      #proj2 {
+        width: 14vw;
+        transform: translateY(-60%) rotate(-18deg);
+      }
     }
 
     &.modern {
@@ -417,6 +426,7 @@ export default {
         width: 100%;
         height: 100%;
         z-index: 0;
+        object-fit: cover;
       }
       h1 {
         z-index: 10;

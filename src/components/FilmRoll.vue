@@ -10,16 +10,21 @@
       @slideChange="onSlideChange"
       :observer="true"
       :observeSlideChildren="true"
-      :width="outerWidth + innerTranslate * 2"
+      :width="outerWidth + Math.abs(innerTranslate)"
       :navigation="{
         nextEl: '.btn-right',
         prevEl: '.btn-left',
       }"
     >
-      <swiper-slide v-for="(item, index) in items" :key="index" :style="{ width: width + 'px' }">
+      <swiper-slide
+        v-for="(item, index) in items"
+        :key="index"
+        :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
+      >
         <video
           muted
           controls
+          playsinline
           :src="require('@video/' + item + '.mp4')"
           :style="{ height: height + 'px', width: width + 'px' }"
           :ref="setItemRef"
@@ -30,13 +35,13 @@
       src="@img/navi.svg"
       alt=""
       class="btn-left"
-      :style="{ transform: 'translate(-' + (outerWidth / 2 + 24) + 'px,-50%)' }"
+      :style="{ transform: 'translate(' + btnLeftTranslate + 'px,-50%)' }"
     />
     <img
       src="@img/navi.svg"
       alt=""
       class="btn-right"
-      :style="{ transform: 'translate(' + (width / 2 + 88) + 'px,-50%) rotate(180deg)' }"
+      :style="{ transform: 'translate(' + btnRightTranslate + 'px,-50%) rotate(180deg)' }"
     />
     <img src="@img/border_bottom.png" alt="" id="border2" :style="{ width: outerWidth + 23 + 'px' }" />
   </div>
@@ -72,6 +77,7 @@
 
   .btn-left,
   .btn-right {
+    display: block;
     width: 32px;
     position: absolute;
     z-index: 100;
@@ -114,12 +120,20 @@ export default {
     outerWidth: {
       type: Number,
       default: 1200,
-    }
+    },
   },
   data() {
     return {
       itemRefs: [],
     };
+  },
+  computed: {
+    btnLeftTranslate() {
+      return -this.width / 2 - 80 + this.innerTranslate / 2;
+    },
+    btnRightTranslate() {
+      return this.width / 2 + 48 + this.innerTranslate / 2;
+    },
   },
   methods: {
     setItemRef(el) {
