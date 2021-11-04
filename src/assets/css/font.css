@@ -12,3 +12,9 @@
     font-family: PangMenZhengDao;
     src: url(../font/庞门正道标题体.ttf);
 }
+
+@font-face {
+    font-family: SourceHanSansCN;
+    src: url(../font/SourceHanSansCN-ExtraLight.otf);
+    font-weight: 200;
+}
