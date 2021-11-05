@@ -212,7 +212,7 @@
         </p>
       </div>
     </div>
-    <div class="screen modern" id="s9" @mousewheel="animations9($event)">
+    <div class="screen modern video-section" id="s9" @mousewheel="animations9($event)">
       <h2 style="z-index: 3">What's Next?</h2>
       <div id="the-text">
         <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1202 60">
@@ -302,7 +302,15 @@
           </svg>
         </svg>
       </div>
-      <video src="@video/1.mp4" autoplay muted playsinline loop @pause="videoPlaying = false"></video>
+      <video
+        src="@video/s9.mp4"
+        class="iphone-video"
+        autoplay
+        muted
+        playsinline
+        loop
+        @pause="videoPlaying = false"
+      ></video>
       <span class="flow-text ft-1">杜比影院</span>
       <span class="flow-text ft-2">8K</span>
       <span class="flow-text ft-3">4D</span>
@@ -313,6 +321,11 @@
       <span class="flow-text ft-8">4K</span>
       <span class="flow-text ft-9">巨幕</span>
       <span class="flow-text ft-10">3D</span>
+      <img src="@img/iPhone.png" alt="" class="iphone" />
+      <div class="final-text">
+        但与此同时， <br />手机摄影的发展让电影级别的拍摄变得触手可及。 <br />电影这种大众娱乐，
+        <br />真正回到了大众身边。
+      </div>
     </div>
     <div class="screen modern" id="s10"></div>
     <div class="screen modern" id="s11"></div>
@@ -436,6 +449,24 @@ export default {
         }
         //使用这种方法来禁用滚动
         // this.scrollLock = true;
+      }
+      if (this.scrolled > 10) {
+        let $video = document.querySelector(".iphone-video");
+        let $iphone = document.querySelector(".iphone");
+        $iphone.style.visibility = "visible";
+        let scrolled = this.scrolled - 10;
+        scrolled = (scrolled * 4) / 3;
+        if (scrolled > 1) scrolled = 1;
+        console.log("me" + scrolled);
+        $video.style.width = 540 + (1646 - 540) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled) + "px";
+        $iphone.style.width = 1020 + (3500.5 - 1020) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled) + "px";
+        if (this.scrolled > 11) {
+          scrolled = this.scrolled - 11;
+          scrolled = (scrolled * 4) / 3;
+          if (scrolled > 1) scrolled = 1;
+          $video.style.left = `${35 + (50 - 35) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled)}%`;
+          $iphone.style.left = `${35 + (50 - 35) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled)}%`;
+        }
       }
     },
     animations3() {
@@ -943,9 +974,13 @@ export default {
         filter: blur(0.5px);
       }
       video {
-        height: 100%;
-        width: auto;
+        height: auto;
+        max-width: 1646px;
+        min-width: 540px;
         position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate(-50%, -50%);
         z-index: 1;
       }
       #the-text {
@@ -957,13 +992,39 @@ export default {
         z-index: 10;
         // opacity: 0.5;
       }
+      img {
+        position: absolute;
+        width: 3500.5px;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -45%);
+        z-index: 30;
+        visibility: hidden;
+      }
       .a {
         position: absolute;
         z-index: 2;
         fill: #fff;
       }
+      .final-text {
+        text-align: left;
+        position: absolute;
+        bottom: 0%;
+        right: 0%;
+        width: 597px;
+        height: 502px;
+        z-index: 10;
+        transform: translate(-10%, -45%);
+        font-size: 64px;
+        font-weight: 400;
+        color: #f5f5f5;
+      }
     }
   }
+}
+.video-section {
+  height: 300vh;
+  position: relative;
 }
 @keyframes getin1 {
   to {
