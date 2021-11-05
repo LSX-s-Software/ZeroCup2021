@@ -21,7 +21,7 @@
         </div>
       </transition>
     </div>
-    <div class="screen" id="s1" ref="screen" @resize="handleResize">
+    <div class="screen" id="s1" ref="screen">
       <div class="left hidable" :class="{ hidden: showDetail[0] }">
         <FilmRoll
           :sIndex="0"
@@ -345,15 +345,7 @@
           </svg>
         </svg>
       </div>
-      <video
-        src="@video/s9.mp4"
-        class="iphone-video"
-        autoplay
-        muted
-        playsinline
-        loop
-        @pause="videoPlaying = false"
-      ></video>
+      <video src="@video/s9.mp4" class="iphone-video" autoplay muted playsinline loop></video>
       <span class="flow-text ft-1">杜比影院</span>
       <span class="flow-text ft-2">8K</span>
       <span class="flow-text ft-3">4D</span>
@@ -365,14 +357,19 @@
       <span class="flow-text ft-9">巨幕</span>
       <span class="flow-text ft-10">3D</span>
       <img src="@img/iPhone.png" alt="" class="iphone" />
-      <div class="final-text">
-        但与此同时， <br />手机摄影的发展让电影级别的拍摄变得触手可及。 <br />电影这种大众娱乐，
-        <br />真正回到了大众身边。
-      </div>
     </div>
     <div class="screen modern" id="s10"></div>
     <div class="screen modern" id="s11"></div>
-    <div class="screen modern" id="s12"></div>
+    <div class="screen modern" id="s12">
+      <div class="left compact"></div>
+      <div class="right compact">
+        <p :style="{ opacity: scrolled >= 11.2 ? 1 : 0 }">但与此同时，</p>
+        <p :style="{ opacity: scrolled >= 11.4 ? 1 : 0 }">手机摄影的发展让电影级别的拍摄变得触手可及。</p>
+        <p :style="{ opacity: scrolled >= 11.7 ? 1 : 0 }">电影这种大众娱乐，</p>
+        <p :style="{ opacity: scrolled >= 11.9 ? 1 : 0 }">真正回到了大众身边。</p>
+        <ModernButton class="btn" :style="{ opacity: scrolled >= 12 ? 1 : 0 }">了解如何使用手机拍电影</ModernButton>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -380,7 +377,7 @@
 import ProgressIndicator from "./components/ProgressIndicator.vue";
 import FilmRoll from "./components/FilmRoll.vue";
 import ClassicButton from "./components/ClassicButton.vue";
-// import ModernButton from "./components/ModernButton.vue";
+import ModernButton from "./components/ModernButton.vue";
 
 export default {
   name: "App",
@@ -388,7 +385,7 @@ export default {
     ProgressIndicator,
     FilmRoll,
     ClassicButton,
-    // ModernButton,
+    ModernButton,
   },
   data() {
     return {
@@ -399,6 +396,7 @@ export default {
       videoPlaying: true,
       screenHeight: document.documentElement.clientHeight,
       screenWidth: document.documentElement.clientWidth,
+      resizeTimeout: null,
       showDetail: [false, false, false, false, false, 0],
       swiperIndex: [0, 0, 0, 0],
       showGame: [false, false],
@@ -427,6 +425,12 @@ export default {
   mounted() {
     window.addEventListener("scroll", () => {
       this.scrolled = window.scrollY / this.screenHeight;
+    });
+    window.addEventListener("resize", () => {
+      if (this.resizeTimeout != null) {
+        clearTimeout(this.resizeTimeout);
+      }
+      this.resizeTimeout = setTimeout(this.handleResize, 500);
     });
   },
   methods: {
@@ -463,7 +467,7 @@ export default {
           this.clip = 0;
         }
         this.animations3();
-      } else if (scrolled > 8) {
+      } else if (scrolled <= 9) {
         let i = 1;
         for (let flowText of flowTexts) {
           flowText.style.animationName = `getin${i}`;
@@ -486,14 +490,11 @@ export default {
             flowText.style.visibility = "visible";
           }
         }
-
         if (scrolled >= 0.95) {
           $theText.style.opacity = (1 - scrolled) / 0.05;
         } else {
           $theText.style.opacity = 1;
         }
-        //使用这种方法来禁用滚动
-        // this.scrollLock = true;
       }
       if (this.scrolled > 10) {
         let $video = document.querySelector(".iphone-video");
@@ -502,15 +503,15 @@ export default {
         let scrolled = this.scrolled - 10;
         scrolled = (scrolled * 4) / 3;
         if (scrolled > 1) scrolled = 1;
-        console.log("me" + scrolled);
-        $video.style.width = 540 + (1646 - 540) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled) + "px";
-        $iphone.style.width = 1020 + (3500.5 - 1020) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled) + "px";
+        // console.log("me" + scrolled);
+        $video.style.width = 540 + (1920 - 540) * Math.pow(1 - scrolled, 3) + "px";
+        $iphone.style.width = 1020 + (3700 - 1020) * Math.pow(1 - scrolled, 3) + "px";
         if (this.scrolled > 11) {
           scrolled = this.scrolled - 11;
           scrolled = (scrolled * 4) / 3;
           if (scrolled > 1) scrolled = 1;
-          $video.style.left = `${35 + (50 - 35) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled)}%`;
-          $iphone.style.left = `${35 + (50 - 35) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled)}%`;
+          $video.style.left = `${35 + (50 - 35) * Math.pow(1 - scrolled, 3)}%`;
+          $iphone.style.left = `${35 + (50 - 35) * Math.pow(1 - scrolled, 3)}%`;
         }
       }
     },
@@ -646,7 +647,7 @@ export default {
     height: 100vh;
     min-height: 768px;
     box-sizing: border-box;
-    border: 1px solid aqua; // 仅供定位使用
+    // border: 1px solid aqua; // 仅供定位使用
     display: flex;
     align-items: stretch;
     justify-content: space-between;
@@ -987,6 +988,7 @@ export default {
       justify-content: center;
       position: sticky;
       top: 0;
+      overflow: hidden;
       h2 {
         font-size: 80px;
         line-height: 100px;
@@ -1090,7 +1092,7 @@ export default {
       }
       video {
         height: auto;
-        max-width: 1646px;
+        max-width: 1920px;
         min-width: 540px;
         position: absolute;
         left: 50%;
@@ -1121,18 +1123,22 @@ export default {
         z-index: 2;
         fill: #fff;
       }
-      .final-text {
-        text-align: left;
-        position: absolute;
-        bottom: 0%;
-        right: 0%;
-        width: 597px;
-        height: 502px;
-        z-index: 10;
-        transform: translate(-10%, -45%);
-        font-size: 64px;
-        font-weight: 400;
-        color: #f5f5f5;
+    }
+
+    &#s12 {
+      .right {
+        max-width: 612px;
+        p {
+          text-align: left;
+          font-size: 64px;
+          color: var(--lightText);
+          line-height: 70px;
+          margin: 8px;
+        }
+        p,
+        .btn {
+          transition: opacity ease-out 0.5s;
+        }
       }
     }
   }

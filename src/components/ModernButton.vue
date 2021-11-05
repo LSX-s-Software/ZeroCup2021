@@ -10,10 +10,10 @@
 .btn {
   display: inline-block;
   font-family: PangMenZhengDao;
-  padding: 20px 32px;
+  padding: 16px 28px;
   background: var(--mediumGray);
   border-radius: 35px;
-  font-size: 30px;
+  font-size: 25px;
   white-space: nowrap;
   margin-top: 20px;
   cursor: pointer;
