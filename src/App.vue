@@ -13,7 +13,13 @@
     <div class="blackbg" :class="{ show: scrolled >= 7 }"></div>
     <div class="screen" id="s0">
       <video src="@video/1.mp4" autoplay muted playsinline @pause="videoPlaying = false"></video>
-      <img src="@img/title.jpg" alt="" v-if="!videoPlaying" />
+      <img src="@img/title.jpg" alt="" v-if="!videoPlaying" id="title" />
+      <transition>
+        <div class="prompt" v-if="!videoPlaying">
+          <span>向下滑动来了解</span>
+          <img src="@img/down.svg" />
+        </div>
+      </transition>
     </div>
     <div class="screen" id="s1" ref="screen" @resize="handleResize">
       <div class="left hidable" :class="{ hidden: showDetail[0] }">
@@ -186,30 +192,67 @@
     <div class="screen modern" id="s8">
       <div class="left compact">
         <img src="@img/computer.png" alt="" />
-        <div class="content">这里可以加内容</div>
+        <div class="content">
+          <!-- 在这里写第二个游戏 -->
+          <div class="controls" v-if="showDetail[5] == 2">
+            <img src="@img/video.png" alt="" />
+            <img src="@img/ps.png" alt="" />
+          </div>
+        </div>
       </div>
       <div class="right compact">
         <input type="radio" name="digitech" id="projection" value="0" v-model="showDetail[5]" checked />
         <label for="projection">数字放映技术</label>
-        <p v-if="showDetail[5] == 0">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae animi voluptatem voluptate inventore quod harum
-          voluptatibus enim illo, saepe quaerat perferendis quas beatae delectus corporis in quae. Culpa, voluptatum
-          ipsum.
-        </p>
+        <div v-if="showDetail[5] == 0">
+          <p>
+            索尼公司在1980年代开始推广“电子电影摄影“的概念，这项工作收效甚微。但这早就了最早的高清视频拍摄故事片之一——Julia和Julia(1987)。
+          </p>
+          <p>
+            《彩虹》(1996)是世界上第一部使用广泛数字后期制作技术的电影。它完全使用索尼的首台电子电影摄像机拍摄，并具有超过35分钟的数字图像处理和视觉效果，所有后期制作、音效和编辑都以数字方式完成，最后通过电子束记录仪将数字高清图像传输到35mm胶片中进行播放。
+          </p>
+          <p>
+            《最后的广播》(1998)被认为是第一个完全在消费级数字设备上进行拍摄和编辑的电影，而且它被传输到5个美国城市的电影院并首次使用了“国际数字放映机”公司DPI制造的DLP数字电影放映机进行了放映，成为首部进行数字播放的电影之一，开拓了一条胶片拷贝以外的电影播映方式。
+          </p>
+        </div>
         <input type="radio" name="digitech" id="cg" value="1" v-model="showDetail[5]" />
-        <label for="cg">计算机图形</label>
-        <p v-if="showDetail[5] == 1">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae animi voluptatem voluptate inventore quod harum
-          voluptatibus enim illo, saepe quaerat perferendis quas beatae delectus corporis in quae. Culpa, voluptatum
-          ipsum.
-        </p>
+        <label for="cg">计算机生成影像</label>
+        <div v-if="showDetail[5] == 1">
+          <p>
+            计算机生成影像技术是完全由计算机创造出影像的计算机生成图像技术，简称CGI，即利用计算机软件创造出模拟真实场景的三维空间或电影虚拟人物，也可以对真实拍摄到的空间环境进行改进、描绘。这一技术是数字化的代表。
+          </p>
+          <p>
+            世界上第一部完全用计算机动画制作的电影《玩具总动员》突破了数字技术在电影业中的运用限制，给电影制作开辟了一条全新的道路。2010年的《阿凡达》让我们感受到了CG在质上的飞跃。如今影视特效、3D动画制作与3D游戏制作已成为CG领域发展的前沿。
+          </p>
+        </div>
         <input type="radio" name="digitech" id="processing" value="2" v-model="showDetail[5]" />
-        <label for="processing">数字图像处理</label>
-        <p v-if="showDetail[5] == 2">
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae animi voluptatem voluptate inventore quod harum
-          voluptatibus enim illo, saepe quaerat perferendis quas beatae delectus corporis in quae. Culpa, voluptatum
-          ipsum.
-        </p>
+        <label for="processing">数字影像处理</label>
+        <div v-if="showDetail[5] == 2">
+          <p>
+            数字影像合成技术，是指将两个或更多的影像利用计算机图形图像学原理和方法进行叠加或组合处理，是目前拍摄数字化电影最重要的后期制作方法。
+          </p>
+          <p>
+            蓝幕和绿幕技术就是其中的代表。演员在蓝幕、绿幕前表演，由摄影机拍摄下来，画面在电脑中处理，处理掉背景的蓝色或绿色，换上其他背景。
+          </p>
+          <p style="color: var(--lightGray); font-size: 20px">
+            <svg
+              t="1632058305684"
+              viewBox="0 0 1024 1024"
+              version="1.1"
+              xmlns="http://www.w3.org/2000/svg"
+              p-id="5211"
+              width="16"
+              height="16"
+              style="transform: rotate(180deg)"
+            >
+              <path
+                d="M686 593.3s-372.6 0.1-541.8 0.1c-44.3 0-80.2-36-80.2-80.2 0-44.3 35.9-80.2 80.2-80.2 141.9 0 541.5-0.1 541.5-0.1S658.8 405.8 535.1 282c-31.4-31.3-31.4-82.1 0-113.5s82.2-31.4 113.5 0l288 288c31.3 31.4 31.3 82.1 0 113.5 0 0-161.9 161.9-285.6 285.7-31.4 31.4-82.1 31.4-113.5 0-31.4-31.4-31.4-82.1 0-113.5C637.8 641.7 686 593.3 686 593.3z"
+                p-id="5212"
+                fill="var(--lightGray)"
+              ></path>
+            </svg>
+            点击Dock栏右侧的图标体验一下
+          </p>
+        </div>
       </div>
     </div>
     <div class="screen modern video-section" id="s9" @mousewheel="animations9($event)">
@@ -337,6 +380,7 @@
 import ProgressIndicator from "./components/ProgressIndicator.vue";
 import FilmRoll from "./components/FilmRoll.vue";
 import ClassicButton from "./components/ClassicButton.vue";
+// import ModernButton from "./components/ModernButton.vue";
 
 export default {
   name: "App",
@@ -344,6 +388,7 @@ export default {
     ProgressIndicator,
     FilmRoll,
     ClassicButton,
+    // ModernButton,
   },
   data() {
     return {
@@ -741,7 +786,8 @@ export default {
       max-height: unset;
       background-color: var(--darkBG);
       overflow: hidden;
-      video {
+      video,
+      #title {
         position: absolute;
         top: 0;
         left: 0;
@@ -750,9 +796,50 @@ export default {
         z-index: 0;
         object-fit: cover;
       }
-      h1 {
+      #title {
         z-index: 10;
-        color: #fff;
+      }
+      .prompt {
+        position: absolute;
+        margin: 1rem 0;
+        bottom: 0;
+        font-size: 1rem;
+        text-align: center;
+        // display: none;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        animation: move ease 6s infinite;
+
+        span {
+          color: var(--lightText);
+          margin: 0.5rem;
+          font-size: 0.9rem;
+          letter-spacing: 2px;
+        }
+
+        img {
+          width: 5.75rem;
+        }
+
+        @keyframes move {
+          10%,
+          50% {
+            bottom: 0px;
+            opacity: 1;
+          }
+          85% {
+            bottom: 50px;
+            opacity: 0;
+          }
+          100% {
+            bottom: 0px;
+            opacity: 0;
+          }
+        }
       }
     }
 
@@ -816,19 +903,45 @@ export default {
         position: relative;
         width: 126.27vh;
         max-width: unset;
-        img {
+        & > img {
           position: absolute;
           right: 0;
           bottom: 0;
-          height: 90%;
+          height: 83.33%;
         }
         .content {
           position: absolute;
           right: 0.9%;
-          top: 11.5%;
-          width: 86.5%;
-          height: 66.8%;
-          background-color: var(--darkBG);
+          top: 18.15%;
+          width: 87%;
+          height: 61.6%;
+          background: linear-gradient(to left, #8a2387, #e94057, #f27121);
+          .controls {
+            position: absolute;
+            bottom: 12px;
+            padding: 12px 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(242, 242, 242, 0.4);
+            border-radius: 20px;
+            backdrop-filter: blur(20px); /*no*/
+            -webkit-backdrop-filter: blur(20px); /*no*/
+            display: flex;
+            align-items: center;
+            justify-content: space-evenly;
+            gap: 32px;
+            opacity: 0;
+            transition: opacity ease-out 0.3s;
+            img {
+              width: 32px;
+              height: 32px;
+              object-fit: contain;
+              cursor: pointer;
+            }
+          }
+          &:hover .controls {
+            opacity: 1;
+          }
         }
       }
       .right {
@@ -836,10 +949,12 @@ export default {
         padding: 0 60px;
         align-items: center;
 
-        p {
+        div {
           margin-top: 20px;
-          font-size: 24px;
-          line-height: 33px;
+          p {
+            font-size: 24px;
+            line-height: 33px;
+          }
         }
       }
 
