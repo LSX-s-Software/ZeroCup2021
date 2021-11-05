@@ -8,6 +8,7 @@
     <div class="bg-container">
       <img src="@img/bg.jpg" alt="" class="bg" />
       <img src="@img/bg.jpg" alt="" class="bg" />
+      <img src="@img/bg.jpg" alt="" class="bg" />
     </div>
     <div class="blackbg" :class="{ show: scrolled >= 7 }"></div>
     <div class="screen" id="s0">
@@ -70,7 +71,7 @@
     </div>
     <div class="screen" id="s3">
       <div class="left hidable" :class="{ hidden: showDetail[2] }">
-        <div class="rotate">
+        <div class="rotate" v-if="!s3rollStyle.fixed">
           <FilmRoll
             :sIndex="2"
             :items="['s3_v0', 's3_v1']"
@@ -82,6 +83,34 @@
           <span class="des" :class="{ hidden: showDetail[2] }">
             {{ description[`s3_v${swiperIndex[2]}`] || "缺少介绍" }}
           </span>
+        </div>
+        <!-- 可移动的部分 -->
+        <div
+          v-else
+          class="rotate"
+          @mousewheel="animations4($event)"
+          :style="{
+            position: s3rollStyle.fixed ? 'fixed' : 'relative',
+            left: s3rollStyle.left + 'px',
+            top: s3rollStyle.top + 'px',
+            width: s3rollStyle.fixed ? 'unset' : '100%',
+            transform: `translateY(${s3rollStyle.translateY}%) rotate(${s3rollStyle.rotate}deg) scale(${s3rollStyle.scale})`,
+            transformOrigin: s3rollStyle.fixed ? 'center center' : '',
+          }"
+        >
+          <FilmRoll
+            :sIndex="2"
+            :items="['s3_v0', 's3_v1']"
+            :dualContent="true"
+            :extraItems="['s3_v0', 's3_v1']"
+            :clip="clip"
+            :width="s3rollStyle.width"
+            :height="s3rollStyle.height"
+            :outer-width="s3rollStyle.outerWidth"
+            :innerTranslate="s3rollStyle.innerTranslate"
+            :style="{ transform: 'translateX(' + s3rollStyle.translateX + 'px)' }"
+            @slideChange="handleSlideChange($event)"
+          ></FilmRoll>
         </div>
       </div>
       <div class="right">
@@ -101,27 +130,51 @@
         <img src="@img/projector2.png" alt="" id="proj2" />
       </div>
     </div>
-    <div class="screen" id="s4">
+    <div
+      class="screen"
+      id="s4"
+      @mousewheel="animations4($event)"
+      :style="{ position: scrolled <= 6 ? 'sticky' : '', paddingBottom: Math.min(scrolled - 4, 1) * 75 + 'px' }"
+    >
+      <h3>第二次变革</h3>
+      <h2 :class="{ gray: wheelDelta <= this.screenHeight * 0.95 }">黑白到彩色</h2>
+    </div>
+    <div class="screen" id="s5" :style="{ position: scrolled <= 6 ? 'sticky' : '' }">
       <div class="left">
-        <FilmRoll
-          :sIndex="3"
-          :items="['s3_v0']"
-          :width="889"
-          :outer-width="1000"
-          :inner-translate="10"
-          :height="500"
-          @slideChange="handleSlideChange($event)"
-        ></FilmRoll>
+        <h3 :style="{ color: scrolled <= 5.5 ? '' : 'var(--darkText)' }">第一阶段</h3>
+        <p>
+          第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。
+        </p>
+        <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
+          showDetail[3] ? "返回视频" : "查看更多"
+        }}</ClassicButton>
       </div>
-      <!-- <div class="right"></div> -->
-    </div>
-    <div class="screen" id="s5">
-      <div class="left"></div>
+      <div class="placeholder"></div>
       <div class="right"></div>
     </div>
-    <div class="screen" id="s6">
-      <div class="left"></div>
-      <div class="right"></div>
+    <div class="screen" id="s6" :style="{ position: scrolled <= 6 ? 'sticky' : '' }">
+      <div class="left" :style="{ opacity: scrolled <= 6 ? 0 : 1 }">
+        <h3 style="color: var(--darkText)">第一阶段</h3>
+        <p>
+          第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。
+        </p>
+        <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
+          showDetail[3] ? "返回视频" : "查看更多"
+        }}</ClassicButton>
+      </div>
+      <div class="placeholder" :style="{ opacity: scrolled <= 6 ? 0 : 1 }">
+        <h3>第二次变革</h3>
+        <h2>黑白到彩色</h2>
+      </div>
+      <div class="right">
+        <h3>第二阶段</h3>
+        <p>
+          第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。
+        </p>
+        <ClassicButton @click="showDetail[4] = !showDetail[4]">{{
+          showDetail[4] ? "返回视频" : "查看更多"
+        }}</ClassicButton>
+      </div>
     </div>
     <!-- “数字化”部分 -->
     <div class="screen modern" id="s7" :style="{ position: scrolled >= 8 ? 'relative' : 'sticky' }">
@@ -136,23 +189,23 @@
         <div class="content">这里可以加内容</div>
       </div>
       <div class="right compact">
-        <input type="radio" name="digitech" id="projection" value="0" v-model="showDetail[4]" checked />
+        <input type="radio" name="digitech" id="projection" value="0" v-model="showDetail[5]" checked />
         <label for="projection">数字放映技术</label>
-        <p v-if="showDetail[4] == 0">
+        <p v-if="showDetail[5] == 0">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae animi voluptatem voluptate inventore quod harum
           voluptatibus enim illo, saepe quaerat perferendis quas beatae delectus corporis in quae. Culpa, voluptatum
           ipsum.
         </p>
-        <input type="radio" name="digitech" id="cg" value="1" v-model="showDetail[4]" />
+        <input type="radio" name="digitech" id="cg" value="1" v-model="showDetail[5]" />
         <label for="cg">计算机图形</label>
-        <p v-if="showDetail[4] == 1">
+        <p v-if="showDetail[5] == 1">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae animi voluptatem voluptate inventore quod harum
           voluptatibus enim illo, saepe quaerat perferendis quas beatae delectus corporis in quae. Culpa, voluptatum
           ipsum.
         </p>
-        <input type="radio" name="digitech" id="processing" value="2" v-model="showDetail[4]" />
+        <input type="radio" name="digitech" id="processing" value="2" v-model="showDetail[5]" />
         <label for="processing">数字图像处理</label>
-        <p v-if="showDetail[4] == 2">
+        <p v-if="showDetail[5] == 2">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Vitae animi voluptatem voluptate inventore quod harum
           voluptatibus enim illo, saepe quaerat perferendis quas beatae delectus corporis in quae. Culpa, voluptatum
           ipsum.
@@ -283,12 +336,28 @@ export default {
     return {
       scrolled: 0,
       scrollLock: false,
+      wheelDelta: 0,
+      clip: 0,
       videoPlaying: true,
       screenHeight: document.documentElement.clientHeight,
-      showDetail: [false, false, false, false, 0],
+      screenWidth: document.documentElement.clientWidth,
+      showDetail: [false, false, false, false, false, 0],
       swiperIndex: [0, 0, 0, 0],
       showGame: [false, false],
       description: require("./assets/description.json"),
+      s3rollStyle: {
+        fixed: false,
+        left: 0,
+        top: 0,
+        width: 600,
+        outerWidth: 1000,
+        height: 450,
+        translateX: -120,
+        translateY: 10,
+        rotate: -10,
+        innerTranslate: 50,
+        scale: 1,
+      },
     };
   },
   watch: {
@@ -299,14 +368,13 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", () => {
-      if (!this.scrollLock) {
-        this.scrolled = window.scrollY / this.screenHeight;
-      }
+      this.scrolled = window.scrollY / this.screenHeight;
     });
   },
   methods: {
     handleResize() {
       this.screenHeight = document.documentElement.clientHeight;
+      this.screenWidth = document.documentElement.clientWidth;
     },
     handleSlideChange(e) {
       console.log(e);
@@ -314,7 +382,30 @@ export default {
     },
     handleScroll(scrolled) {
       let flowTexts = document.querySelectorAll(".flow-text");
-      if (scrolled > 8) {
+      if (scrolled <= 3) {
+        if (this.s3rollStyle.fixed) {
+          this.s3rollStyle = {
+            fixed: false,
+            left: 0,
+            top: 180,
+            width: 600,
+            outerWidth: 1000,
+            height: 450,
+            translateX: -120,
+            translateY: 10,
+            rotate: -10,
+            innerTranslate: 50,
+            scale: 1,
+          };
+        }
+      } else if (scrolled <= 8) {
+        if (scrolled >= 4 && this.wheelDelta <= this.screenHeight) {
+          this.scrollLock = true;
+          this.wheelDelta = 0;
+          this.clip = 0;
+        }
+        this.animations3();
+      } else if (scrolled > 8) {
         let i = 1;
         for (let flowText of flowTexts) {
           flowText.style.animationName = `getin${i}`;
@@ -345,6 +436,42 @@ export default {
         }
         //使用这种方法来禁用滚动
         // this.scrollLock = true;
+      }
+    },
+    animations3() {
+      if (this.scrolled <= 6) {
+        let percent1 = this.scrolled >= 4 ? 1 : this.scrolled - 3;
+        let percent2 = Math.max(0, Math.min(this.scrolled - 4, 1));
+        this.s3rollStyle = {
+          outerWidth: 1000 + 200 * percent1,
+          left: ((this.screenWidth - 1200) / 2) * percent1,
+          top: 180 - 105 * percent1,
+          width: 600 + 360 * percent1,
+          height: 450 + 270 * percent1,
+          rotate: -10 + 10 * percent1,
+          fixed: true,
+          translateX: -120 + 120 * percent1,
+          translateY: -10 + 10 * percent1,
+          innerTranslate: 50 - 50 * percent1,
+          scale: 1 - 0.2 * percent2,
+        };
+      } else if (this.scrolled <= 7) {
+        this.s3rollStyle.top = 75 - (window.scrollY - this.screenHeight * 6);
+      }
+    },
+    animations4(e) {
+      if (this.scrollLock) {
+        e.preventDefault();
+        this.wheelDelta += e.deltaY;
+        let percent = this.wheelDelta / this.screenHeight;
+        console.log(percent);
+        this.clip = percent / 0.95;
+        if (percent < 0 || percent >= 1) {
+          this.scrollLock = false;
+          if (percent < 0) {
+            this.clip = 0;
+          }
+        }
       }
     },
     animations9(e) {
@@ -441,7 +568,6 @@ export default {
     position: relative;
     width: 100%;
     height: 100vh;
-    max-height: 1000px;
     min-height: 768px;
     box-sizing: border-box;
     border: 1px solid aqua; // 仅供定位使用
@@ -458,6 +584,7 @@ export default {
         width: 100%;
         transform: translateY(10%) rotate(-10deg);
         transform-origin: left bottom;
+        z-index: 10;
       }
     }
     .right {
@@ -595,6 +722,48 @@ export default {
       h1 {
         z-index: 10;
         color: #fff;
+      }
+    }
+
+    &#s4 {
+      top: 0;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-end;
+
+      h2 {
+        transition: color linear 0.3s;
+      }
+    }
+
+    &#s5,
+    &#s6 {
+      // position: sticky;
+      top: 0;
+      .placeholder {
+        width: 960px; /*no*/
+        padding-bottom: 75px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: flex-end;
+      }
+      .left,
+      .right {
+        flex: 1;
+        align-items: center;
+        h3 {
+          font-size: 40px;
+          color: var(--theme);
+          font-family: HYZhuZiSuDaHeiW;
+          transition: color linear 0.3s;
+        }
+      }
+      .left {
+        padding: 0 32px 0 0;
+      }
+      .right {
+        padding: 0 0 0 32px;
       }
     }
 
