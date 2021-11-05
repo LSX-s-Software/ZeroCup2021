@@ -30,6 +30,12 @@
           :style="{ height: height + 'px', width: width + 'px' }"
           :ref="setItemRef"
         ></video>
+        <img
+          v-if="dualContent"
+          :src="require('@video/' + extraItems[index] + '.png')"
+          alt=""
+          :style="{ clip: `rect(0px,${width}px,${height * clip}px,0px)` }"
+        />
       </swiper-slide>
       <swiper-slide
         v-if="items.length == 1"
@@ -85,9 +91,16 @@
 
     video,
     img {
+      width: 100%;
+      height: 100%;
       border-radius: 15px;
       overflow: hidden;
       object-fit: cover;
+    }
+    img {
+      position: absolute;
+      top: 0;
+      left: 0;
     }
   }
 
@@ -119,6 +132,15 @@ export default {
   },
   emits: ["slideChange"],
   props: {
+    dualContent: {
+      //一个slide多个内容
+      type: Boolean,
+      default: false,
+    },
+    clip: {
+      type: Number,
+      default: 0,
+    },
     sIndex: Number, //用于识别是哪一个组件实例
     height: {
       type: Number,
@@ -129,6 +151,7 @@ export default {
       default: 800,
     },
     items: Array,
+    extraItems: Array,
     innerTranslate: {
       type: Number,
       default: 50,

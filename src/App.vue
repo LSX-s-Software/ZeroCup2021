@@ -71,8 +71,24 @@
     </div>
     <div class="screen" id="s3">
       <div class="left hidable" :class="{ hidden: showDetail[2] }">
+        <div class="rotate" v-if="!s3rollStyle.fixed">
+          <FilmRoll
+            :sIndex="2"
+            :items="['s3_v0', 's3_v1']"
+            :width="600"
+            :outer-width="1000"
+            style="transform: translateX(-120px)"
+            @slideChange="handleSlideChange($event)"
+          ></FilmRoll>
+          <span class="des" :class="{ hidden: showDetail[2] }">
+            {{ description[`s3_v${swiperIndex[2]}`] || "缺少介绍" }}
+          </span>
+        </div>
+        <!-- 可移动的部分 -->
         <div
+          v-else
           class="rotate"
+          @mousewheel="animations4($event)"
           :style="{
             position: s3rollStyle.fixed ? 'fixed' : 'relative',
             left: s3rollStyle.left + 'px',
@@ -85,6 +101,9 @@
           <FilmRoll
             :sIndex="2"
             :items="['s3_v0', 's3_v1']"
+            :dualContent="true"
+            :extraItems="['s3_v0', 's3_v1']"
+            :clip="clip"
             :width="s3rollStyle.width"
             :height="s3rollStyle.height"
             :outer-width="s3rollStyle.outerWidth"
@@ -92,9 +111,6 @@
             :style="{ transform: 'translateX(' + s3rollStyle.translateX + 'px)' }"
             @slideChange="handleSlideChange($event)"
           ></FilmRoll>
-          <span class="des" :class="{ hidden: showDetail[2] }" v-if="!s3rollStyle.fixed">
-            {{ description[`s3_v${swiperIndex[2]}`] || "缺少介绍" }}
-          </span>
         </div>
       </div>
       <div class="right">
@@ -117,10 +133,11 @@
     <div
       class="screen"
       id="s4"
+      @mousewheel="animations4($event)"
       :style="{ position: scrolled <= 6 ? 'sticky' : '', paddingBottom: Math.min(scrolled - 4, 1) * 75 + 'px' }"
     >
       <h3>第二次变革</h3>
-      <h2 :class="{ gray: scrolled < 4.8 }">黑白到彩色</h2>
+      <h2 :class="{ gray: wheelDelta <= this.screenHeight * 0.95 }">黑白到彩色</h2>
     </div>
     <div class="screen" id="s5" :style="{ position: scrolled <= 6 ? 'sticky' : '' }">
       <div class="left">
@@ -229,6 +246,8 @@ export default {
     return {
       scrolled: 0,
       scrollLock: false,
+      wheelDelta: 0,
+      clip: 0,
       videoPlaying: true,
       screenHeight: document.documentElement.clientHeight,
       screenWidth: document.documentElement.clientWidth,
@@ -249,7 +268,6 @@ export default {
         innerTranslate: 50,
         scale: 1,
       },
-      s5s6fixed: false,
     };
   },
   watch: {
@@ -260,9 +278,7 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", () => {
-      if (!this.scrollLock) {
-        this.scrolled = window.scrollY / this.screenHeight;
-      }
+      this.scrolled = window.scrollY / this.screenHeight;
     });
   },
   methods: {
@@ -293,7 +309,12 @@ export default {
           };
         }
       } else if (scrolled <= 8) {
-        this.animations4();
+        if (scrolled >= 4 && this.wheelDelta <= this.screenHeight) {
+          this.scrollLock = true;
+          this.wheelDelta = 0;
+          this.clip = 0;
+        }
+        this.animations3();
       } else if (scrolled > 8) {
         let i = 1;
         for (let flowText of flowTexts) {
@@ -302,7 +323,7 @@ export default {
         }
       }
     },
-    animations4() {
+    animations3() {
       if (this.scrolled <= 6) {
         let percent1 = this.scrolled >= 4 ? 1 : this.scrolled - 3;
         let percent2 = Math.max(0, Math.min(this.scrolled - 4, 1));
@@ -321,6 +342,21 @@ export default {
         };
       } else if (this.scrolled <= 7) {
         this.s3rollStyle.top = 75 - (window.scrollY - this.screenHeight * 6);
+      }
+    },
+    animations4(e) {
+      if (this.scrollLock) {
+        e.preventDefault();
+        this.wheelDelta += e.deltaY;
+        let percent = this.wheelDelta / this.screenHeight;
+        console.log(percent);
+        this.clip = percent / 0.95;
+        if (percent < 0 || percent >= 1) {
+          this.scrollLock = false;
+          if (percent < 0) {
+            this.clip = 0;
+          }
+        }
       }
     },
     animations9(e) {
