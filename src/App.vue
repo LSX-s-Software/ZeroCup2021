@@ -22,10 +22,11 @@
       </transition>
     </div>
     <div class="screen" id="s1" ref="screen" @resize="handleResize">
-      <div class="left hidable" :class="{ hidden: showDetail[0] }">
+      <div class="left">
         <FilmRoll
           :sIndex="0"
           :items="['s1_v0', 's1_v1', 's1_v2', 's1_v3']"
+          :show-detail="showDetail[0]"
           :width="600"
           :outer-width="900"
           style="transform: translateX(-120px)"
@@ -58,11 +59,12 @@
           showDetail[1] ? "返回视频" : "查看更多"
         }}</ClassicButton>
       </div>
-      <div class="right hidable" :class="{ hidden: showDetail[1] }">
-        <div class="rotate">
+      <div class="right">
+        <div class="rotatable" :class="{ rotate: !showDetail[1] }">
           <FilmRoll
             :sIndex="1"
             :items="['s2_v0']"
+            :show-detail="showDetail[1]"
             :width="600"
             :outer-width="1000"
             :innerTranslate="-90"
@@ -76,11 +78,12 @@
       </div>
     </div>
     <div class="screen" id="s3">
-      <div class="left hidable" :class="{ hidden: showDetail[2] }">
-        <div class="rotate" v-if="!s3rollStyle.fixed">
+      <div class="left">
+        <div class="rotatable" :class="{ rotate: !showDetail[2] }" v-if="!s3rollStyle.fixed">
           <FilmRoll
             :sIndex="2"
             :items="['s3_v0', 's3_v1']"
+            :show-detail="showDetail[2]"
             :width="600"
             :outer-width="1000"
             style="transform: translateX(-120px)"
@@ -653,26 +656,6 @@ export default {
     padding: 0 60px;
     font-family: AaMSXK;
 
-    .left {
-      padding-left: 60px;
-
-      .rotate {
-        width: 100%;
-        transform: translateY(10%) rotate(-10deg);
-        transform-origin: left bottom;
-        z-index: 10;
-      }
-    }
-    .right {
-      padding-right: 60px;
-
-      .rotate {
-        width: 100%;
-        transform: translateY(10%) rotate(6deg);
-        transform-origin: right bottom;
-      }
-    }
-
     .left,
     .right {
       width: 40%;
@@ -686,11 +669,36 @@ export default {
         padding: 0;
       }
 
-      &.hidable {
-        transform-origin: bottom left;
-        transition: transform ease 0.5s, filter ease-out 0.4s;
+      .rotatable {
+        transition: transform ease 0.5s;
       }
     }
+
+    .left {
+      padding-left: 60px;
+      
+      .rotatable {
+        transform-origin: left bottom;
+      }
+
+      .rotate {
+        transform: translateY(10%) rotate(-10deg);
+        z-index: 10;
+      }
+    }
+    .right {
+      padding-right: 60px;
+
+      .rotatable {
+        transform-origin: right bottom;
+      }
+
+      .rotate {
+        transform: translateY(10%) rotate(6deg);
+        z-index: 10;
+      }
+    }
+
 
     .left.hidable.hidden {
       transform: translate(-75%, 30%) rotate(-30deg);

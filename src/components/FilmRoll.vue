@@ -16,26 +16,32 @@
         prevEl: '.btn-left',
       }"
       :allowTouchMove="items.length > 1"
+      :style="{ height: height + 'px' }"
     >
       <swiper-slide
         v-for="(item, index) in items"
         :key="index"
         :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
       >
-        <video
-          muted
-          controls
-          playsinline
-          :src="require('@video/' + item + '.mp4')"
-          :style="{ height: height + 'px', width: width + 'px' }"
-          :ref="setItemRef"
-        ></video>
-        <img
-          v-if="dualContent"
-          :src="require('@video/' + extraItems[index] + '.png')"
-          alt=""
-          :style="{ clip: `rect(0px,${width}px,${height * clip}px,0px)` }"
-        />
+        <div :class="{ hidden: showDetail }" style="transition: opacity 0.3s ease-out">
+          <video
+            muted
+            controls
+            playsinline
+            :src="require('@video/' + item + '.mp4')"
+            :style="{ height: height + 'px', width: width + 'px' }"
+            :ref="setItemRef"
+          ></video>
+          <img
+            v-if="dualContent"
+            :src="require('@video/' + extraItems[index] + '.png')"
+            alt=""
+            :style="{ clip: `rect(0px,${width}px,${height * clip}px,0px)` }"
+          />
+        </div>
+        <span class="detail" :class="{ hidden: !showDetail }">
+          {{ description[item] || "缺少介绍" }}
+        </span>
       </swiper-slide>
       <swiper-slide
         v-if="items.length == 1"
@@ -89,6 +95,10 @@
   .swiper {
     background-color: rgba(0, 0, 0, 0.8);
 
+    .hidden {
+      opacity: 0;
+    }
+
     video,
     img {
       width: 100%;
@@ -101,6 +111,19 @@
       position: absolute;
       top: 0;
       left: 0;
+    }
+
+    .detail {
+      position: absolute;
+      top: 0;
+      display: block;
+      font-size: 28px;
+      font-family: AaMSXK;
+      line-height: 36px;
+      color: var(--lightText);
+      margin-top: 20px;
+      max-width: 750px;
+      transition: opacity 0.3s;
     }
   }
 
@@ -160,10 +183,15 @@ export default {
       type: Number,
       default: 1200,
     },
+    showDetail: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       itemRefs: [],
+      description: require("../assets/description.json"),
     };
   },
   computed: {
