@@ -444,7 +444,7 @@ export default {
         innerTranslate: 50,
         scale: 1,
       },
-      s8video: ["The Last Broadcast Trailer", "Toy Story 1  Trailer", "Avatar"],
+      s8video: ["The Last Broadcast Trailer", "Toy Story 1  Trailer", "green screen"],
     };
   },
   watch: {
