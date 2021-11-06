@@ -261,8 +261,7 @@ export default {
         sIndex: this.sIndex,
         activeIndex: e.realIndex,
       });
-      console.log(this.itemRefs[e.realIndex]);
-      // this.itemRefs[e.realIndex].$el.play();
+      // this.itemRefs[e.realIndex].play();
     },
   },
   beforeUpdate() {
