@@ -126,10 +126,10 @@
           }"
         >
           <FilmRoll
-            :sIndex="2"
-            :items="['s3_v0', 's3_v1']"
+            :sIndex="3"
+            :items="['s4_v0', 's4_v1']"
             :dualContent="true"
-            :extraItems="['s3_v0', 's3_v1']"
+            :extraItems="['s4_v0', 's4_v1']"
             :clip="clip"
             :width="s3rollStyle.width"
             :height="s3rollStyle.height"
@@ -184,9 +184,9 @@
           大概100多年前的胶片时代，最早的电影人尝试在拍摄后，手工在胶片上进行着色。电影的每一帧都需要手工绘制。特技先驱梅里埃就曾雇佣过21名女性，一帧一帧地为他影片《飞向月球》上色。在法国使用模板工艺制作的彩色胶卷被称为Pathe
           color（百代彩色），这一工艺在当时整个欧洲都在使用。
         </p>
-        <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
+        <!-- <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
           showDetail[3] ? "返回视频" : "了解更多"
-        }}</ClassicButton>
+        }}</ClassicButton> -->
       </div>
       <div class="placeholder"></div>
       <div class="right"></div>
@@ -198,9 +198,9 @@
           大概100多年前的胶片时代，最早的电影人尝试在拍摄后，手工在胶片上进行着色。电影的每一帧都需要手工绘制。特技先驱梅里埃就曾雇佣过21名女性，一帧一帧地为他影片《飞向月球》上色。在法国使用模板工艺制作的彩色胶卷被称为Pathe
           color（百代彩色），这一工艺在当时整个欧洲都在使用。
         </p>
-        <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
+        <!-- <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
           showDetail[3] ? "返回视频" : "了解更多"
-        }}</ClassicButton>
+        }}</ClassicButton> -->
       </div>
       <div class="placeholder" :style="{ opacity: scrolled <= 6 ? 0 : 1 }">
         <h3>第二次变革</h3>
@@ -212,9 +212,9 @@
           1932年，Technicolor推出了一种利用染料转印技术的三色胶片，该技术描绘了电影中最具活力，最鲜艳的色彩。在此之后，贝拉·加斯帕发明了分解胶片颜色膜成像的彩色技术，它在沃尔特迪斯尼的短片动画电影“花草树木”中首次亮相。
           1935年，美国马摩里安导演了世界上第一部大型彩色故事片《浮华世界》。
         </p>
-        <ClassicButton @click="showDetail[4] = !showDetail[4]">{{
+        <!-- <ClassicButton @click="showDetail[4] = !showDetail[4]">{{
           showDetail[4] ? "返回视频" : "了解更多"
-        }}</ClassicButton>
+        }}</ClassicButton> -->
       </div>
     </div>
     <!-- “数字化”部分 -->
@@ -229,7 +229,7 @@
         <img src="@img/computer.png" alt="" />
         <div class="content">
           <transition mode="out-in">
-            <ImgProcessGame id="game2" v-if="showPSGame"></ImgProcessGame>
+            <ImgProcessGame id="game2" v-if="showDetail[5] == 2 && showPSGame"></ImgProcessGame>
             <video
               :src="require('@video/' + s8video[showDetail[5]] + '.mp4')"
               muted
@@ -397,7 +397,7 @@
         <p :style="{ opacity: scrolled >= 11.4 ? 1 : 0 }">手机摄影的发展让电影级别的拍摄变得触手可及。</p>
         <p :style="{ opacity: scrolled >= 11.7 ? 1 : 0 }">电影这种大众娱乐，</p>
         <p :style="{ opacity: scrolled >= 11.9 ? 1 : 0 }">真正回到了大众身边。</p>
-        <ModernButton class="btn" :style="{ opacity: scrolled >= 12 ? 1 : 0 }">了解如何使用手机拍电影</ModernButton>
+        <!-- <ModernButton class="btn" :style="{ opacity: scrolled >= 12 ? 1 : 0 }">了解如何使用手机拍电影</ModernButton> -->
       </div>
     </div>
   </div>
@@ -407,7 +407,7 @@
 import ProgressIndicator from "./components/ProgressIndicator.vue";
 import FilmRoll from "./components/FilmRoll.vue";
 import ClassicButton from "./components/ClassicButton.vue";
-import ModernButton from "./components/ModernButton.vue";
+// import ModernButton from "./components/ModernButton.vue";
 import Arrow from "./components/Arrow.vue";
 import ImgProcessGame from "./components/ImgProcessGame.vue";
 
@@ -417,7 +417,7 @@ export default {
     ProgressIndicator,
     FilmRoll,
     ClassicButton,
-    ModernButton,
+    // ModernButton,
     ImgProcessGame,
     Arrow,
   },
@@ -453,7 +453,7 @@ export default {
         innerTranslate: 50,
         scale: 1,
       },
-      s8video: ["The Last Broadcast Trailer", "Toy Story 1  Trailer", "Avatar"],
+      s8video: ["The Last Broadcast Trailer", "Toy Story 1  Trailer", "green screen"],
     };
   },
   watch: {

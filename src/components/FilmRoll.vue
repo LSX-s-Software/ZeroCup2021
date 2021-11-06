@@ -31,6 +31,7 @@
             :src="require('@video/' + item + '.mp4')"
             :style="{ height: height + 'px', width: width + 'px' }"
             :ref="setItemRef"
+            :autoplay="index == 0 && sIndex != 3"
           ></video>
           <img
             v-if="dualContent"
@@ -260,7 +261,8 @@ export default {
         sIndex: this.sIndex,
         activeIndex: e.realIndex,
       });
-      // this.itemRefs[e.realIndex].play();
+      console.log(this.itemRefs[e.realIndex]);
+      // this.itemRefs[e.realIndex].$el.play();
     },
   },
   beforeUpdate() {

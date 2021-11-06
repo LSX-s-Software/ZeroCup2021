@@ -16,7 +16,8 @@
       <ModernButton class="btn" @click="showPicker">{{ imgSrc == "" ? "上传图像" : "更换图像" }}</ModernButton>
       <Arrow class="arrow" :rotation="90" />
       <span class="caption">②选择背景色</span>
-      <input type="color" v-model="color" />
+      <input type="color" v-model="color" /><br />
+      <label for="">(不选择将自动使用左上角颜色)</label>
       <Arrow class="arrow" :rotation="90" />
       <span class="caption">③微调</span>
       <label for="bias">
@@ -127,7 +128,6 @@ export default {
     },
     loadImg(e) {
       const file = e.target.files[0];
-      console.log(file);
       const reader = new FileReader();
       reader.onload = this.readerOnload;
       reader.readAsDataURL(file);
@@ -153,6 +153,10 @@ export default {
       const imageData = ctx.getImageData(0, 0, width, height);
       // 一个像素点由RGBA四个值组成，data为[R,G,B,A [,R,G,B,A[...]]]组成的一维数组
       const data = imageData.data;
+      //提取左上角像素颜色
+      this.color =
+        "#" + this.pad(data[0].toString(16)) + this.pad(data[1].toString(16)) + this.pad(data[2].toString(16));
+      console.log(this.color);
       // 对图像数据进行处理
       this.filter(data).then(() => {
         // 把新的内容画进画布里
@@ -183,6 +187,9 @@ export default {
           resolve();
         }, 10);
       });
+    },
+    pad(str) {
+      return str.length == 2 ? str : "0" + str;
     },
   },
 };
