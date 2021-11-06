@@ -260,7 +260,7 @@ export default {
         sIndex: this.sIndex,
         activeIndex: e.realIndex,
       });
-      // this.itemRefs[e.realIndex].play();
+      this.itemRefs[e.realIndex].play();
     },
   },
   beforeUpdate() {

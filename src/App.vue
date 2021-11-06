@@ -127,9 +127,9 @@
         >
           <FilmRoll
             :sIndex="2"
-            :items="['s3_v0', 's3_v1']"
+            :items="['s4_v0', 's4_v1']"
             :dualContent="true"
-            :extraItems="['s3_v0', 's3_v1']"
+            :extraItems="['s4_v0', 's4_v1']"
             :clip="clip"
             :width="s3rollStyle.width"
             :height="s3rollStyle.height"
