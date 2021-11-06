@@ -149,7 +149,8 @@
       <div class="left">
         <h3 :style="{ color: scrolled <= 5.5 ? '' : 'var(--darkText)' }">第一阶段</h3>
         <p>
-          第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。
+          大概100多年前的胶片时代，最早的电影人尝试在拍摄后，手工在胶片上进行着色。电影的每一帧都需要手工绘制。特技先驱梅里埃就曾雇佣过21名女性，一帧一帧地为他影片《飞向月球》上色。在法国使用模板工艺制作的彩色胶卷被称为Pathe
+          color（百代彩色），这一工艺在当时整个欧洲都在使用。
         </p>
         <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
           showDetail[3] ? "返回视频" : "查看更多"
@@ -162,7 +163,8 @@
       <div class="left" :style="{ opacity: scrolled <= 6 ? 0 : 1 }">
         <h3 style="color: var(--darkText)">第一阶段</h3>
         <p>
-          第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。
+          大概100多年前的胶片时代，最早的电影人尝试在拍摄后，手工在胶片上进行着色。电影的每一帧都需要手工绘制。特技先驱梅里埃就曾雇佣过21名女性，一帧一帧地为他影片《飞向月球》上色。在法国使用模板工艺制作的彩色胶卷被称为Pathe
+          color（百代彩色），这一工艺在当时整个欧洲都在使用。
         </p>
         <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
           showDetail[3] ? "返回视频" : "查看更多"
@@ -175,7 +177,8 @@
       <div class="right">
         <h3>第二阶段</h3>
         <p>
-          第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。
+          1932年，Technicolor推出了一种利用染料转印技术的三色胶片，该技术描绘了电影中最具活力，最鲜艳的色彩。在此之后，贝拉·加斯帕发明了分解胶片颜色膜成像的彩色技术，它在沃尔特迪斯尼的短片动画电影“花草树木”中首次亮相。
+          1935年，美国马摩里安导演了世界上第一部大型彩色故事片《浮华世界》。
         </p>
         <ClassicButton @click="showDetail[4] = !showDetail[4]">{{
           showDetail[4] ? "返回视频" : "查看更多"
@@ -469,7 +472,10 @@ export default {
         let scrolled = this.scrolled - 9;
         let $theText = document.querySelector("#the-text");
         let $TextBg = document.querySelector(".text-bg");
-        $theText.style.width = document.documentElement.clientWidth * 20 * (scrolled * scrolled * scrolled) + "px";
+        $theText.style.height = $theText.style.width =
+          (document.documentElement.clientWidth * 20 * (scrolled * scrolled * scrolled)) / 20.13 + "px";
+        $theText.style.width = $theText.style.width =
+          document.documentElement.clientWidth * 20 * (scrolled * scrolled * scrolled) + "px";
         if (scrolled >= 0.5) {
           $TextBg.style.opacity = (1 - scrolled) / 0.5;
           for (let flowText of flowTexts) {
