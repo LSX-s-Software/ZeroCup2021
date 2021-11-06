@@ -730,6 +730,7 @@ export default {
     .buttons {
       display: flex;
       flex-direction: row;
+      justify-content: space-around;
     }
 
     h1 {

@@ -1,7 +1,7 @@
 <template>
   <div class="game-container" :style="{ height: height + 'px', width: width + 'px' }">
-    <video muted controls playsinline :src="require('@video/' + src + '.mp4')"></video>
-    <div id="waveform" ref="waveform" :style="{ height: height / 8 + 'px', width: width + 'px' }"></div>
+    <!-- <video muted controls playsinline :src="require('@video/' + src + '.mp4')"></video> -->
+    <div id="waveform" ref="waveform" :style="{ height: height + 'px', width: width + 'px' }"></div>
   </div>
 </template>
 <script>
@@ -77,7 +77,7 @@ export default {
       backgroundColor: "#000",
       cursorColor: "#fff",
       normalize: true,
-      height: this.height / 8,
+      height: this.height,
       width: this.width,
       // barWidth: 3,
       // barHeight: 1,
@@ -110,7 +110,8 @@ export default {
 </script>
 <style lang="scss" scoped>
 .game-container {
-  position: relative;
+  position: absolute;
+  bottom: 0;
   border-radius: 15px;
   overflow: hidden;
   video {

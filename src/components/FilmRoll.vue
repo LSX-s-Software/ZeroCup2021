@@ -18,46 +18,52 @@
       :allowTouchMove="items.length > 1"
       :style="{ height: height + 'px' }"
     >
-      <template v-if="!audioGame.isShow">
-        <swiper-slide
-          v-for="(item, index) in items"
-          :key="index"
-          :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
-        >
-          <div :class="{ hidden: showDetail }" style="transition: opacity 0.3s ease-out">
-            <video
-              muted
-              controls
-              playsinline
-              :src="require('@video/' + item + '.mp4')"
-              :style="{ height: height + 'px', width: width + 'px' }"
-              :ref="setItemRef"
-            ></video>
-            <img
-              v-if="dualContent"
-              :src="require('@video/' + extraItems[index] + '.png')"
-              alt=""
-              :style="{ clip: `rect(0px,${width}px,${height * clip}px,0px)` }"
-            />
-          </div>
-          <span class="detail" :class="{ hidden: !showDetail }">
-            {{ description[item] || "缺少介绍" }}
-          </span>
-        </swiper-slide>
-        <swiper-slide
-          v-if="items.length == 1"
-          :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
-        >
-          <img :src="require('@video/' + items[0] + '.png')" :style="{ height: height + 'px', width: width + 'px' }" />
-        </swiper-slide>
-        <swiper-slide
-          v-if="items.length == 1"
-          :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
-        >
-          <img :src="require('@video/' + items[0] + '.png')" :style="{ height: height + 'px', width: width + 'px' }" />
-        </swiper-slide>
-      </template>
       <swiper-slide
+        v-for="(item, index) in items"
+        :key="index"
+        :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
+      >
+        <div :class="{ hidden: showDetail }" style="transition: opacity 0.3s ease-out; position: relative">
+          <video
+            muted
+            controls
+            playsinline
+            :src="require('@video/' + item + '.mp4')"
+            :style="{ height: height + 'px', width: width + 'px' }"
+            :ref="setItemRef"
+          ></video>
+          <img
+            v-if="dualContent"
+            :src="require('@video/' + extraItems[index] + '.png')"
+            alt=""
+            :style="{ clip: `rect(0px,${width}px,${height * clip}px,0px)` }"
+          />
+          <AudioGame
+            v-if="audioGame.isShow && index === activeIndex"
+            class="audio-game"
+            :height="height / 7"
+            :width="width"
+            :is-playing="audioGame.isPlaying"
+            :is-recording="audioGame.isRecording"
+          />
+        </div>
+        <span class="detail" :class="{ hidden: !showDetail }">
+          {{ description[item] || "缺少介绍" }}
+        </span>
+      </swiper-slide>
+      <swiper-slide
+        v-if="items.length == 1"
+        :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
+      >
+        <img :src="require('@video/' + items[0] + '.png')" :style="{ height: height + 'px', width: width + 'px' }" />
+      </swiper-slide>
+      <swiper-slide
+        v-if="items.length == 1"
+        :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
+      >
+        <img :src="require('@video/' + items[0] + '.png')" :style="{ height: height + 'px', width: width + 'px' }" />
+      </swiper-slide>
+      <!-- <swiper-slide
         v-if="audioGame.isShow"
         :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
       >
@@ -68,7 +74,7 @@
           :height="height"
           :width="width"
         ></AudioGame>
-      </swiper-slide>
+      </swiper-slide> -->
     </swiper>
     <img
       src="@img/navi.svg"
@@ -136,6 +142,10 @@
       margin-top: 20px;
       max-width: 750px;
       transition: opacity 0.3s;
+    }
+
+    .audio-game {
+      border-top: 1px solid var(--mediumGray);
     }
   }
 
@@ -214,6 +224,7 @@ export default {
     return {
       itemRefs: [],
       description: require("../assets/description.json"),
+      activeIndex: 0,
     };
   },
   computed: {
@@ -231,6 +242,7 @@ export default {
       }
     },
     onSlideChange(e) {
+      this.activeIndex = e.realIndex;
       this.$emit("slideChange", {
         sIndex: this.sIndex,
         activeIndex: e.realIndex,
