@@ -89,6 +89,7 @@
             :audio-game="audioGame"
             style="transform: translateX(-120px)"
             @slideChange="handleSlideChange($event)"
+            @playbackfinish="audioGame.isPlaying = false"
           ></FilmRoll>
           <span class="des" :class="{ hidden: showDetail[2] || audioGame.isShow }">
             {{ description[`s3_v${swiperIndex[2]}`] || "缺少介绍" }}

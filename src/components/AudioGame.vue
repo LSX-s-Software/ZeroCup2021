@@ -1,8 +1,5 @@
 <template>
-  <div class="game-container" :style="{ height: height + 'px', width: width + 'px' }">
-    <!-- <video muted controls playsinline :src="require('@video/' + src + '.mp4')"></video> -->
-    <div id="waveform" ref="waveform" :style="{ height: height + 'px', width: width + 'px' }"></div>
-  </div>
+  <div id="waveform" ref="waveform" :style="{ height: height + 'px', width: width + 'px' }"></div>
 </template>
 <script>
 import WaveSurfer from "wavesurfer.js";
@@ -10,17 +7,13 @@ import WaveSurfer from "wavesurfer.js";
 export default {
   name: "AudioGame",
   props: {
-    src: {
-      type: String,
-      required: true,
-    },
     height: {
       type: Number,
-      default: 200,
+      required: true,
     },
     width: {
       type: Number,
-      default: 200,
+      required: true,
     },
     isRecording: {
       type: Boolean,
@@ -31,6 +24,7 @@ export default {
       default: false,
     },
   },
+  emits: ["finish"],
   watch: {
     isRecording: function (val) {
       if (val) {
@@ -105,24 +99,15 @@ export default {
     this.wavesurfer.on("ready", () => {
       console.log("ready", this.wavesurfer.getDuration(), this.wavesurfer.getVolume(), this.wavesurfer.getMute());
     });
+    this.wavesurfer.on("finish", () => {
+      this.$emit("finish");
+    });
   },
 };
 </script>
 <style lang="scss" scoped>
-.game-container {
-  position: absolute;
-  bottom: 0;
-  border-radius: 15px;
+#waveform {
+  border-radius: 0 0 15px 15px;
   overflow: hidden;
-  video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
-  #waveform {
-    position: absolute;
-    bottom: 0;
-    z-index: 10;
-  }
 }
 </style>

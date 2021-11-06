@@ -38,14 +38,6 @@
             alt=""
             :style="{ clip: `rect(0px,${width}px,${height * clip}px,0px)` }"
           />
-          <AudioGame
-            v-if="audioGame.isShow && index === activeIndex"
-            class="audio-game"
-            :height="height / 7"
-            :width="width"
-            :is-playing="audioGame.isPlaying"
-            :is-recording="audioGame.isRecording"
-          />
         </div>
         <span class="detail" :class="{ hidden: !showDetail }">
           {{ description[item] || "缺少介绍" }}
@@ -63,25 +55,23 @@
       >
         <img :src="require('@video/' + items[0] + '.png')" :style="{ height: height + 'px', width: width + 'px' }" />
       </swiper-slide>
-      <!-- <swiper-slide
-        v-if="audioGame.isShow"
-        :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
-      >
-        <AudioGame
-          src="s3_v0"
-          :is-playing="audioGame.isPlaying"
-          :is-recording="audioGame.isRecording"
-          :height="height"
-          :width="width"
-        ></AudioGame>
-      </swiper-slide> -->
     </swiper>
+    <AudioGame
+      v-if="audioGame.isShow"
+      class="audio-game"
+      :height="height / 7"
+      :width="width"
+      :is-playing="audioGame.isPlaying"
+      :is-recording="audioGame.isRecording"
+      @finish="this.$emit('playbackfinish')"
+      :style="{ transform: `translate(${(this.innerTranslate - this.width) / 2}px,-${borderHeight}px)` }"
+    />
     <img
       src="@img/navi.svg"
       alt=""
       class="btn-left"
       v-if="items.length > 1"
-      :style="{ transform: 'translate(' + btnLeftTranslate + 'px,-50%)' }"
+      :style="{ transform: 'translate(' + btnLeftTranslate + 'px,-50%) rotateZ(0deg)' }"
     />
     <img
       src="@img/navi.svg"
@@ -124,6 +114,8 @@
       width: 100%;
       height: 100%;
       object-fit: cover;
+      border-radius: 15px;
+      overflow: hidden;
     }
     img {
       position: absolute;
@@ -143,10 +135,14 @@
       max-width: 750px;
       transition: opacity 0.3s;
     }
+  }
 
-    .audio-game {
-      border-top: 1px solid var(--mediumGray);
-    }
+  .audio-game {
+    border-top: 1px solid var(--mediumGray);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 100;
   }
 
   .btn-left,
@@ -177,7 +173,7 @@ export default {
     SwiperSlide,
     AudioGame,
   },
-  emits: ["slideChange"],
+  emits: ["slideChange", "playbackfinish"],
   props: {
     dualContent: {
       //一个slide多个内容
@@ -233,6 +229,9 @@ export default {
     },
     btnRightTranslate() {
       return this.width / 2 + 48 + this.innerTranslate / 2;
+    },
+    borderHeight() {
+      return this.outerWidth / 20;
     },
   },
   methods: {
