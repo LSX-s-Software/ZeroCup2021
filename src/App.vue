@@ -2,8 +2,8 @@
   <div class="main-container" ref="main">
     <ProgressIndicator
       id="wheel"
-      :class="{ hidden: scrolled < 1 || scrolled > 7 }"
-      :current="scrolled - 1"
+      :class="{ hidden: scrolled < 0.8 || scrolled > 7 }"
+      :current="scrolled"
     ></ProgressIndicator>
     <div class="bg-container">
       <img src="@img/bg.jpg" alt="" class="bg" />
@@ -13,7 +13,9 @@
     <div class="blackbg" :class="{ show: scrolled >= 7 }"></div>
     <div class="screen" id="s0">
       <video src="@video/1.mp4" autoplay muted playsinline @pause="videoPlaying = false"></video>
-      <img src="@img/title.jpg" alt="" v-if="!videoPlaying" id="title" />
+      <transition>
+        <img src="@img/title.jpg" alt="" v-if="!videoPlaying" id="title" />
+      </transition>
       <transition>
         <div class="prompt" v-if="!videoPlaying">
           <span>向下滑动来了解</span>
@@ -22,20 +24,23 @@
       </transition>
     </div>
     <div class="screen" id="s1">
-      <div class="left">
-        <FilmRoll
-          :sIndex="0"
-          :items="['s1_v0', 's1_v1', 's1_v2', 's1_v3']"
-          :show-detail="showDetail[0]"
-          :width="600"
-          :outer-width="900"
-          style="transform: translateX(-120px)"
-          @slideChange="handleSlideChange($event)"
-        ></FilmRoll>
-        <span class="des" :class="{ hidden: showDetail[0] }">
-          {{ description[`s1_v${swiperIndex[0]}`] || "缺少介绍" }}
-        </span>
-      </div>
+      <transition name="move1" mode="out-in">
+        <div class="left" v-if="scrolled >= 0.2 && scrolled <= 1.7">
+          <FilmRoll
+            :sIndex="0"
+            :items="['s1_v0', 's1_v1', 's1_v2', 's1_v3']"
+            :show-detail="showDetail[0]"
+            :width="600"
+            :outer-width="900"
+            style="transform: translateX(-120px)"
+            @slideChange="handleSlideChange($event)"
+          ></FilmRoll>
+          <span class="des" :class="{ hidden: showDetail[0] }">
+            {{ description[`s1_v${swiperIndex[0]}`] || "缺少介绍" }}
+          </span>
+        </div>
+        <div class="left" v-else></div>
+      </transition>
       <div class="right">
         <h2 class="gray">电影的诞生</h2>
         <p>
@@ -59,23 +64,26 @@
           showDetail[1] ? "返回视频" : "了解更多"
         }}</ClassicButton>
       </div>
-      <div class="right">
-        <div class="rotatable" :class="{ rotate: !showDetail[1] }">
-          <FilmRoll
-            :sIndex="1"
-            :items="['s2_v0']"
-            :show-detail="showDetail[1]"
-            :width="600"
-            :outer-width="1000"
-            :innerTranslate="-90"
-            style="transform: translateX(-140px)"
-            @slideChange="handleSlideChange($event)"
-          ></FilmRoll>
-          <span class="des" :class="{ hidden: showDetail[1] }">
-            {{ description[`s2_v${swiperIndex[1]}`] || "缺少介绍" }}
-          </span>
+      <transition name="move2" mode="out-in">
+        <div class="right" v-if="scrolled >= 1.2 && scrolled <= 2.5">
+          <div class="rotatable" :class="{ rotate: !showDetail[1] }">
+            <FilmRoll
+              :sIndex="1"
+              :items="['s2_v0']"
+              :show-detail="showDetail[1]"
+              :width="600"
+              :outer-width="1000"
+              :innerTranslate="-90"
+              style="transform: translateX(-140px)"
+              @slideChange="handleSlideChange($event)"
+            ></FilmRoll>
+            <span class="des" :class="{ hidden: showDetail[1] }">
+              {{ description[`s2_v${swiperIndex[1]}`] || "缺少介绍" }}
+            </span>
+          </div>
         </div>
-      </div>
+        <div class="right" v-else></div>
+      </transition>
     </div>
     <div class="screen" id="s3">
       <div class="left">
@@ -91,7 +99,7 @@
             @slideChange="handleSlideChange($event)"
             @playbackfinish="audioGame.isPlaying = false"
           ></FilmRoll>
-          <span class="des" :class="{ hidden: showDetail[2] || audioGame.isShow }">
+          <span class="des" v-if="!audioGame.isShow" :class="{ hidden: showDetail[2] }">
             {{ description[`s3_v${swiperIndex[2]}`] || "缺少介绍" }}
           </span>
           <div v-if="audioGame.isShow" class="buttons">
@@ -113,7 +121,7 @@
             left: s3rollStyle.left + 'px',
             top: s3rollStyle.top + 'px',
             width: s3rollStyle.fixed ? 'unset' : '100%',
-            transform: `translateY(${s3rollStyle.translateY}%) rotate(${s3rollStyle.rotate}deg) scale(${s3rollStyle.scale})`,
+            transform: `translateY(${s3rollStyle.translateY}%) translateZ(0) rotate(${s3rollStyle.rotate}deg) scale(${s3rollStyle.scale})`,
             transformOrigin: s3rollStyle.fixed ? 'center center' : '',
           }"
         >
@@ -220,19 +228,20 @@
       <div class="left compact">
         <img src="@img/computer.png" alt="" />
         <div class="content">
-          <transition>
+          <transition mode="out-in">
             <ImgProcessGame id="game2" v-if="showPSGame"></ImgProcessGame>
+            <video
+              :src="require('@video/' + s8video[showDetail[5]] + '.mp4')"
+              muted
+              controls
+              playsinline
+              autoplay
+              v-else
+            ></video>
           </transition>
-          <video
-            :src="require('@video/' + s8video[showDetail[5]] + '.mp4')"
-            muted
-            controls
-            playsinline
-            autoplay
-          ></video>
           <div class="controls" v-if="showDetail[5] == 2">
-            <img src="@img/video.png" alt="" @click="showPSGame = false" />
-            <img src="@img/ps.png" alt="" @click="showPSGame = true" />
+            <img :src="require('@img/video-' + (showPSGame ? 1 : 2) + '.png')" alt="" @click="showPSGame = false" />
+            <img :src="require('@img/ps-' + (showPSGame ? 2 : 1) + '.png')" alt="" @click="showPSGame = true" />
           </div>
         </div>
       </div>
@@ -474,7 +483,6 @@ export default {
       this.swiperIndex[e.sIndex] = e.activeIndex;
     },
     handleScroll(scrolled) {
-      let flowTexts = document.querySelectorAll(".flow-text");
       if (scrolled <= 3) {
         if (this.s3rollStyle.fixed) {
           this.s3rollStyle = {
@@ -498,17 +506,17 @@ export default {
           this.clip = 0;
         }
         this.animations3();
-      } else if (scrolled <= 9) {
-        let i = 1;
-        for (let flowText of flowTexts) {
-          flowText.style.animationName = `getin${i}`;
-          i++;
-        }
+      } else if (scrolled >= 8.5 && scrolled <= 9) {
+        let flowTexts = document.querySelectorAll(".flow-text");
+        flowTexts.forEach((ele, index) => {
+          ele.style.animationName = `getin${index}`;
+        });
       }
       if (this.scrolled > 9) {
         let scrolled = this.scrolled - 9;
         let $theText = document.querySelector("#the-text");
         let $TextBg = document.querySelector(".text-bg");
+        let flowTexts = document.querySelectorAll(".flow-text");
         $theText.style.height = $theText.style.width =
           (document.documentElement.clientWidth * 20 * (scrolled * scrolled * scrolled)) / 20.13 + "px";
         $theText.style.width = $theText.style.width =
@@ -608,8 +616,6 @@ export default {
 
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
   text-align: center;
   width: 100%;
   min-height: 100vh;
@@ -730,20 +736,10 @@ export default {
       }
     }
 
-    .left.hidable.hidden {
-      transform: translate(-75%, 30%) rotate(-30deg);
-      filter: brightness(0.2);
-    }
-
-    .right.hidable.hidden {
-      transform: translate(80%, 0%) rotate(30deg);
-      filter: brightness(0.2);
-    }
-
     .buttons {
       display: flex;
       flex-direction: row;
-      justify-content: space-around;
+      justify-content: center;
     }
 
     h1 {
@@ -1061,6 +1057,7 @@ export default {
         animation-duration: 10s;
         animation-fill-mode: both;
         z-index: 2;
+        white-space: nowrap;
       }
       .ft-1 {
         top: 50%;
