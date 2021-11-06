@@ -57,7 +57,10 @@
           <img :src="require('@video/' + items[0] + '.png')" :style="{ height: height + 'px', width: width + 'px' }" />
         </swiper-slide>
       </template>
-      <swiper-slide v-if="audioGame.isShow">
+      <swiper-slide
+        v-if="audioGame.isShow"
+        :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
+      >
         <AudioGame
           src="s3_v0"
           :is-playing="audioGame.isPlaying"
@@ -114,8 +117,6 @@
     img {
       width: 100%;
       height: 100%;
-      border-radius: 15px;
-      overflow: hidden;
       object-fit: cover;
     }
     img {

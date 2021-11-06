@@ -1,20 +1,14 @@
 <template>
-  <div>
-    <video
-      muted
-      controls
-      playsinline
-      :src="require('@video/' + src + '.mp4')"
-      :style="{ height: height * 7 / 8 + 'px', width: width + 'px' }"
-    ></video>
+  <div class="game-container" :style="{ height: height + 'px', width: width + 'px' }">
+    <video muted controls playsinline :src="require('@video/' + src + '.mp4')"></video>
     <div id="waveform" ref="waveform" :style="{ height: height / 8 + 'px', width: width + 'px' }"></div>
   </div>
 </template>
 <script>
-import WaveSurfer from 'wavesurfer.js'
+import WaveSurfer from "wavesurfer.js";
 
 export default {
-  name: 'AudioGame',
+  name: "AudioGame",
   props: {
     src: {
       type: String,
@@ -69,7 +63,7 @@ export default {
     },
     startPlaying() {
       this.wavesurfer.play();
-      console.log('isplaying', this.wavesurfer.isPlaying());
+      console.log("isplaying", this.wavesurfer.isPlaying());
     },
     stopPlaying() {
       this.wavesurfer.pause();
@@ -80,7 +74,9 @@ export default {
       container: this.$refs.waveform,
       waveColor: "#368666",
       progressColor: "#6d9e8b",
+      backgroundColor: "#000",
       cursorColor: "#fff",
+      normalize: true,
       height: this.height / 8,
       width: this.width,
       // barWidth: 3,
@@ -97,24 +93,35 @@ export default {
           this.mediaRecorder = new MediaRecorder(stream);
           this.mediaRecorder.ondataavailable = (e) => {
             const url = window.URL.createObjectURL(e.data);
-            console.log('recording', url)
+            console.log("recording", url);
             this.wavesurfer.load(url);
           };
         })
         .catch((err) => {
-          console.log(err);
+          console.error(err);
         });
     }
 
-    this.wavesurfer.on('ready', () => {
-      console.log('ready', this.wavesurfer.getDuration(), this.wavesurfer.getVolume(), this.wavesurfer.getMute());
+    this.wavesurfer.on("ready", () => {
+      console.log("ready", this.wavesurfer.getDuration(), this.wavesurfer.getVolume(), this.wavesurfer.getMute());
     });
   },
 };
 </script>
 <style lang="scss" scoped>
-#waveform {
-  // position: absolute;
-  margin: 0 auto;
+.game-container {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  #waveform {
+    position: absolute;
+    bottom: 0;
+    z-index: 10;
+  }
 }
 </style>
