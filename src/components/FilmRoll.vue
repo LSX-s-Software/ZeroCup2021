@@ -16,26 +16,32 @@
         prevEl: '.btn-left',
       }"
       :allowTouchMove="items.length > 1"
+      :style="{ height: height + 'px' }"
     >
       <swiper-slide
         v-for="(item, index) in items"
         :key="index"
         :style="{ width: width + 'px', left: innerTranslate < 0 ? innerTranslate + 'px' : '' }"
       >
-        <video
-          muted
-          controls
-          playsinline
-          :src="require('@video/' + item + '.mp4')"
-          :style="{ height: height + 'px', width: width + 'px' }"
-          :ref="setItemRef"
-        ></video>
-        <img
-          v-if="dualContent"
-          :src="require('@video/' + extraItems[index] + '.png')"
-          alt=""
-          :style="{ clip: `rect(0px,${width}px,${height * clip}px,0px)` }"
-        />
+        <div :class="{ hidden: showDetail }" style="transition: opacity 0.3s ease-out; position: relative">
+          <video
+            muted
+            controls
+            playsinline
+            :src="require('@video/' + item + '.mp4')"
+            :style="{ height: height + 'px', width: width + 'px' }"
+            :ref="setItemRef"
+          ></video>
+          <img
+            v-if="dualContent"
+            :src="require('@video/' + extraItems[index] + '.png')"
+            alt=""
+            :style="{ clip: `rect(0px,${width}px,${height * clip}px,0px)` }"
+          />
+        </div>
+        <span class="detail" :class="{ hidden: !showDetail }">
+          {{ description[item] || "缺少介绍" }}
+        </span>
       </swiper-slide>
       <swiper-slide
         v-if="items.length == 1"
@@ -50,12 +56,22 @@
         <img :src="require('@video/' + items[0] + '.png')" :style="{ height: height + 'px', width: width + 'px' }" />
       </swiper-slide>
     </swiper>
+    <AudioGame
+      v-if="audioGame.isShow"
+      class="audio-game"
+      :height="height / 7"
+      :width="width"
+      :is-playing="audioGame.isPlaying"
+      :is-recording="audioGame.isRecording"
+      @finish="this.$emit('playbackfinish')"
+      :style="{ transform: `translate(${(this.innerTranslate - this.width) / 2}px,-${borderHeight}px)` }"
+    />
     <img
       src="@img/navi.svg"
       alt=""
       class="btn-left"
       v-if="items.length > 1"
-      :style="{ transform: 'translate(' + btnLeftTranslate + 'px,-50%)' }"
+      :style="{ transform: 'translate(' + btnLeftTranslate + 'px,-50%) rotateZ(0deg)' }"
     />
     <img
       src="@img/navi.svg"
@@ -89,19 +105,44 @@
   .swiper {
     background-color: rgba(0, 0, 0, 0.8);
 
+    .hidden {
+      opacity: 0;
+    }
+
     video,
     img {
       width: 100%;
       height: 100%;
+      object-fit: cover;
       border-radius: 15px;
       overflow: hidden;
-      object-fit: cover;
     }
     img {
       position: absolute;
       top: 0;
       left: 0;
     }
+
+    .detail {
+      position: absolute;
+      top: 0;
+      display: block;
+      font-size: 28px;
+      font-family: AaMSXK;
+      line-height: 36px;
+      color: var(--lightText);
+      margin-top: 20px;
+      max-width: 750px;
+      transition: opacity 0.3s;
+    }
+  }
+
+  .audio-game {
+    border-top: 1px solid var(--mediumGray);
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    z-index: 100;
   }
 
   .btn-left,
@@ -122,6 +163,7 @@
 import { Swiper, SwiperSlide } from "swiper/vue/swiper-vue";
 import "swiper/swiper-bundle.min.css";
 import SwiperCore, { Navigation } from "swiper";
+import AudioGame from "./AudioGame";
 SwiperCore.use([Navigation]);
 
 export default {
@@ -129,8 +171,9 @@ export default {
   components: {
     Swiper,
     SwiperSlide,
+    AudioGame,
   },
-  emits: ["slideChange"],
+  emits: ["slideChange", "playbackfinish"],
   props: {
     dualContent: {
       //一个slide多个内容
@@ -160,10 +203,24 @@ export default {
       type: Number,
       default: 1200,
     },
+    showDetail: {
+      type: Boolean,
+      default: false,
+    },
+    audioGame: {
+      type: Object,
+      default: () => ({
+        isShow: false,
+        isPlaying: false,
+        isRecording: false,
+      }),
+    },
   },
   data() {
     return {
       itemRefs: [],
+      description: require("../assets/description.json"),
+      activeIndex: 0,
     };
   },
   computed: {
@@ -173,6 +230,9 @@ export default {
     btnRightTranslate() {
       return this.width / 2 + 48 + this.innerTranslate / 2;
     },
+    borderHeight() {
+      return this.outerWidth / 20;
+    },
   },
   methods: {
     setItemRef(el) {
@@ -181,6 +241,7 @@ export default {
       }
     },
     onSlideChange(e) {
+      this.activeIndex = e.realIndex;
       this.$emit("slideChange", {
         sIndex: this.sIndex,
         activeIndex: e.realIndex,

@@ -21,11 +21,12 @@
         </div>
       </transition>
     </div>
-    <div class="screen" id="s1" ref="screen">
-      <div class="left hidable" :class="{ hidden: showDetail[0] }">
+    <div class="screen" id="s1">
+      <div class="left">
         <FilmRoll
           :sIndex="0"
           :items="['s1_v0', 's1_v1', 's1_v2', 's1_v3']"
+          :show-detail="showDetail[0]"
           :width="600"
           :outer-width="900"
           style="transform: translateX(-120px)"
@@ -58,11 +59,12 @@
           showDetail[1] ? "返回视频" : "查看更多"
         }}</ClassicButton>
       </div>
-      <div class="right hidable" :class="{ hidden: showDetail[1] }">
-        <div class="rotate">
+      <div class="right">
+        <div class="rotatable" :class="{ rotate: !showDetail[1] }">
           <FilmRoll
             :sIndex="1"
             :items="['s2_v0']"
+            :show-detail="showDetail[1]"
             :width="600"
             :outer-width="1000"
             :innerTranslate="-90"
@@ -76,19 +78,30 @@
       </div>
     </div>
     <div class="screen" id="s3">
-      <div class="left hidable" :class="{ hidden: showDetail[2] }">
-        <div class="rotate" v-if="!s3rollStyle.fixed">
+      <div class="left">
+        <div class="rotatable" :class="{ rotate: !showDetail[2] && !audioGame.isShow }" v-if="!s3rollStyle.fixed">
           <FilmRoll
             :sIndex="2"
             :items="['s3_v0', 's3_v1']"
+            :show-detail="showDetail[2]"
             :width="600"
             :outer-width="1000"
+            :audio-game="audioGame"
             style="transform: translateX(-120px)"
             @slideChange="handleSlideChange($event)"
+            @playbackfinish="audioGame.isPlaying = false"
           ></FilmRoll>
-          <span class="des" :class="{ hidden: showDetail[2] }">
+          <span class="des" :class="{ hidden: showDetail[2] || audioGame.isShow }">
             {{ description[`s3_v${swiperIndex[2]}`] || "缺少介绍" }}
           </span>
+          <div v-if="audioGame.isShow" class="buttons">
+            <ClassicButton @click="audioGame.isRecording = !audioGame.isRecording">
+              {{ audioGame.isRecording ? "停止" : "录音" }}
+            </ClassicButton>
+            <ClassicButton @click="audioGame.isPlaying = !audioGame.isPlaying">
+              {{ audioGame.isPlaying ? "停止" : "播放" }}
+            </ClassicButton>
+          </div>
         </div>
         <!-- 可移动的部分 -->
         <div
@@ -128,9 +141,14 @@
           “维他风”Vitaphone唱片重放影片音乐。
           1927年华纳推出《爵士歌王》，不仅有音乐，还加入了一部分对白，被看作是电影史上第一部有声片。
         </p>
-        <ClassicButton @click="showDetail[2] = !showDetail[2]">{{
-          showDetail[2] ? "返回视频" : "查看更多"
-        }}</ClassicButton>
+        <div class="buttons">
+          <ClassicButton @click="showDetail[2] = !showDetail[2]" v-if="!audioGame.isShow">{{
+            showDetail[2] ? "返回视频" : "查看更多"
+          }}</ClassicButton>
+          <ClassicButton @click="audioGame.isShow = !audioGame.isShow">
+            {{ audioGame.isShow ? "返回视频" : "体验一下" }}
+          </ClassicButton>
+        </div>
       </div>
       <div class="transition" style="top: 0; left: 50px">
         <img src="@img/projector2.png" alt="" id="proj2" />
@@ -393,7 +411,11 @@ export default {
       resizeTimeout: null,
       showDetail: [false, false, false, false, false, 0],
       swiperIndex: [0, 0, 0, 0],
-      showGame: [false, false],
+      audioGame: {
+        isShow: false,
+        isPlaying: false,
+        isRecording: false,
+      },
       description: require("./assets/description.json"),
       s3rollStyle: {
         fixed: false,
@@ -650,26 +672,6 @@ export default {
     padding: 0 60px;
     font-family: AaMSXK;
 
-    .left {
-      padding-left: 60px;
-
-      .rotate {
-        width: 100%;
-        transform: translateY(10%) rotate(-10deg);
-        transform-origin: left bottom;
-        z-index: 10;
-      }
-    }
-    .right {
-      padding-right: 60px;
-
-      .rotate {
-        width: 100%;
-        transform: translateY(10%) rotate(6deg);
-        transform-origin: right bottom;
-      }
-    }
-
     .left,
     .right {
       width: 40%;
@@ -683,9 +685,33 @@ export default {
         padding: 0;
       }
 
-      &.hidable {
-        transform-origin: bottom left;
-        transition: transform ease 0.5s, filter ease-out 0.4s;
+      .rotatable {
+        transition: transform ease 0.5s;
+      }
+    }
+
+    .left {
+      padding-left: 60px;
+
+      .rotatable {
+        transform-origin: left bottom;
+      }
+
+      .rotate {
+        transform: translateY(10%) rotate(-10deg);
+        z-index: 10;
+      }
+    }
+    .right {
+      padding-right: 60px;
+
+      .rotatable {
+        transform-origin: right bottom;
+      }
+
+      .rotate {
+        transform: translateY(10%) rotate(6deg);
+        z-index: 10;
       }
     }
 
@@ -697,6 +723,12 @@ export default {
     .right.hidable.hidden {
       transform: translate(80%, 0%) rotate(30deg);
       filter: brightness(0.2);
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-around;
     }
 
     h1 {
