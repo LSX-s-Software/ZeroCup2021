@@ -133,9 +133,15 @@
         </div>
       </div>
       <div class="right">
-        <h3>第一次变革</h3>
-        <h2 class="gray">有声电影</h2>
-        <p>
+        <h3>{{ audioGame.isShow ? "体验一下" : "第一次变革" }}</h3>
+        <h2 class="gray">{{ audioGame.isShow ? "在胶卷上记录声音" : "有声电影" }}</h2>
+        <p v-if="audioGame.isShow">
+          早期的电影依靠光学录放音(optical sound recording)。以感光材料为媒介记录声音。<br />
+          ①传声器把空气中的声音转换为相应的模拟电信号，或者说是把传声器上振膜的机械能转变为电能。<br />
+          ②录音放大器把传声器输出的模拟电信号不失真地提高到可以应用程度。<br />③光调制器把放大器输出的电信号转换为光
+          信号以控制声带底片上的曝光量。当声带底片通过光调制器的光刃时，不同位置上得到对应于电信号的曝光量，使声音信号记录到胶片上。
+        </p>
+        <p v-else>
           电影从无声到有声，经历了一个巨大的转变过程。
           早期的有声电影是用放映机和留声机同时工作来发声的，1926年8月6日，世界第一部有声短片《唐璜》使用
           “维他风”Vitaphone唱片重放影片音乐。
@@ -215,11 +221,11 @@
         <img src="@img/computer.png" alt="" />
         <div class="content">
           <transition>
-            <ImgProcessGame id="game2" v-if="showGame[1]"></ImgProcessGame>
+            <ImgProcessGame id="game2" v-if="showPSGame"></ImgProcessGame>
           </transition>
           <div class="controls" v-if="showDetail[5] == 2">
-            <img src="@img/video.png" alt="" @click="showGame[1] = false" />
-            <img src="@img/ps.png" alt="" @click="showGame[1] = true" />
+            <img src="@img/video.png" alt="" @click="showPSGame = false" />
+            <img src="@img/ps.png" alt="" @click="showPSGame = true" />
           </div>
         </div>
       </div>
@@ -416,6 +422,7 @@ export default {
         isPlaying: false,
         isRecording: false,
       },
+      showPSGame: false,
       description: require("./assets/description.json"),
       s3rollStyle: {
         fixed: false,
