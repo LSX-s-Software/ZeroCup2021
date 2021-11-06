@@ -36,15 +36,15 @@
             v-if="dualContent"
             :src="require('@video/' + extraItems[index] + '.png')"
             alt=""
-            :style="{ clip: `rect(0px,${width}px,${height * clip}px,0px)` }"
+            :style="{ clip: `rect(${height * clip}px,${width}px,${height}px,0px)` }"
           />
         </div>
         <div class="detail">
           <span class="title" :class="{ hidden: !showDetail }">
-            {{ description[item + '_title'] || "缺少介绍" }}
+            {{ description[item + "_title"] || "缺少介绍" }}
           </span>
           <span class="content" :class="{ hidden: !showDetail }">
-            {{ description[item + '_detail'] || "缺少介绍" }}
+            {{ description[item + "_detail"] || "缺少介绍" }}
           </span>
         </div>
       </swiper-slide>
@@ -138,7 +138,7 @@
       margin-top: 20px;
       max-width: 750px;
       transition: opacity 0.3s;
-      
+
       .title {
         font-size: 32px;
         display: block;

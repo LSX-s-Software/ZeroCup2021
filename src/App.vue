@@ -42,7 +42,7 @@
           早在1829年，比利时著名物理学家约瑟夫普拉多发现：当一个物体在人的眼前消失后，该物体的形象还会在人的视网膜上滞留一段时间，这一发现，被称之为“视象暂留原理”。普拉多根据此原理于1832年发明了“诡盘”。“诡盘”能使被描画在锯齿形的硬纸盘上的画片因运动而活动起来，而且能使视觉上产生的活动画面分解为各种不同的形象。“诡盘”的出现，标志着电影的发明进入到了科学实验阶段。1834年，美国人霍尔纳的“活动视盘”试验成功；1853年，奥地利的冯乌却梯奥斯将军在上述的发明基础上，运用幻灯，放映了原始的动画片。
         </p>
         <ClassicButton @click="showDetail[0] = !showDetail[0]">{{
-          showDetail[0] ? "返回视频" : "查看更多"
+          showDetail[0] ? "返回视频" : "了解更多"
         }}</ClassicButton>
       </div>
       <div class="transition" style="bottom: 0; right: 60px">
@@ -56,7 +56,7 @@
           无声电影（或称默片）是没有任何配音、配乐或与画面协调的声音的电影。默片技术发明于1860年左近，但在1880至1900年期间，当单卷电影的制作已经变得容易时，默片仍然算是新奇的东西。把电影影像与声音配合的想法，几乎是与电影本身俱生的；但由于技术上的困难，在1920年代末以前，大部分电影都是默片。可是默片的影像等同共通的语言；默片年代，亦被称为“银幕年代”。
         </p>
         <ClassicButton @click="showDetail[1] = !showDetail[1]">{{
-          showDetail[1] ? "返回视频" : "查看更多"
+          showDetail[1] ? "返回视频" : "了解更多"
         }}</ClassicButton>
       </div>
       <div class="right">
@@ -149,7 +149,7 @@
         </p>
         <div class="buttons">
           <ClassicButton @click="showDetail[2] = !showDetail[2]" v-if="!audioGame.isShow">{{
-            showDetail[2] ? "返回视频" : "查看更多"
+            showDetail[2] ? "返回视频" : "了解更多"
           }}</ClassicButton>
           <ClassicButton @click="audioGame.isShow = !audioGame.isShow">
             {{ audioGame.isShow ? "返回视频" : "体验一下" }}
@@ -177,7 +177,7 @@
           color（百代彩色），这一工艺在当时整个欧洲都在使用。
         </p>
         <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
-          showDetail[3] ? "返回视频" : "查看更多"
+          showDetail[3] ? "返回视频" : "了解更多"
         }}</ClassicButton>
       </div>
       <div class="placeholder"></div>
@@ -191,7 +191,7 @@
           color（百代彩色），这一工艺在当时整个欧洲都在使用。
         </p>
         <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
-          showDetail[3] ? "返回视频" : "查看更多"
+          showDetail[3] ? "返回视频" : "了解更多"
         }}</ClassicButton>
       </div>
       <div class="placeholder" :style="{ opacity: scrolled <= 6 ? 0 : 1 }">
@@ -205,7 +205,7 @@
           1935年，美国马摩里安导演了世界上第一部大型彩色故事片《浮华世界》。
         </p>
         <ClassicButton @click="showDetail[4] = !showDetail[4]">{{
-          showDetail[4] ? "返回视频" : "查看更多"
+          showDetail[4] ? "返回视频" : "了解更多"
         }}</ClassicButton>
       </div>
     </div>
@@ -223,6 +223,13 @@
           <transition>
             <ImgProcessGame id="game2" v-if="showPSGame"></ImgProcessGame>
           </transition>
+          <video
+            :src="require('@video/' + s8video[showDetail[5]] + '.mp4')"
+            muted
+            controls
+            playsinline
+            autoplay
+          ></video>
           <div class="controls" v-if="showDetail[5] == 2">
             <img src="@img/video.png" alt="" @click="showPSGame = false" />
             <img src="@img/ps.png" alt="" @click="showPSGame = true" />
@@ -250,7 +257,7 @@
             计算机生成影像技术是完全由计算机创造出影像的计算机生成图像技术，简称CGI，即利用计算机软件创造出模拟真实场景的三维空间或电影虚拟人物，也可以对真实拍摄到的空间环境进行改进、描绘。这一技术是数字化的代表。
           </p>
           <p>
-            世界上第一部完全用计算机动画制作的电影《玩具总动员》突破了数字技术在电影业中的运用限制，给电影制作开辟了一条全新的道路。2010年的《阿凡达》让我们感受到了CG在质上的飞跃。如今影视特效、3D动画制作与3D游戏制作已成为CG领域发展的前沿。
+            世界上第一部完全用计算机动画制作的电影《玩具总动员》突破了数字技术在电影业中的运用限制，给电影制作开辟了一条全新的道路。
           </p>
         </div>
         <input type="radio" name="digitech" id="processing" value="2" v-model="showDetail[5]" />
@@ -260,7 +267,7 @@
             数字影像合成技术，是指将两个或更多的影像利用计算机图形图像学原理和方法进行叠加或组合处理，是目前拍摄数字化电影最重要的后期制作方法。
           </p>
           <p>
-            蓝幕和绿幕技术就是其中的代表。演员在蓝幕、绿幕前表演，由摄影机拍摄下来，画面在电脑中处理，处理掉背景的蓝色或绿色，换上其他背景。
+            蓝幕和绿幕技术就是其中的代表。演员在蓝幕、绿幕前表演，由摄影机拍摄下来，画面在电脑中处理，处理掉背景的蓝色或绿色，换上其他背景。2010年的《阿凡达》对CG和数字影像合成技术的应用达到了前所未有的高度，而且至今未被超越。
           </p>
           <p style="color: var(--lightGray); font-size: 20px">
             <Arrow color="var(--lightGray)" />
@@ -437,6 +444,7 @@ export default {
         innerTranslate: 50,
         scale: 1,
       },
+      s8video: ["The Last Broadcast Trailer", "Toy Story 1  Trailer", "Avatar"],
     };
   },
   watch: {
@@ -951,10 +959,15 @@ export default {
           top: 18.15%;
           width: 87%;
           height: 61.6%;
-          background: linear-gradient(to left, #8a2387, #e94057, #f27121);
+          background: #000;
           #game2 {
             width: 100%;
             height: 100%;
+          }
+          video {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
           }
           .controls {
             position: absolute;
