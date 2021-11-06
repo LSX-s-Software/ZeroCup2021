@@ -479,7 +479,7 @@ export default {
       this.screenWidth = document.documentElement.clientWidth;
     },
     handleSlideChange(e) {
-      console.log(e);
+      // console.log(e);
       this.swiperIndex[e.sIndex] = e.activeIndex;
     },
     handleScroll(scrolled) {
@@ -509,7 +509,7 @@ export default {
       } else if (scrolled >= 8.5 && scrolled <= 9) {
         let flowTexts = document.querySelectorAll(".flow-text");
         flowTexts.forEach((ele, index) => {
-          ele.style.animationName = `getin${index}`;
+          ele.style.animationName = `getin${index + 1}`;
         });
       }
       if (this.scrolled > 9) {
@@ -1048,6 +1048,7 @@ export default {
         z-index: 100;
       }
       .flow-text {
+        display: block;
         position: absolute;
         font-family: SourceHanSansCN;
         font-weight: 200;
@@ -1058,12 +1059,12 @@ export default {
         animation-fill-mode: both;
         z-index: 2;
         white-space: nowrap;
+        height: 1.5em;
       }
       .ft-1 {
         top: 50%;
         left: 50%;
         color: #9f9f9f;
-        line-height: 150px;
         font-size: 88px;
         filter: blur(1px);
       }
@@ -1071,7 +1072,6 @@ export default {
         bottom: 50%;
         left: 50%;
         font-size: 36px;
-        line-height: 61px;
         color: var(--lightGray);
         filter: blur(2px);
       }
@@ -1079,7 +1079,6 @@ export default {
         top: 50%;
         left: 50%;
         font-size: 64px;
-        line-height: 109px;
         color: var(--lightGray);
         filter: blur(1.5px);
       }
@@ -1087,7 +1086,6 @@ export default {
         bottom: 50%;
         left: 50%;
         font-size: 32px;
-        line-height: 109px;
         color: var(--lightGray);
         filter: blur(1.5px);
       }
@@ -1095,7 +1093,6 @@ export default {
         top: 50%;
         left: 50%;
         font-size: 72px;
-        line-height: 109px;
         color: var(--lightGray);
         filter: blur(1.5px);
       }
@@ -1103,7 +1100,6 @@ export default {
         bottom: 50%;
         left: 50%;
         font-size: 72px;
-        line-height: 109px;
         color: var(--lightGray);
         filter: blur(1.5px);
       }
@@ -1111,7 +1107,6 @@ export default {
         bottom: 50%;
         right: 50%;
         font-size: 52px;
-        line-height: 109px;
         color: var(--lightGray);
         filter: blur(2px);
       }
@@ -1119,7 +1114,6 @@ export default {
         top: 50%;
         right: 50%;
         font-size: 52px;
-        line-height: 109px;
         color: var(--lightGray);
         filter: blur(1px);
       }
@@ -1127,7 +1121,6 @@ export default {
         bottom: 50%;
         right: 50%;
         font-size: 52px;
-        line-height: 109px;
         color: var(--lightGray);
         filter: blur(1px);
       }
@@ -1135,7 +1128,6 @@ export default {
         top: 50%;
         right: 50%;
         font-size: 128px;
-        line-height: 109px;
         color: var(--lightGray);
         filter: blur(0.5px);
       }
