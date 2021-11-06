@@ -1,3 +1,9 @@
 :root {
-    --theme: rgb(250, 184, 2);
+  --theme: #ebad00;
+  --darkText: #222222;
+  --lightText: #f5f5f5;
+  --lightGray: #707070;
+  --mediumGray: #3e3e3e;
+  --darkGray: #1c1c1c;
+  --darkBG: #0f0f0f;
 }

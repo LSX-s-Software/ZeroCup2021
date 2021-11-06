@@ -1,9 +1,20 @@
 @font-face {
     font-family: AaMSXK;
-    src: url(../font/Aa马上行楷.ttf);
+    src: url(../font/AaMSXK.ttf);
 }
 
 @font-face {
     font-family: HYZhuZiSuDaHeiW;
     src: url(../font/HYZhuZiSuDaHeiW.ttf);
+}
+
+@font-face {
+    font-family: PangMenZhengDao;
+    src: url(../font/庞门正道标题体.ttf);
+}
+
+@font-face {
+    font-family: SourceHanSansCN;
+    src: url(../font/SourceHanSansCN-ExtraLight.otf);
+    font-weight: 200;
 }
