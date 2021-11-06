@@ -19,10 +19,10 @@ export default {
         return 0;
       } else if (this.current <= 3) {
         return (this.current - 1) * 72;
-      } else if (this.current <= 5) {
-        return 144 + (this.current - 3) * 36;
+      } else if (this.current <= 6) {
+        return 144 + (this.current - 3) * 24;
       } else if (this.current <= 7) {
-        return 216 + (this.current - 4) * 72;
+        return 216 + (this.current - 6) * 72;
       } else {
         return 360;
       }

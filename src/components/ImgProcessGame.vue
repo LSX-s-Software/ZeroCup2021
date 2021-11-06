@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <div class="img-container">
-      <img :src="imgSrc" alt="" id="origin" :style="{ opacity: showOrigin ? 1 : 0 }" />
+      <img :src="imgSrc" alt="" id="origin" :style="{ opacity: imgSrc != '' && showOrigin ? 1 : 0 }" />
       <canvas id="canva"></canvas>
     </div>
     <div class="ctrl">

@@ -18,12 +18,34 @@
 
 .fade-enter-from {
   opacity: 0;
-  transform: translateY(20px);
+  transform: translateY(20px) translateZ(0);
 }
 
 .fade-leave-to {
   opacity: 0;
-  transform: translateY(-20px);
+  transform: translateY(-20px) translateZ(0);
+}
+
+.move1-enter-active,
+.move1-leave-active,
+.move2-enter-active,
+.move2-leave-active,
+.move3-enter-active,
+.move3-leave-active {
+  transition: all 0.75s ease-out;
+}
+
+.move1-enter-from,
+.move1-leave-to {
+  transform: translate(-100vw, 0) translateZ(0);
+}
+
+.move2-enter-from {
+  transform: translate(100vw, 10.51vw) translateZ(0);
+}
+
+.move2-leave-to {
+  transform: translate(-100vw, -10.51vw) translateZ(0);
 }
 
 @keyframes fadeIn {
