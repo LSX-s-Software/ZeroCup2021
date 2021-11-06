@@ -193,10 +193,12 @@
       <div class="left compact">
         <img src="@img/computer.png" alt="" />
         <div class="content">
-          <!-- 在这里写第二个游戏 -->
+          <transition>
+            <ImgProcessGame id="game2" v-if="showGame[1]"></ImgProcessGame>
+          </transition>
           <div class="controls" v-if="showDetail[5] == 2">
-            <img src="@img/video.png" alt="" />
-            <img src="@img/ps.png" alt="" />
+            <img src="@img/video.png" alt="" @click="showGame[1] = false" />
+            <img src="@img/ps.png" alt="" @click="showGame[1] = true" />
           </div>
         </div>
       </div>
@@ -234,22 +236,7 @@
             蓝幕和绿幕技术就是其中的代表。演员在蓝幕、绿幕前表演，由摄影机拍摄下来，画面在电脑中处理，处理掉背景的蓝色或绿色，换上其他背景。
           </p>
           <p style="color: var(--lightGray); font-size: 20px">
-            <svg
-              t="1632058305684"
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              p-id="5211"
-              width="16"
-              height="16"
-              style="transform: rotate(180deg)"
-            >
-              <path
-                d="M686 593.3s-372.6 0.1-541.8 0.1c-44.3 0-80.2-36-80.2-80.2 0-44.3 35.9-80.2 80.2-80.2 141.9 0 541.5-0.1 541.5-0.1S658.8 405.8 535.1 282c-31.4-31.3-31.4-82.1 0-113.5s82.2-31.4 113.5 0l288 288c31.3 31.4 31.3 82.1 0 113.5 0 0-161.9 161.9-285.6 285.7-31.4 31.4-82.1 31.4-113.5 0-31.4-31.4-31.4-82.1 0-113.5C637.8 641.7 686 593.3 686 593.3z"
-                p-id="5212"
-                fill="var(--lightGray)"
-              ></path>
-            </svg>
+            <Arrow color="var(--lightGray)" />
             点击Dock栏右侧的图标体验一下
           </p>
         </div>
@@ -378,6 +365,8 @@ import ProgressIndicator from "./components/ProgressIndicator.vue";
 import FilmRoll from "./components/FilmRoll.vue";
 import ClassicButton from "./components/ClassicButton.vue";
 import ModernButton from "./components/ModernButton.vue";
+import Arrow from "./components/Arrow.vue";
+import ImgProcessGame from "./components/ImgProcessGame.vue";
 
 export default {
   name: "App",
@@ -386,6 +375,8 @@ export default {
     FilmRoll,
     ClassicButton,
     ModernButton,
+    ImgProcessGame,
+    Arrow,
   },
   data() {
     return {
@@ -645,7 +636,6 @@ export default {
     position: relative;
     width: 100%;
     height: 100vh;
-    min-height: 768px;
     box-sizing: border-box;
     // border: 1px solid aqua; // 仅供定位使用
     display: flex;
@@ -917,6 +907,10 @@ export default {
           width: 87%;
           height: 61.6%;
           background: linear-gradient(to left, #8a2387, #e94057, #f27121);
+          #game2 {
+            width: 100%;
+            height: 100%;
+          }
           .controls {
             position: absolute;
             bottom: 12px;
@@ -957,28 +951,28 @@ export default {
             line-height: 33px;
           }
         }
-      }
 
-      input[type="radio"] {
-        display: none;
-      }
+        input[type="radio"] {
+          display: none;
+        }
 
-      label {
-        display: block;
-        width: 250px;
-        height: 70px;
-        background: var(--darkGray);
-        border-radius: 35px;
-        font-size: 30px;
-        line-height: 70px;
-        white-space: nowrap;
-        margin-top: 20px;
-        cursor: pointer;
-      }
+        label {
+          display: block;
+          width: 250px;
+          height: 70px;
+          background: var(--darkGray);
+          border-radius: 35px;
+          font-size: 30px;
+          line-height: 70px;
+          white-space: nowrap;
+          margin-top: 20px;
+          cursor: pointer;
+        }
 
-      input[type="radio"]:checked + label {
-        background: var(--mediumGray);
-        color: var(--theme);
+        input[type="radio"]:checked + label {
+          background: var(--mediumGray);
+          color: var(--theme);
+        }
       }
     }
 
