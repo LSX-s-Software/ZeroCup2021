@@ -21,7 +21,7 @@
         </div>
       </transition>
     </div>
-    <div class="screen" id="s1" ref="screen" @resize="handleResize">
+    <div class="screen" id="s1">
       <div class="left">
         <FilmRoll
           :sIndex="0"
@@ -167,7 +167,8 @@
       <div class="left">
         <h3 :style="{ color: scrolled <= 5.5 ? '' : 'var(--darkText)' }">第一阶段</h3>
         <p>
-          第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。
+          大概100多年前的胶片时代，最早的电影人尝试在拍摄后，手工在胶片上进行着色。电影的每一帧都需要手工绘制。特技先驱梅里埃就曾雇佣过21名女性，一帧一帧地为他影片《飞向月球》上色。在法国使用模板工艺制作的彩色胶卷被称为Pathe
+          color（百代彩色），这一工艺在当时整个欧洲都在使用。
         </p>
         <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
           showDetail[3] ? "返回视频" : "查看更多"
@@ -180,7 +181,8 @@
       <div class="left" :style="{ opacity: scrolled <= 6 ? 0 : 1 }">
         <h3 style="color: var(--darkText)">第一阶段</h3>
         <p>
-          第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。
+          大概100多年前的胶片时代，最早的电影人尝试在拍摄后，手工在胶片上进行着色。电影的每一帧都需要手工绘制。特技先驱梅里埃就曾雇佣过21名女性，一帧一帧地为他影片《飞向月球》上色。在法国使用模板工艺制作的彩色胶卷被称为Pathe
+          color（百代彩色），这一工艺在当时整个欧洲都在使用。
         </p>
         <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
           showDetail[3] ? "返回视频" : "查看更多"
@@ -193,7 +195,8 @@
       <div class="right">
         <h3>第二阶段</h3>
         <p>
-          第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。第一阶段：手工上色，和将胶卷泡到染料里整体上色。
+          1932年，Technicolor推出了一种利用染料转印技术的三色胶片，该技术描绘了电影中最具活力，最鲜艳的色彩。在此之后，贝拉·加斯帕发明了分解胶片颜色膜成像的彩色技术，它在沃尔特迪斯尼的短片动画电影“花草树木”中首次亮相。
+          1935年，美国马摩里安导演了世界上第一部大型彩色故事片《浮华世界》。
         </p>
         <ClassicButton @click="showDetail[4] = !showDetail[4]">{{
           showDetail[4] ? "返回视频" : "查看更多"
@@ -211,10 +214,12 @@
       <div class="left compact">
         <img src="@img/computer.png" alt="" />
         <div class="content">
-          <!-- 在这里写第二个游戏 -->
+          <transition>
+            <ImgProcessGame id="game2" v-if="showGame[1]"></ImgProcessGame>
+          </transition>
           <div class="controls" v-if="showDetail[5] == 2">
-            <img src="@img/video.png" alt="" />
-            <img src="@img/ps.png" alt="" />
+            <img src="@img/video.png" alt="" @click="showGame[1] = false" />
+            <img src="@img/ps.png" alt="" @click="showGame[1] = true" />
           </div>
         </div>
       </div>
@@ -252,22 +257,7 @@
             蓝幕和绿幕技术就是其中的代表。演员在蓝幕、绿幕前表演，由摄影机拍摄下来，画面在电脑中处理，处理掉背景的蓝色或绿色，换上其他背景。
           </p>
           <p style="color: var(--lightGray); font-size: 20px">
-            <svg
-              t="1632058305684"
-              viewBox="0 0 1024 1024"
-              version="1.1"
-              xmlns="http://www.w3.org/2000/svg"
-              p-id="5211"
-              width="16"
-              height="16"
-              style="transform: rotate(180deg)"
-            >
-              <path
-                d="M686 593.3s-372.6 0.1-541.8 0.1c-44.3 0-80.2-36-80.2-80.2 0-44.3 35.9-80.2 80.2-80.2 141.9 0 541.5-0.1 541.5-0.1S658.8 405.8 535.1 282c-31.4-31.3-31.4-82.1 0-113.5s82.2-31.4 113.5 0l288 288c31.3 31.4 31.3 82.1 0 113.5 0 0-161.9 161.9-285.6 285.7-31.4 31.4-82.1 31.4-113.5 0-31.4-31.4-31.4-82.1 0-113.5C637.8 641.7 686 593.3 686 593.3z"
-                p-id="5212"
-                fill="var(--lightGray)"
-              ></path>
-            </svg>
+            <Arrow color="var(--lightGray)" />
             点击Dock栏右侧的图标体验一下
           </p>
         </div>
@@ -363,15 +353,7 @@
           </svg>
         </svg>
       </div>
-      <video
-        src="@video/s9.mp4"
-        class="iphone-video"
-        autoplay
-        muted
-        playsinline
-        loop
-        @pause="videoPlaying = false"
-      ></video>
+      <video src="@video/s9.mp4" class="iphone-video" autoplay muted playsinline loop></video>
       <span class="flow-text ft-1">杜比影院</span>
       <span class="flow-text ft-2">8K</span>
       <span class="flow-text ft-3">4D</span>
@@ -383,14 +365,19 @@
       <span class="flow-text ft-9">巨幕</span>
       <span class="flow-text ft-10">3D</span>
       <img src="@img/iPhone.png" alt="" class="iphone" />
-      <div class="final-text">
-        但与此同时， <br />手机摄影的发展让电影级别的拍摄变得触手可及。 <br />电影这种大众娱乐，
-        <br />真正回到了大众身边。
-      </div>
     </div>
     <div class="screen modern" id="s10"></div>
     <div class="screen modern" id="s11"></div>
-    <div class="screen modern" id="s12"></div>
+    <div class="screen modern" id="s12">
+      <div class="left compact"></div>
+      <div class="right compact">
+        <p :style="{ opacity: scrolled >= 11.2 ? 1 : 0 }">但与此同时，</p>
+        <p :style="{ opacity: scrolled >= 11.4 ? 1 : 0 }">手机摄影的发展让电影级别的拍摄变得触手可及。</p>
+        <p :style="{ opacity: scrolled >= 11.7 ? 1 : 0 }">电影这种大众娱乐，</p>
+        <p :style="{ opacity: scrolled >= 11.9 ? 1 : 0 }">真正回到了大众身边。</p>
+        <ModernButton class="btn" :style="{ opacity: scrolled >= 12 ? 1 : 0 }">了解如何使用手机拍电影</ModernButton>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -398,7 +385,9 @@
 import ProgressIndicator from "./components/ProgressIndicator.vue";
 import FilmRoll from "./components/FilmRoll.vue";
 import ClassicButton from "./components/ClassicButton.vue";
-// import ModernButton from "./components/ModernButton.vue";
+import ModernButton from "./components/ModernButton.vue";
+import Arrow from "./components/Arrow.vue";
+import ImgProcessGame from "./components/ImgProcessGame.vue";
 
 export default {
   name: "App",
@@ -406,7 +395,9 @@ export default {
     ProgressIndicator,
     FilmRoll,
     ClassicButton,
-    // ModernButton,
+    ModernButton,
+    ImgProcessGame,
+    Arrow,
   },
   data() {
     return {
@@ -417,6 +408,7 @@ export default {
       videoPlaying: true,
       screenHeight: document.documentElement.clientHeight,
       screenWidth: document.documentElement.clientWidth,
+      resizeTimeout: null,
       showDetail: [false, false, false, false, false, 0],
       swiperIndex: [0, 0, 0, 0],
       audioGame: {
@@ -449,6 +441,12 @@ export default {
   mounted() {
     window.addEventListener("scroll", () => {
       this.scrolled = window.scrollY / this.screenHeight;
+    });
+    window.addEventListener("resize", () => {
+      if (this.resizeTimeout != null) {
+        clearTimeout(this.resizeTimeout);
+      }
+      this.resizeTimeout = setTimeout(this.handleResize, 500);
     });
   },
   methods: {
@@ -485,7 +483,7 @@ export default {
           this.clip = 0;
         }
         this.animations3();
-      } else if (scrolled > 8) {
+      } else if (scrolled <= 9) {
         let i = 1;
         for (let flowText of flowTexts) {
           flowText.style.animationName = `getin${i}`;
@@ -496,7 +494,10 @@ export default {
         let scrolled = this.scrolled - 9;
         let $theText = document.querySelector("#the-text");
         let $TextBg = document.querySelector(".text-bg");
-        $theText.style.width = document.documentElement.clientWidth * 20 * (scrolled * scrolled * scrolled) + "px";
+        $theText.style.height = $theText.style.width =
+          (document.documentElement.clientWidth * 20 * (scrolled * scrolled * scrolled)) / 20.13 + "px";
+        $theText.style.width = $theText.style.width =
+          document.documentElement.clientWidth * 20 * (scrolled * scrolled * scrolled) + "px";
         if (scrolled >= 0.5) {
           $TextBg.style.opacity = (1 - scrolled) / 0.5;
           for (let flowText of flowTexts) {
@@ -508,14 +509,11 @@ export default {
             flowText.style.visibility = "visible";
           }
         }
-
         if (scrolled >= 0.95) {
           $theText.style.opacity = (1 - scrolled) / 0.05;
         } else {
           $theText.style.opacity = 1;
         }
-        //使用这种方法来禁用滚动
-        // this.scrollLock = true;
       }
       if (this.scrolled > 10) {
         let $video = document.querySelector(".iphone-video");
@@ -524,15 +522,15 @@ export default {
         let scrolled = this.scrolled - 10;
         scrolled = (scrolled * 4) / 3;
         if (scrolled > 1) scrolled = 1;
-        console.log("me" + scrolled);
-        $video.style.width = 540 + (1646 - 540) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled) + "px";
-        $iphone.style.width = 1020 + (3500.5 - 1020) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled) + "px";
+        // console.log("me" + scrolled);
+        $video.style.width = 540 + (1920 - 540) * Math.pow(1 - scrolled, 3) + "px";
+        $iphone.style.width = 1020 + (3700 - 1020) * Math.pow(1 - scrolled, 3) + "px";
         if (this.scrolled > 11) {
           scrolled = this.scrolled - 11;
           scrolled = (scrolled * 4) / 3;
           if (scrolled > 1) scrolled = 1;
-          $video.style.left = `${35 + (50 - 35) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled)}%`;
-          $iphone.style.left = `${35 + (50 - 35) * (1 - scrolled) * (1 - scrolled) * (1 - scrolled)}%`;
+          $video.style.left = `${35 + (50 - 35) * Math.pow(1 - scrolled, 3)}%`;
+          $iphone.style.left = `${35 + (50 - 35) * Math.pow(1 - scrolled, 3)}%`;
         }
       }
     },
@@ -666,9 +664,8 @@ export default {
     position: relative;
     width: 100%;
     height: 100vh;
-    min-height: 768px;
     box-sizing: border-box;
-    border: 1px solid aqua; // 仅供定位使用
+    // border: 1px solid aqua; // 仅供定位使用
     display: flex;
     align-items: stretch;
     justify-content: space-between;
@@ -948,6 +945,10 @@ export default {
           width: 87%;
           height: 61.6%;
           background: linear-gradient(to left, #8a2387, #e94057, #f27121);
+          #game2 {
+            width: 100%;
+            height: 100%;
+          }
           .controls {
             position: absolute;
             bottom: 12px;
@@ -988,28 +989,28 @@ export default {
             line-height: 33px;
           }
         }
-      }
 
-      input[type="radio"] {
-        display: none;
-      }
+        input[type="radio"] {
+          display: none;
+        }
 
-      label {
-        display: block;
-        width: 250px;
-        height: 70px;
-        background: var(--darkGray);
-        border-radius: 35px;
-        font-size: 30px;
-        line-height: 70px;
-        white-space: nowrap;
-        margin-top: 20px;
-        cursor: pointer;
-      }
+        label {
+          display: block;
+          width: 250px;
+          height: 70px;
+          background: var(--darkGray);
+          border-radius: 35px;
+          font-size: 30px;
+          line-height: 70px;
+          white-space: nowrap;
+          margin-top: 20px;
+          cursor: pointer;
+        }
 
-      input[type="radio"]:checked + label {
-        background: var(--mediumGray);
-        color: var(--theme);
+        input[type="radio"]:checked + label {
+          background: var(--mediumGray);
+          color: var(--theme);
+        }
       }
     }
 
@@ -1019,6 +1020,7 @@ export default {
       justify-content: center;
       position: sticky;
       top: 0;
+      overflow: hidden;
       h2 {
         font-size: 80px;
         line-height: 100px;
@@ -1122,7 +1124,7 @@ export default {
       }
       video {
         height: auto;
-        max-width: 1646px;
+        max-width: 1920px;
         min-width: 540px;
         position: absolute;
         left: 50%;
@@ -1153,18 +1155,22 @@ export default {
         z-index: 2;
         fill: #fff;
       }
-      .final-text {
-        text-align: left;
-        position: absolute;
-        bottom: 0%;
-        right: 0%;
-        width: 597px;
-        height: 502px;
-        z-index: 10;
-        transform: translate(-10%, -45%);
-        font-size: 64px;
-        font-weight: 400;
-        color: #f5f5f5;
+    }
+
+    &#s12 {
+      .right {
+        max-width: 612px;
+        p {
+          text-align: left;
+          font-size: 64px;
+          color: var(--lightText);
+          line-height: 70px;
+          margin: 8px;
+        }
+        p,
+        .btn {
+          transition: opacity ease-out 0.5s;
+        }
       }
     }
   }
