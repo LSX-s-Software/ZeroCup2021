@@ -17,7 +17,7 @@
         <img src="@img/title.jpg" alt="" v-if="!videoPlaying" id="title" />
       </transition>
       <transition>
-        <div class="prompt" v-if="!videoPlaying">
+        <div class="prompt" v-if="!videoPlaying" @click="scrollTo(1)">
           <span>向下滑动来了解</span>
           <img src="@img/down.svg" />
         </div>
@@ -425,6 +425,7 @@ export default {
     return {
       scrolled: 0,
       scrollLock: false,
+      rAFLock: false,
       wheelDelta: 0,
       clip: 0,
       videoPlaying: true,
@@ -456,15 +457,14 @@ export default {
       s8video: ["The Last Broadcast Trailer", "Toy Story 1  Trailer", "green screen"],
     };
   },
-  watch: {
-    scrolled(newVal) {
-      console.log(newVal);
-      this.handleScroll(newVal);
-    },
-  },
   mounted() {
     window.addEventListener("scroll", () => {
       this.scrolled = window.scrollY / this.screenHeight;
+      if (!this.rAFLock) {
+        console.log(this.scrolled);
+        requestAnimationFrame(this.handleScroll);
+        this.rAFLock = true;
+      }
     });
     window.addEventListener("resize", () => {
       if (this.resizeTimeout != null) {
@@ -482,7 +482,14 @@ export default {
       // console.log(e);
       this.swiperIndex[e.sIndex] = e.activeIndex;
     },
-    handleScroll(scrolled) {
+    scrollTo(index) {
+      window.scrollTo({
+        top: index * this.screenHeight,
+        behavior: "smooth",
+      });
+    },
+    handleScroll() {
+      const scrolled = this.scrolled;
       if (scrolled <= 3) {
         if (this.s3rollStyle.fixed) {
           this.s3rollStyle = {
@@ -556,6 +563,7 @@ export default {
           $iphone.style.left = `${35 + (50 - 35) * Math.pow(1 - scrolled, 3)}%`;
         }
       }
+      this.rAFLock = false;
     },
     animations3() {
       if (this.scrolled <= 6) {

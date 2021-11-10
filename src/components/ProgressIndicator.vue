@@ -6,6 +6,7 @@
 #wheel {
   width: 350px;
   transition: transform ease 0.1s;
+  filter: drop-shadow(10px 10px 5px rgba(0, 0, 0, 0.16));
 }
 </style>
 
