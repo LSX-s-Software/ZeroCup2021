@@ -410,10 +410,7 @@
       </div>
     </div>
     <div class="screen modern" id="s13">
-      <Timeline
-        :style="{ clipPath: 'inset(0 ' + (100 - 100 * ((scrolled - 12.2) / 0.8)) + '% 0 0)' }"
-        @scroll-to="scrollTo($event)"
-      ></Timeline>
+      <Timeline :scrolled="scrolled" @scroll-to="scrollTo($event)"></Timeline>
     </div>
   </div>
 </template>
@@ -1216,12 +1213,8 @@ export default {
     }
 
     &#s13 {
-      transition: all 1s ease-out;
-      clip-path: inset(0 0 0 0);
-
-      .hidden {
-        clip-path: inset(0 100% 0 0);
-      }
+      padding: 0;
+      overflow: hidden;
     }
   }
 }
