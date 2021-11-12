@@ -134,14 +134,6 @@ export default {
       this.$emit("scrollTo", param);
     },
   },
-  watch: {
-    scrolled(newVal, oldVal) {
-      if (newVal < 12.2) {
-        return;
-      }
-      console.log(newVal, oldVal);
-    },
-  },
 };
 </script>
 <style lang="scss" scoped>
