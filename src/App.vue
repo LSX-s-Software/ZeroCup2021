@@ -376,7 +376,15 @@
           </svg>
         </svg>
       </div>
-      <video src="@video/s9.mp4" class="iphone-video" autoplay muted playsinline loop></video>
+      <video
+        src="@video/s9.mp4"
+        class="iphone-video"
+        style="transition: opacity 0.5s ease-out"
+        autoplay
+        muted
+        playsinline
+        loop
+      ></video>
       <span class="flow-text ft-1">杜比影院</span>
       <span class="flow-text ft-2">8K</span>
       <span class="flow-text ft-3">4D</span>
@@ -387,7 +395,7 @@
       <span class="flow-text ft-8">4K</span>
       <span class="flow-text ft-9">巨幕</span>
       <span class="flow-text ft-10">3D</span>
-      <img src="@img/iPhone.png" alt="" class="iphone" />
+      <img src="@img/iPhone.png" alt="" class="iphone" style="transition: opacity 0.5s ease-out" />
     </div>
     <div class="screen modern" id="s10"></div>
     <div class="screen modern" id="s11"></div>
@@ -401,6 +409,12 @@
         <!-- <ModernButton class="btn" :style="{ opacity: scrolled >= 12 ? 1 : 0 }">了解如何使用手机拍电影</ModernButton> -->
       </div>
     </div>
+    <div class="screen modern" id="s13">
+      <Timeline
+        :style="{ clipPath: 'inset(0 ' + (100 - 100 * ((scrolled - 12.2) / 0.8)) + '% 0 0)' }"
+        @scroll-to="scrollTo($event)"
+      ></Timeline>
+    </div>
   </div>
 </template>
 
@@ -411,6 +425,7 @@ import ClassicButton from "./components/ClassicButton.vue";
 // import ModernButton from "./components/ModernButton.vue";
 import Arrow from "./components/Arrow.vue";
 import ImgProcessGame from "./components/ImgProcessGame.vue";
+import Timeline from "./components/Timeline.vue";
 
 export default {
   name: "App",
@@ -421,6 +436,7 @@ export default {
     // ModernButton,
     ImgProcessGame,
     Arrow,
+    Timeline,
   },
   data() {
     return {
@@ -562,6 +578,13 @@ export default {
           if (scrolled > 1) scrolled = 1;
           $video.style.left = `${35 + (50 - 35) * Math.pow(1 - scrolled, 3)}%`;
           $iphone.style.left = `${35 + (50 - 35) * Math.pow(1 - scrolled, 3)}%`;
+        }
+        if (this.scrolled > 12.1) {
+          $video.style.opacity = 0;
+          $iphone.style.opacity = 0;
+        } else {
+          $video.style.opacity = 1;
+          $iphone.style.opacity = 1;
         }
       }
       this.rAFLock = false;
@@ -1189,6 +1212,15 @@ export default {
         .btn {
           transition: opacity ease-out 0.5s;
         }
+      }
+    }
+
+    &#s13 {
+      transition: all 1s ease-out;
+      clip-path: inset(0 0 0 0);
+
+      .hidden {
+        clip-path: inset(0 100% 0 0);
       }
     }
   }
