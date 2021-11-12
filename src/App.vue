@@ -46,6 +46,7 @@
         <p>
           早在1829年，比利时著名物理学家约瑟夫普拉多发现：当一个物体在人的眼前消失后，该物体的形象还会在人的视网膜上滞留一段时间，这一发现，被称之为“视象暂留原理”。普拉多根据此原理于1832年发明了“诡盘”。“诡盘”能使被描画在锯齿形的硬纸盘上的画片因运动而活动起来，而且能使视觉上产生的活动画面分解为各种不同的形象。“诡盘”的出现，标志着电影的发明进入到了科学实验阶段。1834年，美国人霍尔纳的“活动视盘”试验成功；1853年，奥地利的冯乌却梯奥斯将军在上述的发明基础上，运用幻灯，放映了原始的动画片。
         </p>
+        <!-- <a rel="ar" href="/渲染出图.usdz">a</a> -->
         <ClassicButton @click="showDetail[0] = !showDetail[0]">{{
           showDetail[0] ? "返回视频" : "了解更多"
         }}</ClassicButton>
@@ -65,7 +66,7 @@
         }}</ClassicButton>
       </div>
       <transition name="move2" mode="out-in">
-        <div class="right" v-if="scrolled >= 1.2 && scrolled <= 2.5">
+        <div class="right" v-if="scrolled >= 1.2 && scrolled <= 2.3">
           <div class="rotatable" :class="{ rotate: !showDetail[1] }">
             <FilmRoll
               :sIndex="1"

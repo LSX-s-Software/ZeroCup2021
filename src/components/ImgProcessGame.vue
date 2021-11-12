@@ -16,13 +16,13 @@
       <ModernButton class="btn" @click="showPicker">{{ imgSrc == "" ? "上传图像" : "更换图像" }}</ModernButton>
       <Arrow class="arrow" :rotation="90" />
       <span class="caption">②选择背景色</span>
-      <input type="color" v-model="color" /><br />
+      <input type="color" v-model="color" @change="customColorUsed = true" /><br />
       <label for="">(不选择将自动使用左上角颜色)</label>
       <Arrow class="arrow" :rotation="90" />
       <span class="caption">③微调</span>
       <label for="bias">
         容差：{{ bias }}
-        <input type="range" min="0" id="bias" max="128" step="1" v-model="bias" />
+        <input type="range" min="0" id="bias" max="256" step="1" v-model="bias" />
       </label>
       <Arrow class="arrow" :rotation="90" />
       <ModernButton class="btn" @click="draw">{{ status == 1 ? "正在处理" : "开始处理" }}</ModernButton>
@@ -105,9 +105,10 @@ export default {
   },
   data() {
     return {
-      bias: 16,
+      bias: 64,
       imgSrc: "",
       color: "#ffffff",
+      customColorUsed: false,
       status: 0,
       showOrigin: true,
     };
@@ -131,6 +132,10 @@ export default {
       const reader = new FileReader();
       reader.onload = this.readerOnload;
       reader.readAsDataURL(file);
+      this.customColorUsed = false;
+      this.showOrigin = true;
+      let canva = document.querySelector("#canva");
+      canva.getContext("2d").clearRect(0, 0, canva.width, canva.height);
     },
     readerOnload(src) {
       this.imgSrc = src.target ? src.target.result : src;
@@ -153,10 +158,12 @@ export default {
       const imageData = ctx.getImageData(0, 0, width, height);
       // 一个像素点由RGBA四个值组成，data为[R,G,B,A [,R,G,B,A[...]]]组成的一维数组
       const data = imageData.data;
-      //提取左上角像素颜色
-      this.color =
-        "#" + this.pad(data[0].toString(16)) + this.pad(data[1].toString(16)) + this.pad(data[2].toString(16));
-      console.log(this.color);
+      if (!this.customColorUsed) {
+        //提取左上角像素颜色
+        this.color =
+          "#" + this.pad(data[0].toString(16)) + this.pad(data[1].toString(16)) + this.pad(data[2].toString(16));
+        console.log(this.color);
+      }
       // 对图像数据进行处理
       this.filter(data).then(() => {
         // 把新的内容画进画布里
@@ -171,25 +178,26 @@ export default {
         setTimeout(() => {
           console.time("process");
           for (let i = 0; i < data.length; i += 4) {
-            const target = this.targetColor;
-            let flag = true;
-            for (let j = 0; j < 3; j++) {
-              if (Math.abs(data[i + j] - target[j]) > this.bias) {
-                flag = false;
-                break;
-              }
-            }
-            if (flag) {
+            if (Math.abs(this.colorDistance([data[i], data[i + 1], data[i + 2]], this.targetColor)) <= this.bias) {
               data[i + 3] = 0;
             }
           }
           console.timeEnd("process");
           resolve();
-        }, 10);
+        }, 5);
       });
     },
     pad(str) {
       return str.length == 2 ? str : "0" + str;
+    },
+    colorDistance(rgb_1, rgb_2) {
+      let [R_1, G_1, B_1] = rgb_1;
+      let [R_2, G_2, B_2] = rgb_2;
+      let rmean = (R_1 + R_2) / 2;
+      let R = R_1 - R_2;
+      let G = G_1 - G_2;
+      let B = B_1 - B_2;
+      return Math.sqrt((2 + rmean / 256) * R ** 2 + 4 * G ** 2 + (2 + (255 - rmean) / 256) * B ** 2);
     },
   },
 };
