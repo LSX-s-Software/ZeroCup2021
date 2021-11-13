@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+    <img src="@img/bg2.jpg" alt="" class="bg2" :style="{ opacity: (scrolled - 12) * 0.2 }" />
     <p class="title">电影技术革新</p>
     <div
       id="c1"
@@ -114,7 +115,7 @@ export default {
   },
   computed: {
     curScrolled() {
-      console.log(this.scrolled > 13.1 ? (this.scrolled - 13.1) / 0.9 : 0);
+      // console.log(this.scrolled > 13.1 ? (this.scrolled - 13.1) / 0.9 : 0);
       return this.scrolled > 13.1 ? (this.scrolled - 13.1) / 0.9 : 0;
     },
   },
@@ -151,10 +152,22 @@ export default {
 </script>
 <style lang="scss" scoped>
 .container {
+  position: relative;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
+
+  .bg2 {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    z-index: -1;
+    // opacity: 0.2;
+  }
 
   .dark {
     filter: brightness(0.35);

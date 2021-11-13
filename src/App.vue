@@ -439,6 +439,7 @@
       }"
     >
       <Timeline
+        v-if="scrolled >= 11.8"
         :scrolled="scrolled"
         @scroll-to="scrollTo($event)"
         style="position: sticky; top: 0; height: 100vh; overflow: hidden"
@@ -1008,10 +1009,10 @@ export default {
         }
         .content {
           position: absolute;
-          right: 0.9%;
-          top: 18.15%;
-          width: 87%;
-          height: 61.6%;
+          right: 1.3%;
+          top: 18.27%;
+          width: 87.2%;
+          height: 63%;
           background: #000;
           #game2 {
             width: 100%;
@@ -1245,7 +1246,7 @@ export default {
       height: 200vh;
       padding: 0;
       border-radius: 30px 30px 0 0;
-      background-color: rgba(62, 62, 62, 0.5);
+      background-color: rgba(28, 28, 28, 0.5);
       backdrop-filter: blur(20px);
       -webkit-backdrop-filter: blur(20px);
     }
