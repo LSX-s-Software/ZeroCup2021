@@ -121,8 +121,8 @@
               </ClassicButton>
               <ClassicButton
                 @click="
-                  audioGame.isRecording = false;
                   audioGame.isPaused = false;
+                  audioGame.isRecording = false;
                 "
               >
                 <span class="icon icon-stop"></span>

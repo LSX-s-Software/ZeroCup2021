@@ -26,7 +26,7 @@
         <div :class="{ hidden: showDetail }" style="transition: opacity 0.3s ease-out; position: relative">
           <video
             muted
-            :controls="activeIndex == index"
+            :controls="activeIndex == index && !audioGame.isShow"
             playsinline
             :src="require('@video/' + item + '.mp4')"
             :style="{ height: height + 'px', width: width + 'px' }"
@@ -255,8 +255,9 @@ export default {
   watch: {
     "audioGame.isShow"(val) {
       if (val) {
-        for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
+        for (let i = this.activeIndex; i < this.itemRefs.length; i++) {
           this.itemRefs[i].currentTime = 0;
+          this.itemRefs[i].volume = 0;
           this.itemRefs[i].pause();
         }
       }
@@ -276,7 +277,23 @@ export default {
       if (val) {
         for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
           this.itemRefs[i].currentTime = 0;
+          this.itemRefs[i].play();
+        }
+      } else {
+        for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
+          this.itemRefs[i].currentTime = 0;
           this.itemRefs[i].pause();
+        }
+      }
+    },
+    "audioGame.isPaused"(val) {
+      if (val) {
+        for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
+          this.itemRefs[i].pause();
+        }
+      } else {
+        for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
+          this.itemRefs[i].play();
         }
       }
     },
