@@ -4,7 +4,7 @@
     <div
       id="c1"
       class="card bottom"
-      :class="{ dark: curHoverId !== 'c1' && curHoverId !== '', hidden: scrolled <= 12.45 }"
+      :class="{ dark: curHoverId !== 'c1' && curHoverId !== '', hidden: curScrolled <= 0.28 }"
     >
       <TimelineButton class="button" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @click="onClick">
         电影诞生
@@ -16,7 +16,7 @@
     <div
       id="c2"
       class="card top"
-      :class="{ dark: curHoverId !== 'c2' && curHoverId !== '', hidden: scrolled <= 12.55 }"
+      :class="{ dark: curHoverId !== 'c2' && curHoverId !== '', hidden: curScrolled <= 0.4 }"
     >
       <TimelineButton class="button" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @click="onClick">
         无声电影
@@ -28,7 +28,7 @@
     <div
       id="c3"
       class="card bottom"
-      :class="{ dark: curHoverId !== 'c3' && curHoverId !== '', hidden: scrolled <= 12.65 }"
+      :class="{ dark: curHoverId !== 'c3' && curHoverId !== '', hidden: curScrolled <= 0.5 }"
     >
       <TimelineButton class="button" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @click="onClick">
         有声电影
@@ -40,7 +40,7 @@
     <div
       id="c4"
       class="card top"
-      :class="{ dark: curHoverId !== 'c4' && curHoverId !== '', hidden: scrolled <= 12.75 }"
+      :class="{ dark: curHoverId !== 'c4' && curHoverId !== '', hidden: curScrolled <= 0.6 }"
     >
       <TimelineButton class="button" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @click="onClick">
         彩色电影
@@ -52,7 +52,7 @@
     <div
       id="c5"
       class="card bottom"
-      :class="{ dark: curHoverId !== 'c5' && curHoverId !== '', hidden: scrolled <= 12.85 }"
+      :class="{ dark: curHoverId !== 'c5' && curHoverId !== '', hidden: curScrolled <= 0.73 }"
     >
       <TimelineButton class="button" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @click="onClick">
         数字电影
@@ -61,7 +61,14 @@
         电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生
       </p>
     </div>
-    <div class="timeline" :style="{ clipPath: 'inset(0 ' + (100 - 100 * ((scrolled - 12.4) / 0.6)) + '% 0 0)' }">
+    <!-- 缓动曲线 ease 的三次贝塞尔曲线 -1.7t^3+2.4t^2+0.3t -->
+    <div
+      class="timeline"
+      :style="{
+        clipPath:
+          'inset(0 ' + 100 * (1 + 1.7 * curScrolled ** 3 - 2.4 * curScrolled ** 2 - 0.3 * curScrolled) + '% 0 0)',
+      }"
+    >
       <div class="line left-translate" :class="{ dark: curHoverId !== '' }"></div>
       <span class="year" :class="{ dark: curHoverId !== 'c1' && curHoverId !== '' }">1853</span>
       <div class="line" :class="{ dark: curHoverId !== '' }"></div>
@@ -104,6 +111,12 @@ export default {
     return {
       curHoverId: "",
     };
+  },
+  computed: {
+    curScrolled() {
+      console.log(this.scrolled > 13.1 ? (this.scrolled - 13.1) / 0.9 : 0);
+      return this.scrolled > 13.1 ? (this.scrolled - 13.1) / 0.9 : 0;
+    },
   },
   methods: {
     onMouseEnter(e) {

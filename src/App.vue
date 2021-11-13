@@ -416,7 +416,11 @@
         'backdrop-filter': 'blur(' + (scrolled - 12) * 20 + 'px)',
       }"
     >
-      <Timeline :scrolled="scrolled" @scroll-to="scrollTo($event)"></Timeline>
+      <Timeline
+        :scrolled="scrolled"
+        @scroll-to="scrollTo($event)"
+        style="position: sticky; top: 0; height: 100vh; overflow: hidden"
+      ></Timeline>
     </div>
   </div>
 </template>
@@ -1214,8 +1218,8 @@ export default {
     }
 
     &#s13 {
+      height: 200vh;
       padding: 0;
-      overflow: hidden;
       border-radius: 30px 30px 0 0;
       background-color: rgba(62, 62, 62, 0.5);
       backdrop-filter: blur(20px);
