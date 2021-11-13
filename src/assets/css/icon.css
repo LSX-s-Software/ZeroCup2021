@@ -1,0 +1,28 @@
+.icon {
+  font-size: 30px;
+  width: 30px;
+  height: 30px;
+  margin: 0 15px 0 0;
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+}
+
+.icon-pause {
+  background-image: url('~@img/record_pause.png');
+}
+
+.icon-stop {
+  background-image: url('~@img/record_stop.png');
+}
+
+.icon-play {
+  background-image: url('~@img/play.png');
+}
+
+.icon-record {
+  background-image: url('~@img/record.png');
+}
+
+.icon-recording {
+  background-image: url('~@img/recording.png');
+}

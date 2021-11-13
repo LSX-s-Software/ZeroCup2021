@@ -69,6 +69,7 @@
       :width="width"
       :is-playing="audioGame.isPlaying"
       :is-recording="audioGame.isRecording"
+      :is-paused="audioGame.isPaused"
       @finish="this.$emit('playbackfinish')"
       :style="{ transform: `translate(${(this.innerTranslate - this.width) / 2}px,-${borderHeight}px)` }"
     />

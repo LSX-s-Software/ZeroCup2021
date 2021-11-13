@@ -104,12 +104,34 @@
             {{ description[`s3_v${swiperIndex[2]}`] || "缺少介绍" }}
           </span>
           <div v-if="audioGame.isShow" class="buttons">
-            <ClassicButton @click="audioGame.isRecording = !audioGame.isRecording">
-              {{ audioGame.isRecording ? "停止" : "录音" }}
+            <ClassicButton @click="audioGame.isRecording = true">
+              <span
+                class="icon"
+                :class="!audioGame.isRecording || audioGame.isPaused ? 'icon-record' : 'icon-recording'"
+              ></span>
+              {{ !audioGame.isRecording || audioGame.isPaused ? "录制" : "录制中" }}
             </ClassicButton>
-            <ClassicButton @click="audioGame.isPlaying = !audioGame.isPlaying">
-              {{ audioGame.isPlaying ? "停止" : "播放" }}
-            </ClassicButton>
+            <template v-if="audioGame.isRecording">
+              <ClassicButton @click="audioGame.isPaused = !audioGame.isPaused">
+                <span class="icon" :class="audioGame.isPaused ? 'icon-play' : 'icon-pause'"></span>
+                {{ audioGame.isPaused ? "继续" : "暂停" }}
+              </ClassicButton>
+              <ClassicButton
+                @click="
+                  audioGame.isRecording = false;
+                  audioGame.isPaused = false;
+                "
+              >
+                <span class="icon icon-stop"></span>
+                结束
+              </ClassicButton>
+            </template>
+            <template v-else>
+              <ClassicButton @click="audioGame.isPlaying = !audioGame.isPlaying">
+                <span class="icon" :class="audioGame.isPlaying ? 'icon-pause' : 'icon-play'"></span>
+                {{ audioGame.isPlaying ? "停止" : "播放" }}
+              </ClassicButton>
+            </template>
           </div>
         </div>
         <!-- 可移动的部分 -->
@@ -460,6 +482,7 @@ export default {
         isShow: false,
         isPlaying: false,
         isRecording: false,
+        isPaused: false,
       },
       showPSGame: false,
       description: require("./assets/description.json"),
@@ -641,6 +664,7 @@ export default {
 @import url(./assets/css/font.css);
 @import url(./assets/css/theme.css);
 @import url(./assets/css/transition.css);
+@import url(./assets/css/icon.css);
 
 * {
   margin: 0;

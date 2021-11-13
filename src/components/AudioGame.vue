@@ -23,6 +23,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    isPaused: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ["finish"],
   watch: {
@@ -40,6 +44,16 @@ export default {
         this.stopPlaying();
       }
     },
+    isPaused: function (val) {
+      if (!this.isRecording) {
+        return;
+      }
+      if (val) {
+        this.pauseRecording();
+      } else {
+        this.resumeRecording();
+      }
+    },
   },
   data() {
     return {
@@ -54,6 +68,12 @@ export default {
     },
     stopRecording() {
       this.mediaRecorder.stop();
+    },
+    pauseRecording() {
+      this.mediaRecorder.pause();
+    },
+    resumeRecording() {
+      this.mediaRecorder.resume();
     },
     startPlaying() {
       this.wavesurfer.play();
