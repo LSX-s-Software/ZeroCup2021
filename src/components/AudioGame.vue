@@ -27,6 +27,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    activeIndex: {
+      type: Number,
+      default: 0,
+    },
   },
   emits: ["finish"],
   watch: {
@@ -54,6 +58,9 @@ export default {
         this.resumeRecording();
       }
     },
+    activeIndex: function () {
+      this.wavesurfer.empty();
+    },
   },
   data() {
     return {
@@ -65,6 +72,7 @@ export default {
   methods: {
     startRecording() {
       this.mediaRecorder.start();
+      this.wavesurfer.empty();
     },
     stopRecording() {
       this.mediaRecorder.stop();
