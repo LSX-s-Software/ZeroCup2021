@@ -26,7 +26,7 @@
         <div :class="{ hidden: showDetail }" style="transition: opacity 0.3s ease-out; position: relative">
           <video
             muted
-            controls
+            :controls="activeIndex == index"
             playsinline
             :src="require('@video/' + item + '.mp4')"
             :style="{ height: height + 'px', width: width + 'px' }"
