@@ -376,7 +376,15 @@
           </svg>
         </svg>
       </div>
-      <video src="@video/s9.mp4" class="iphone-video" autoplay muted playsinline loop></video>
+      <video
+        src="@video/s9.mp4"
+        class="iphone-video"
+        style="transition: opacity 0.5s ease-out"
+        autoplay
+        muted
+        playsinline
+        loop
+      ></video>
       <span class="flow-text ft-1">杜比影院</span>
       <span class="flow-text ft-2">8K</span>
       <span class="flow-text ft-3">4D</span>
@@ -387,19 +395,28 @@
       <span class="flow-text ft-8">4K</span>
       <span class="flow-text ft-9">巨幕</span>
       <span class="flow-text ft-10">3D</span>
-      <img src="@img/iPhone.png" alt="" class="iphone" />
+      <img src="@img/iPhone.png" alt="" class="iphone" style="transition: opacity 0.5s ease-out" />
     </div>
     <div class="screen modern" id="s10"></div>
     <div class="screen modern" id="s11"></div>
-    <div class="screen modern" id="s12">
+    <div class="screen modern" id="s12" :style="{ position: scrolled >= 12 ? 'sticky' : '' }">
       <div class="left compact"></div>
       <div class="right compact">
         <p :style="{ opacity: scrolled >= 11.2 ? 1 : 0 }">但与此同时，</p>
         <p :style="{ opacity: scrolled >= 11.4 ? 1 : 0 }">手机摄影的发展让电影级别的拍摄变得触手可及。</p>
         <p :style="{ opacity: scrolled >= 11.7 ? 1 : 0 }">电影这种大众娱乐，</p>
         <p :style="{ opacity: scrolled >= 11.9 ? 1 : 0 }">真正回到了大众身边。</p>
-        <!-- <ModernButton class="btn" :style="{ opacity: scrolled >= 12 ? 1 : 0 }">了解如何使用手机拍电影</ModernButton> -->
       </div>
+    </div>
+    <div
+      class="screen modern"
+      id="s13"
+      :style="{
+        '-webkit-backdrop-filter': 'blur(' + (scrolled - 12) * 20 + 'px)',
+        'backdrop-filter': 'blur(' + (scrolled - 12) * 20 + 'px)',
+      }"
+    >
+      <Timeline :scrolled="scrolled" @scroll-to="scrollTo($event)"></Timeline>
     </div>
   </div>
 </template>
@@ -408,9 +425,9 @@
 import ProgressIndicator from "./components/ProgressIndicator.vue";
 import FilmRoll from "./components/FilmRoll.vue";
 import ClassicButton from "./components/ClassicButton.vue";
-// import ModernButton from "./components/ModernButton.vue";
 import Arrow from "./components/Arrow.vue";
 import ImgProcessGame from "./components/ImgProcessGame.vue";
+import Timeline from "./components/Timeline.vue";
 
 export default {
   name: "App",
@@ -418,9 +435,9 @@ export default {
     ProgressIndicator,
     FilmRoll,
     ClassicButton,
-    // ModernButton,
     ImgProcessGame,
     Arrow,
+    Timeline,
   },
   data() {
     return {
@@ -562,6 +579,9 @@ export default {
           if (scrolled > 1) scrolled = 1;
           $video.style.left = `${35 + (50 - 35) * Math.pow(1 - scrolled, 3)}%`;
           $iphone.style.left = `${35 + (50 - 35) * Math.pow(1 - scrolled, 3)}%`;
+        }
+        if (this.scrolled >= 12.3) {
+          $video.pause();
         }
       }
       this.rAFLock = false;
@@ -1176,6 +1196,7 @@ export default {
     }
 
     &#s12 {
+      top: 0;
       .right {
         max-width: 612px;
         p {
@@ -1190,6 +1211,15 @@ export default {
           transition: opacity ease-out 0.5s;
         }
       }
+    }
+
+    &#s13 {
+      padding: 0;
+      overflow: hidden;
+      border-radius: 30px 30px 0 0;
+      background-color: rgba(62, 62, 62, 0.5);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
     }
   }
 }
