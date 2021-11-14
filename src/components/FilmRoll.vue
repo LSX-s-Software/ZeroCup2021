@@ -150,6 +150,8 @@
       .content {
         font-size: 22px;
         display: block;
+        font-family: iekieweibeiti;
+        text-align: left;
       }
     }
   }

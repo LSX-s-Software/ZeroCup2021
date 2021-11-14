@@ -170,10 +170,8 @@
         <h3>{{ audioGame.isShow ? "体验一下" : "第一次变革" }}</h3>
         <h2 class="gray">{{ audioGame.isShow ? "在胶卷上记录声音" : "有声电影" }}</h2>
         <p v-if="audioGame.isShow">
-          早期的电影依靠光学录放音(optical sound recording)。以感光材料为媒介记录声音。<br />
-          ①传声器把空气中的声音转换为相应的模拟电信号，或者说是把传声器上振膜的机械能转变为电能。<br />
-          ②录音放大器把传声器输出的模拟电信号不失真地提高到可以应用程度。<br />③光调制器把放大器输出的电信号转换为光
-          信号以控制声带底片上的曝光量。当声带底片通过光调制器的光刃时，不同位置上得到对应于电信号的曝光量，使声音信号记录到胶片上。
+          左侧胶卷中展示的两个电影片段《唐璜》《爵士歌王》都经过了消音处理，请屏幕前的你来贡献脑洞，为经典有声电影配上合适的情节吧！<br />
+          通过这次体验，相信你将对胶卷记录声音的方式产生更生动的认识。
         </p>
         <p v-else>
           电影从无声到有声，经历了一个巨大的转变过程。
@@ -773,7 +771,7 @@ export default {
     align-items: stretch;
     justify-content: space-between;
     padding: 0 60px;
-    font-family: AaMSXK;
+    font-family: iekieweibeiti;
 
     .left,
     .right {
@@ -857,7 +855,7 @@ export default {
     .des {
       display: block;
       font-size: 20px;
-      font-family: AaMSXK;
+      font-family: iekieweibeiti;
       line-height: 24px;
       color: var(--lightGray);
       opacity: 1;
