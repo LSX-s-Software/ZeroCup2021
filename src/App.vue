@@ -30,8 +30,9 @@
             :sIndex="0"
             :items="['s1_v0', 's1_v1', 's1_v2', 's1_v3']"
             :show-detail="showDetail[0]"
-            :width="600"
-            :outer-width="900"
+            :width="filmrollWidth"
+            :height="filmrollHeight"
+            :outer-width="0.46875 * screenWidth"
             style="transform: translateX(-120px)"
             @slideChange="handleSlideChange($event)"
           ></FilmRoll>
@@ -72,8 +73,9 @@
               :sIndex="1"
               :items="['s2_v0']"
               :show-detail="showDetail[1]"
-              :width="600"
-              :outer-width="1000"
+              :width="filmrollWidth"
+              :height="filmrollHeight"
+              :outer-width="filmrollOuterWidth"
               :innerTranslate="-90"
               style="transform: translateX(-140px)"
               @slideChange="handleSlideChange($event)"
@@ -93,8 +95,9 @@
             :sIndex="2"
             :items="['s3_v0', 's3_v1']"
             :show-detail="showDetail[2]"
-            :width="600"
-            :outer-width="1000"
+            :width="filmrollWidth"
+            :height="filmrollHeight"
+            :outer-width="filmrollOuterWidth"
             :audio-game="audioGame"
             style="transform: translateX(-120px)"
             @slideChange="handleSlideChange($event)"
@@ -118,8 +121,8 @@
               </ClassicButton>
               <ClassicButton
                 @click="
-                  audioGame.isRecording = false;
                   audioGame.isPaused = false;
+                  audioGame.isRecording = false;
                 "
               >
                 <span class="icon icon-stop"></span>
@@ -167,10 +170,8 @@
         <h3>{{ audioGame.isShow ? "体验一下" : "第一次变革" }}</h3>
         <h2 class="gray">{{ audioGame.isShow ? "在胶卷上记录声音" : "有声电影" }}</h2>
         <p v-if="audioGame.isShow">
-          早期的电影依靠光学录放音(optical sound recording)。以感光材料为媒介记录声音。<br />
-          ①传声器把空气中的声音转换为相应的模拟电信号，或者说是把传声器上振膜的机械能转变为电能。<br />
-          ②录音放大器把传声器输出的模拟电信号不失真地提高到可以应用程度。<br />③光调制器把放大器输出的电信号转换为光
-          信号以控制声带底片上的曝光量。当声带底片通过光调制器的光刃时，不同位置上得到对应于电信号的曝光量，使声音信号记录到胶片上。
+          左侧胶卷中展示的两个电影片段《唐璜》《爵士歌王》都经过了消音处理，请屏幕前的你来贡献脑洞，为经典有声电影配上合适的情节吧！<br />
+          通过这次体验，相信你将对胶卷记录声音的方式产生更生动的认识。
         </p>
         <p v-else>
           电影从无声到有声，经历了一个巨大的转变过程。
@@ -195,7 +196,10 @@
       class="screen"
       id="s4"
       @mousewheel="animations4($event)"
-      :style="{ position: scrolled <= 6 ? 'sticky' : '', paddingBottom: Math.min(scrolled - 4, 1) * 75 + 'px' }"
+      :style="{
+        position: scrolled <= 6 ? 'sticky' : '',
+        paddingBottom: Math.min(scrolled - 4, 1) * 0.05 * screenHeight + 'px',
+      }"
     >
       <h3>第二次变革</h3>
       <h2 :class="{ gray: wheelDelta <= this.screenHeight * 0.95 }">黑白到彩色</h2>
@@ -211,7 +215,7 @@
           showDetail[3] ? "返回视频" : "了解更多"
         }}</ClassicButton> -->
       </div>
-      <div class="placeholder"></div>
+      <div class="placeholder" :style="{ width: (filmrollOuterWidth + 200) * 0.8 + 'px' }"></div>
       <div class="right"></div>
     </div>
     <div class="screen" id="s6" :style="{ position: scrolled <= 6 ? 'sticky' : '' }">
@@ -225,7 +229,13 @@
           showDetail[3] ? "返回视频" : "了解更多"
         }}</ClassicButton> -->
       </div>
-      <div class="placeholder" :style="{ opacity: scrolled <= 6 ? 0 : 1 }">
+      <div
+        class="placeholder"
+        :style="{
+          opacity: scrolled <= 6 ? 0 : 1,
+          width: (filmrollOuterWidth + 200) * 0.8 + 'px',
+        }"
+      >
         <h3>第二次变革</h3>
         <h2>黑白到彩色</h2>
       </div>
@@ -521,8 +531,8 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", () => {
-      this.scrolled = window.scrollY / this.screenHeight;
       if (!this.rAFLock) {
+        this.scrolled = window.scrollY / this.screenHeight;
         console.log(this.scrolled);
         requestAnimationFrame(this.handleScroll);
         this.rAFLock = true;
@@ -534,6 +544,17 @@ export default {
       }
       this.resizeTimeout = setTimeout(this.handleResize, 500);
     });
+  },
+  computed: {
+    filmrollWidth() {
+      return this.screenWidth * 0.3125;
+    },
+    filmrollHeight() {
+      return (this.filmrollWidth * 3) / 4;
+    },
+    filmrollOuterWidth() {
+      return 0.52 * this.screenWidth;
+    },
   },
   methods: {
     handleResize() {
@@ -635,11 +656,11 @@ export default {
         let percent1 = this.scrolled >= 4 ? 1 : this.scrolled - 3;
         let percent2 = Math.max(0, Math.min(this.scrolled - 4, 1));
         this.s3rollStyle = {
-          outerWidth: 1000 + 200 * percent1,
-          left: ((this.screenWidth - 1200) / 2) * percent1,
-          top: 180 - 105 * percent1,
-          width: 600 + 360 * percent1,
-          height: 450 + 270 * percent1,
+          outerWidth: this.filmrollOuterWidth + 200 * percent1,
+          left: ((this.screenWidth - (this.filmrollOuterWidth + 200)) / 2) * percent1,
+          top: 180 - (180 - (this.screenHeight - this.filmrollHeight - 390) / 2.2) * percent1,
+          width: this.filmrollWidth + 360 * percent1,
+          height: this.filmrollHeight + 270 * percent1,
           rotate: -10 + 10 * percent1,
           fixed: true,
           translateX: -120 + 120 * percent1,
@@ -647,8 +668,9 @@ export default {
           innerTranslate: 50 - 50 * percent1,
           scale: 1 - 0.2 * percent2,
         };
-      } else if (this.scrolled <= 7) {
-        this.s3rollStyle.top = 75 - (window.scrollY - this.screenHeight * 6);
+      } else if (this.scrolled <= 7.3) {
+        this.s3rollStyle.top =
+          (this.screenHeight - this.filmrollHeight - 400) / 2.2 - (window.scrollY - this.screenHeight * 6);
       }
     },
     animations4(e) {
@@ -765,7 +787,7 @@ export default {
     align-items: stretch;
     justify-content: space-between;
     padding: 0 60px;
-    font-family: AaMSXK;
+    font-family: iekieweibeiti;
 
     .left,
     .right {
@@ -849,7 +871,7 @@ export default {
     .des {
       display: block;
       font-size: 20px;
-      font-family: AaMSXK;
+      font-family: iekieweibeiti;
       line-height: 24px;
       color: var(--lightGray);
       opacity: 1;
@@ -973,8 +995,7 @@ export default {
       // position: sticky;
       top: 0;
       .placeholder {
-        width: 960px; /*no*/
-        padding-bottom: 75px;
+        padding-bottom: 5vh;
         display: flex;
         flex-direction: column;
         align-items: center;

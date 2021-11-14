@@ -4,7 +4,7 @@
     <swiper
       class="swiper"
       :loop="true"
-      :slidesPerView="'auto'"
+      :slides-per-view="'auto'"
       :centeredSlides="true"
       :spaceBetween="24"
       @slideChange="onSlideChange"
@@ -26,7 +26,7 @@
         <div :class="{ hidden: showDetail }" style="transition: opacity 0.3s ease-out; position: relative">
           <video
             muted
-            :controls="activeIndex == index"
+            :controls="activeIndex == index && !audioGame.isShow"
             playsinline
             :src="require('@video/' + item + '.mp4')"
             :style="{ height: height + 'px', width: width + 'px' }"
@@ -70,7 +70,8 @@
       :is-playing="audioGame.isPlaying"
       :is-recording="audioGame.isRecording"
       :is-paused="audioGame.isPaused"
-      @finish="this.$emit('playbackfinish')"
+      :active-index="activeIndex"
+      @finish="onAudioGameFinish"
       :style="{ transform: `translate(${(this.innerTranslate - this.width) / 2}px,-${borderHeight}px)` }"
     />
     <img
@@ -149,6 +150,8 @@
       .content {
         font-size: 22px;
         display: block;
+        font-family: iekieweibeiti;
+        text-align: left;
       }
     }
   }
@@ -229,6 +232,7 @@ export default {
         isShow: false,
         isPlaying: false,
         isRecording: false,
+        isPaused: false,
       }),
     },
   },
@@ -250,6 +254,52 @@ export default {
       return this.outerWidth / 20;
     },
   },
+  watch: {
+    "audioGame.isShow"(val) {
+      if (val) {
+        for (let i = this.activeIndex; i < this.itemRefs.length; i++) {
+          this.itemRefs[i].currentTime = 0;
+          this.itemRefs[i].volume = 0;
+          this.itemRefs[i].pause();
+        }
+      }
+    },
+    "audioGame.isPlaying"(val) {
+      if (val) {
+        for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
+          this.itemRefs[i].play();
+        }
+      } else {
+        for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
+          this.itemRefs[i].pause();
+        }
+      }
+    },
+    "audioGame.isRecording"(val) {
+      if (val) {
+        for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
+          this.itemRefs[i].currentTime = 0;
+          this.itemRefs[i].play();
+        }
+      } else {
+        for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
+          this.itemRefs[i].currentTime = 0;
+          this.itemRefs[i].pause();
+        }
+      }
+    },
+    "audioGame.isPaused"(val) {
+      if (val) {
+        for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
+          this.itemRefs[i].pause();
+        }
+      } else {
+        for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
+          this.itemRefs[i].play();
+        }
+      }
+    },
+  },
   methods: {
     setItemRef(el) {
       if (el) {
@@ -257,6 +307,8 @@ export default {
       }
     },
     onSlideChange(e) {
+      // 每次切换都会触发 setItemRef
+      this.itemRefs = [];
       this.activeIndex = e.realIndex;
       this.$emit("slideChange", {
         sIndex: this.sIndex,
@@ -264,9 +316,13 @@ export default {
       });
       // this.itemRefs[e.realIndex].play();
     },
-  },
-  beforeUpdate() {
-    this.itemRefs = [];
+    onAudioGameFinish() {
+      this.$emit("playbackfinish");
+      for (let i = this.activeIndex; i < this.itemRefs.length; i += this.items.length) {
+        this.itemRefs[i].currentTime = 0;
+        this.itemRefs[i].pause();
+      }
+    },
   },
 };
 </script>

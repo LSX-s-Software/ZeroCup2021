@@ -12,6 +12,10 @@
     font-family: PangMenZhengDao;
     src: url(../font/庞门正道标题体.ttf);
 }
+@font-face {
+    font-family: iekieweibeiti;
+    src: url(../font/iekieweibeiti.ttf);
+}
 
 @font-face {
     font-family: SourceHanSansCN;

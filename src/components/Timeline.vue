@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <img src="@img/bg2.jpg" alt="" class="bg2" :style="{ opacity: (scrolled - 12) * 0.2 }" />
+    <img src="@img/bg2.jpg" alt="" class="bg2" :style="{ opacity: Math.min(scrolled - 12, 1) * 0.2 }" />
     <p class="title">电影技术革新</p>
     <div
       id="c1"
@@ -157,6 +157,7 @@ export default {
   height: 100%;
   display: flex;
   align-items: center;
+  border-radius: 30px 30px 0 0;
 
   .bg2 {
     position: absolute;
