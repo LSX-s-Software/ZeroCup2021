@@ -210,7 +210,7 @@ export default {
       status: 0,
       showOrigin: true,
       showBGPicker: false,
-      bg: ["bg1", "bg2", "bg3"],
+      bg: ["bg1", "bg2"],
       bgIndex: -1,
       imageData: null,
       base64Data: null,
