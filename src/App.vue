@@ -235,12 +235,25 @@
           1932年，Technicolor推出了一种利用染料转印技术的三色胶片，该技术描绘了电影中最具活力，最鲜艳的色彩。在此之后，贝拉·加斯帕发明了分解胶片颜色膜成像的彩色技术，它在沃尔特迪斯尼的短片动画电影“花草树木”中首次亮相。
           1935年，美国马摩里安导演了世界上第一部大型彩色故事片《浮华世界》。
         </p>
-        <!-- <ClassicButton @click="showDetail[4] = !showDetail[4]">{{
-          showDetail[4] ? "返回视频" : "了解更多"
-        }}</ClassicButton> -->
+        <ClassicButton
+          @click="
+            showColorGame = !showColorGame;
+            $forceUpdate();
+          "
+          >体验一下</ClassicButton
+        >
       </div>
     </div>
     <!-- “数字化”部分 -->
+    <transition>
+      <ColorGameLayer
+        v-if="showColorGame"
+        @hide="
+          showColorGame = false;
+          $forceUpdate();
+        "
+      ></ColorGameLayer>
+    </transition>
     <div class="screen modern" id="s7" :style="{ position: scrolled >= 8 ? 'relative' : 'sticky' }">
       <div>
         <h3 :style="{ color: scrolled >= 7 ? 'var(--lightText)' : 'var(--darkText)' }">第三次变革</h3>
@@ -455,6 +468,7 @@ import ClassicButton from "./components/ClassicButton.vue";
 import Arrow from "./components/Arrow.vue";
 import ImgProcessGame from "./components/ImgProcessGame.vue";
 import Timeline from "./components/Timeline.vue";
+import ColorGameLayer from "./components/ColorGameLayer.vue";
 
 export default {
   name: "App",
@@ -465,10 +479,12 @@ export default {
     ImgProcessGame,
     Arrow,
     Timeline,
+    ColorGameLayer,
   },
   data() {
     return {
       scrolled: 0,
+      showColorGame: 0,
       scrollLock: false,
       rAFLock: false,
       wheelDelta: 0,
