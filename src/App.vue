@@ -47,7 +47,6 @@
         <p>
           早在1829年，比利时著名物理学家约瑟夫普拉多发现：当一个物体在人的眼前消失后，该物体的形象还会在人的视网膜上滞留一段时间，这一发现，被称之为“视象暂留原理”。普拉多根据此原理于1832年发明了“诡盘”。“诡盘”能使被描画在锯齿形的硬纸盘上的画片因运动而活动起来，而且能使视觉上产生的活动画面分解为各种不同的形象。“诡盘”的出现，标志着电影的发明进入到了科学实验阶段。1834年，美国人霍尔纳的“活动视盘”试验成功；1853年，奥地利的冯乌却梯奥斯将军在上述的发明基础上，运用幻灯，放映了原始的动画片。
         </p>
-        <!-- <a rel="ar" href="/渲染出图.usdz">a</a> -->
         <ClassicButton @click="showDetail[0] = !showDetail[0]">{{
           showDetail[0] ? "返回视频" : "了解更多"
         }}</ClassicButton>
@@ -211,9 +210,6 @@
           大概100多年前的胶片时代，最早的电影人尝试在拍摄后，手工在胶片上进行着色。电影的每一帧都需要手工绘制。特技先驱梅里埃就曾雇佣过21名女性，一帧一帧地为他影片《飞向月球》上色。在法国使用模板工艺制作的彩色胶卷被称为Pathe
           color（百代彩色），这一工艺在当时整个欧洲都在使用。
         </p>
-        <!-- <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
-          showDetail[3] ? "返回视频" : "了解更多"
-        }}</ClassicButton> -->
       </div>
       <div class="placeholder" :style="{ width: (filmrollOuterWidth + 200) * 0.8 + 'px' }"></div>
       <div class="right"></div>
@@ -225,9 +221,6 @@
           大概100多年前的胶片时代，最早的电影人尝试在拍摄后，手工在胶片上进行着色。电影的每一帧都需要手工绘制。特技先驱梅里埃就曾雇佣过21名女性，一帧一帧地为他影片《飞向月球》上色。在法国使用模板工艺制作的彩色胶卷被称为Pathe
           color（百代彩色），这一工艺在当时整个欧洲都在使用。
         </p>
-        <!-- <ClassicButton @click="showDetail[3] = !showDetail[3]">{{
-          showDetail[3] ? "返回视频" : "了解更多"
-        }}</ClassicButton> -->
       </div>
       <div
         class="placeholder"
@@ -533,7 +526,7 @@ export default {
     window.addEventListener("scroll", () => {
       if (!this.rAFLock) {
         this.scrolled = window.scrollY / this.screenHeight;
-        console.log(this.scrolled);
+        // console.log(this.scrolled);
         requestAnimationFrame(this.handleScroll);
         this.rAFLock = true;
       }
@@ -678,7 +671,7 @@ export default {
         e.preventDefault();
         this.wheelDelta += e.deltaY;
         let percent = this.wheelDelta / this.screenHeight;
-        console.log(percent);
+        // console.log(percent);
         this.clip = percent / 0.95;
         if (percent < 0 || percent >= 1) {
           this.scrollLock = false;

@@ -85,7 +85,7 @@ export default {
     },
     startPlaying() {
       this.wavesurfer.play();
-      console.log("isplaying", this.wavesurfer.isPlaying());
+      // console.log("isplaying", this.wavesurfer.isPlaying());
     },
     stopPlaying() {
       this.wavesurfer.pause();
@@ -115,7 +115,7 @@ export default {
           this.mediaRecorder = new MediaRecorder(stream);
           this.mediaRecorder.ondataavailable = (e) => {
             const url = window.URL.createObjectURL(e.data);
-            console.log("recording", url);
+            // console.log("recording", url);
             this.wavesurfer.load(url);
           };
         })
@@ -125,7 +125,7 @@ export default {
     }
 
     this.wavesurfer.on("ready", () => {
-      console.log("ready", this.wavesurfer.getDuration(), this.wavesurfer.getVolume(), this.wavesurfer.getMute());
+      // console.log("ready", this.wavesurfer.getDuration(), this.wavesurfer.getVolume(), this.wavesurfer.getMute());
     });
     this.wavesurfer.on("finish", () => {
       this.$emit("finish");

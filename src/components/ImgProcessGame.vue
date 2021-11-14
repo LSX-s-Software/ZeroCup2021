@@ -256,7 +256,7 @@ export default {
       if (this.status == 1) {
         return;
       }
-      console.log("start drawing");
+      // console.log("start drawing");
       this.status = 1;
       const img = document.querySelector("#origin");
       const canvas = document.querySelector("#canva");
@@ -272,13 +272,13 @@ export default {
         //提取左上角像素颜色
         this.color =
           "#" + this.pad(data[0].toString(16)) + this.pad(data[1].toString(16)) + this.pad(data[2].toString(16));
-        console.log(this.color);
+        // console.log(this.color);
       }
       // 对图像数据进行处理
       this.filter(data).then(() => {
         // 把新的内容画进画布里
         ctx.putImageData(this.imageData, 0, 0);
-        console.log("finished drawing");
+        // console.log("finished drawing");
         this.status = 2;
         this.showOrigin = false;
       });

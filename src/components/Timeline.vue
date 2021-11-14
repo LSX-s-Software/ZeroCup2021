@@ -11,7 +11,7 @@
         电影诞生
       </TimelineButton>
       <p class="content bottom left-translate">
-        电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生
+        17世纪诞生的幻灯机，和18世纪流行的皮影戏，都受到人们的广泛追捧。直到1832年视觉暂留原理的发现，成为电影诞生的基础，1853年约瑟夫·普拉托发明的诡盘是电影的诞生前身。
       </p>
     </div>
     <div
@@ -23,7 +23,7 @@
         无声电影
       </TimelineButton>
       <p class="content top">
-        电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生
+        在前人技术的基础上，路易斯·李·普林斯在1888年制作了2.11秒的《朗德海花园场景》。1895年，卢米埃尔兄弟制作了影片《工厂大门》，标志着人类第一部电影的诞生。
       </p>
     </div>
     <div
@@ -35,7 +35,7 @@
         有声电影
       </TimelineButton>
       <p class="content bottom">
-        电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生
+        从1917年起，提出“拍摄歌曲”让歌手或乐队在电影放映现场伴唱，使让电影有了“声音”。1927年，艾伦·克罗斯兰导演的《爵士歌手》是第一部有台词的电影。
       </p>
     </div>
     <div
@@ -46,8 +46,8 @@
       <TimelineButton class="button" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @click="onClick">
         彩色电影
       </TimelineButton>
-      <p class="content top">
-        电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生
+      <p class="content top" style="font-size: 28px; line-height: 1.3">
+        人们对于彩色电影的探索几经波折。最初人们用传统的方法在人工为胶片一张张上色，如1902年诞生的《月球旅行记》。1908年，法国的贝尔通发明了透镜加色法，将三基色红，绿，蓝混合相加得到彩色图像。1935年，世界第一部真正的彩色电影《浮华世界》问世。
       </p>
     </div>
     <div
@@ -58,8 +58,8 @@
       <TimelineButton class="button" @mouseenter="onMouseEnter" @mouseleave="onMouseLeave" @click="onClick">
         数字电影
       </TimelineButton>
-      <p class="content bottom right-translate">
-        电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生电影诞生
+      <p class="content bottom right-translate" style="font-size: 28px; line-height: 1.3">
+        随着科技进步，电影的拍摄技术也在不断发展，随着人们将数字化技术应用于电影制作，电影行业迎来第三次变革。1987年1月到1992年2月，数字电影放映机技术的早期起步阶段。1998年10月，美国影片《TheLastBroadcast》成功使用数字电影放映机进行了放映。
       </p>
     </div>
     <!-- 缓动曲线 ease 的三次贝塞尔曲线 -1.7t^3+2.4t^2+0.3t -->
@@ -220,7 +220,7 @@ export default {
     opacity: 1;
 
     &.top {
-      top: calc(50% - 25px - 70px - 60px);
+      top: calc(50% - 155px);
     }
 
     &.bottom {

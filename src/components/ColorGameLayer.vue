@@ -75,7 +75,7 @@ export default {
   data() {
     return {
       showDetail: 0,
-      value: [50, 50, 50],
+      value: [0, 0, 0],
       currentImg: 1,
     };
   },
