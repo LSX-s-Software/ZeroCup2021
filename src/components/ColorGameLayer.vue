@@ -16,12 +16,17 @@
       <img class="img-layer" src="@/assets/img/layer-border.png" />
       <div class="merge">
         <img
+          :src="require('@/assets/img/merge-' + currentImg + '-0.jpg')"
+          alt=""
+          class="one"
+          style="mix-blend-mode: initial"
+        />
+        <img
           :src="require('@/assets/img/merge-' + currentImg + '-1.jpg')"
           alt=""
           class="one"
           :style="'opacity: ' + value[0] / 100 + ';'"
         />
-        <img :src="require('@/assets/img/merge-' + currentImg + '-0.jpg')" alt="" class="one" />
         <img
           :src="require('@/assets/img/merge-' + currentImg + '-2.jpg')"
           alt=""
@@ -129,7 +134,7 @@ export default {
       }
       .main {
         font-size: 32px;
-        font-family: YRDZST;
+        font-family: iekieweibeiti;
         color: #222222;
       }
       transition: all 0.5s;
@@ -151,15 +156,20 @@ export default {
       position: absolute;
       top: 50%;
       left: 50%;
+      width: 45rem;
+      height: 26rem;
+      background-color: rgba(0, 0, 0, 0.8);
       transform: translate(-50%, -50%);
-      mix-blend-mode: multiply;
+      z-index: 999998;
       img {
-        width: 41rem;
+        width: 40rem;
+        display: block;
         position: absolute;
         top: 50%;
         left: 50%;
         transform: translate(-50%, -50%);
         mix-blend-mode: multiply;
+        z-index: 999999;
       }
     }
     .rright {
@@ -180,6 +190,11 @@ export default {
 .placeholder {
   width: 960px; /*no*/
   padding-bottom: 75px;
+  position: fixed;
+  bottom: 2.5rem;
+  left: 50%;
+  z-index: 99999;
+  transform: translateX(-50%);
   display: flex;
   flex-direction: column;
   align-items: center;
