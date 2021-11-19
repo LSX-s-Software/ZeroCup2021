@@ -1,12 +1,50 @@
 # ZeroCup2021
 
-> 武汉大学2021年零杯**JS is Weird队**作品
+武汉大学2021年零杯**JS is Weird队**参赛作品
 
-我们的网站主题是“电影技术革新”，以电影技术发展为线索介绍各个新兴技术为电影发展带来的历史性革新。
+获**壹组二等奖**
+
+## 食用方法
+
+### 开箱即用
+
+打开右侧GitHub Pages或下载dist文件夹后使用Live Server运行。在分辨率为1920x1080的设备上观看效果最佳。
+
+### 继续开发
+
+**Project setup**
+
+```
+npm install
+```
+
+**Compiles and hot-reloads for development**
+
+```
+npm run serve
+```
+
+**Compiles and minifies for production**
+
+```
+npm run build
+```
 
 ## 内容介绍
 
-我们的网站分为五个section进行介绍：电影的诞生、最早的无声电影、第一次变革——由无声电影变为有声电影、第二次变革——由黑白电影变为彩色电影、第三次变革——数字化电影。我们在每个板块都介绍了每次变革的先驱者以及佼佼者的作品，并设置了优美的过渡动画和妙趣横生的互动小游戏带领用户领略电影技术革新的魅力。
+> 这部分的内容撰写于提交初赛作品前，初赛到决赛之间所作的修改**未包括**在内。
+
+我们的网站主题是“电影技术革新”，以电影技术发展为线索介绍各个新兴技术为电影发展带来的历史性革新。
+
+我们的网站分为五个section进行介绍：
+
+1. 电影的诞生
+2. 最早的无声电影
+3. 第一次变革——由无声电影变为有声电影
+4. 第二次变革——由黑白电影变为彩色电影
+5. 第三次变革——数字化电影
+
+我们在每个板块都介绍了每次变革的先驱者以及佼佼者的作品，并设置了优美的过渡动画和妙趣横生的互动小游戏带领用户领略电影技术革新的魅力。
 
 首屏，我们选取了电影技术革新的主题视频作为开场动画，一个摄影机扫光到屏幕，并投出“电影技术革新”的介绍文字。在动画即将结束时，会有小图标提示用户下滑进入下一页。
 
@@ -66,32 +104,6 @@
 
 ![已压缩-21](./docs/已压缩-21.jpeg)
 
-## How to run our code (using npm):
+## 说明
 
-### Project setup
-
-```
-npm install
-```
-
-### Compiles and hot-reloads for development
-
-```
-npm run serve
-```
-
-### Compiles and minifies for production
-
-```
-npm run build
-```
-
-### Lints and fixes files
-
-```
-npm run lint
-```
-
-### Customize configuration
-
-See [Configuration Reference](https://cli.vuejs.org/config/).
+网页中所用部分图片素材和所有的视频片段均来源于网络，在网页中仅作为展示用途，请勿用于其他途径。
