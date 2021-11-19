@@ -19,6 +19,7 @@ module.exports = {
       },
     },
   },
+  publicPath: process.env.NODE_ENV === "production" ? "/ZeroCup2021" : "/",
   configureWebpack: {
     resolve: {
       alias: {
